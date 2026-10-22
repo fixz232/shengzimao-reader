@@ -1,3 +1,26 @@
+# 圣子猫阅读器
+
+> 基于 [freeok/so-novel](https://github.com/freeok/so-novel) 的独立 Fork，由 [fixz232](https://github.com/fixz232) 维护。不是 SoNovel 官方发行版，不代表原作者或上游贡献者。
+
+## 本仓库的范围
+
+- 本仓库的唯一代码上游是 **SoNovel**，保留其 Java 源码、构建配置、提交历史及现有功能。
+- 2026-10-22 核验并同步的上游基线为 `main` 分支提交 `dcfc4a3f952eedd0036eb69fada01b935c06dc04`。
+- 本次仅补充项目名称、来源与修改声明，没有改动上游业务代码，不包含本地 Electron/Vue 单行桌面阅读器工程。
+- 当前发布的是源码，尚未制作本 Fork 的独立安装包。下方保留的上游安装脚本、下载入口和赞助链接仍属于 SoNovel，不是本 Fork 的发布或收款入口。
+
+## 许可证与来源声明
+
+保留上游的 [GNU AGPL v3 许可证原文](LICENSE)、作者署名和 [法律免责声明](bundle/DISCLAIMER.md)。本 Fork 新增的说明文字同样按 GNU AGPL v3 发布，不宣称取得上游项目名称、商标或第三方内容的额外权利。
+
+详细来源、第三方组件与分发说明见 [NOTICE.md](NOTICE.md)，修改日期和范围见 [FORK_CHANGES.md](FORK_CHANGES.md)。上游许可不构成对任何第三方网站内容、小说或素材的使用授权。
+
+---
+
+## SoNovel 上游说明
+
+以下保留上游 README 内容，其项目名称、安装入口、图片及贡献者信息仍指向原项目。
+
 <div align="center">
   <img src="assets/logo.png" style="width: 128px;"/>
   <h1 align="center">So Novel</h1>
