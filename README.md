@@ -4,6 +4,7 @@
 
 [![桌面源码版本](https://img.shields.io/badge/桌面源码-v0.5.2-5b6d50)](independent-reader/package.json)
 [![桌面平台](https://img.shields.io/badge/桌面平台-Windows%20x64-375a7f)](DESKTOP_BUILD.md)
+[![安卓源码版本](https://img.shields.io/badge/Android-v1.1.1-375a7f)](mobile-reader/README.md)
 [![License](https://img.shields.io/badge/License-AGPL--3.0-blue)](LICENSE)
 
 [项目介绍](#项目介绍) · [功能介绍](#功能介绍) · [特色功能](#特色功能) · [快速上手](#快速上手) · [源码构建](#源码与构建) · [协议](#开源协议与再分发) · [声明](#声明与使用边界) · [致谢](#致谢)
@@ -19,6 +20,7 @@
 ### 版本与获取
 
 - 当前仓库桌面源码版本：**0.5.2**，实际运行版本也可在应用的「关于」页面查看。
+- Android 手机版源码版本：**1.1.1**，位于 [`mobile-reader/`](mobile-reader/README.md)。提供普通阅读界面，底部为书库、在线搜书、设置；在线页内包含聚合搜书和番茄小说。修复说明、构建步骤、许可与测试范围见手机版文档。
 - 本次仓库上传提供源码、测试、图标和规则资源，**不包含桌面二进制安装包**；可按 [Windows 构建说明](DESKTOP_BUILD.md) 生成安装包。
 - 本 Fork 的发行入口为 [本仓库 Releases](https://github.com/fixz232/shengzimao-reader/releases)，安装包是否可下载以该页面实际发布情况为准。
 - 当前桌面构建与验证面向 **Windows x64**。上游 SoNovel 的 Linux、macOS、Docker 或一键安装脚本安装的是上游工具，不是本项目的桌面阅读器。

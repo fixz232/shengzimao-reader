@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- 聚合书源包含 HTTP 站点；仍使用系统证书验证所有 HTTPS 请求。 -->
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>
