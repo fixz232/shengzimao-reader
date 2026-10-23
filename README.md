@@ -1,264 +1,207 @@
 # 圣子猫阅读器
 
-> 基于 [freeok/so-novel](https://github.com/freeok/so-novel) 的独立 Fork，新增独立编写的 Electron 桌面阅读器。不是 SoNovel 官方发行版，不代表原作者或上游贡献者。
+**隐蔽单行阅读，也能切换普通大屏。把本地书库、在线搜书、增量追更和文档转换放在一起。**
 
-## 本仓库的范围
+[![桌面源码版本](https://img.shields.io/badge/桌面源码-v0.4.0-5b6d50)](independent-reader/package.json)
+[![桌面平台](https://img.shields.io/badge/桌面平台-Windows%20x64-375a7f)](DESKTOP_BUILD.md)
+[![License](https://img.shields.io/badge/License-AGPL--3.0-blue)](LICENSE)
 
-- **桌面独立版 0.4.0** 源码位于 [`independent-reader/`](independent-reader/README.md)，包含隐蔽单行与普通大屏阅读、首次欢迎和每次启动位置提示、关于页面、原生置顶、书库与文档转换、在线检索与增量追更。
-- 在线引擎上游为 **SoNovel**。仓库根目录保留其 Java 源码、构建配置和提交历史；固定基线为 `dcfc4a3f952eedd0036eb69fada01b935c06dc04`，本次未修改根目录的上游业务代码。
-- 独立版的 Java 适配器位于 `independent-reader/engine/`；它与桌面代码一起发布，不包含旧 Electron/Vue 阅读器工程、个人书库、阅读进度、配置或测试缓存。
-- 开发和安装包构建步骤见 [Windows 构建说明](DESKTOP_BUILD.md)，功能与验证范围见 [0.4.0 验证记录](independent-reader/VERIFICATION-0.4.0.md)。
-- 本次上传源码及必要图标、规则资源，**未上传二进制安装包**。下方保留的上游安装脚本、下载入口和赞助链接仍属于 SoNovel，不是本 Fork 的桌面发行入口。
+[项目介绍](#项目介绍) · [功能介绍](#功能介绍) · [特色功能](#特色功能) · [快速上手](#快速上手) · [源码构建](#源码与构建) · [声明](#声明与使用边界) · [致谢](#致谢)
 
-## 许可证与来源声明
+## 项目介绍
 
-保留上游的 [GNU AGPL v3 许可证原文](LICENSE)、作者署名和 [法律免责声明](bundle/DISCLAIMER.md)。本 Fork 新增的说明文字同样按 GNU AGPL v3 发布，不宣称取得上游项目名称、商标或第三方内容的额外权利。
+圣子猫阅读器是一款面向 Windows 的桌面阅读工具。需要紧凑阅读时，可以使用无工具栏的单行或多行阅读框；希望专注阅读时，可以切换到带目录、主题和段落滚动的普通大屏窗口。两种模式共用书库、阅读进度和书签。
 
-详细来源、第三方组件与分发说明见 [NOTICE.md](NOTICE.md)，修改日期和范围见 [FORK_CHANGES.md](FORK_CHANGES.md)。上游许可不构成对任何第三方网站内容、小说或素材的使用授权。
+除了本地电子书阅读，独立版还集成了基于 **SoNovel** 的在线检索与下载能力，支持来源对比、书籍详情、章节目录搜索、下载入库和末尾新增章节的增量更新。书库和阅读数据保存在本机，在线功能需要用户先阅读并确认声明。
 
----
+本仓库是 [freeok/so-novel](https://github.com/freeok/so-novel) 的独立 Fork。桌面应用与 Java 适配器位于 [`independent-reader/`](independent-reader/)，根目录保留 SoNovel 的 Java 源码、构建配置与提交历史。**本项目不是 SoNovel 或其他参考项目的官方发行版。**
 
-## SoNovel 上游说明
+### 版本与获取
 
-以下保留上游 README 内容，其项目名称、安装入口、图片及贡献者信息仍指向原项目。
+- 当前仓库桌面源码版本：**0.4.0**，实际运行版本也可在应用的「关于」页面查看。
+- 本次仓库上传提供源码、测试、图标和规则资源，**不包含桌面二进制安装包**；可按 [Windows 构建说明](DESKTOP_BUILD.md) 生成安装包。
+- 本 Fork 的发行入口为 [本仓库 Releases](https://github.com/fixz232/shengzimao-reader/releases)，安装包是否可下载以该页面实际发布情况为准。
+- 当前桌面构建与验证面向 **Windows x64**。上游 SoNovel 的 Linux、macOS、Docker 或一键安装脚本安装的是上游工具，不是本项目的桌面阅读器。
 
-<div align="center">
-  <img src="assets/logo.png" style="width: 128px;"/>
-  <h1 align="center">So Novel</h1>
-  <h4 align="center"></h4>
-</div>
+## 功能介绍
 
-<div align="center">
+| 功能 | 支持内容 |
+| --- | --- |
+| 本地书库 | 网格与列表视图、继续阅读、分类与标签、收藏、置顶、筛选、排序、分页和批量管理；编辑书名、作者、封面与简介 |
+| 多文档导入 | 导入 TXT、EPUB、PDF、DOCX、Markdown、HTML，将可提取的文字整理为可阅读内容；另存为 TXT 或 EPUB |
+| 隐蔽阅读 | 单行或多行、按字体与窗口宽度自动排字、鼠标移出隐藏、可选地址伪装、老板键、原生窗口置顶和拖拽缩放 |
+| 普通大屏 | 最大化阅读、段落滚动、目录侧栏、独立字号、明亮／护眼／夜间主题，以及 F11 全屏 |
+| 阅读导航 | 章节跳转、页码与百分比跳转、正文搜索、目录搜索、书签和进度自动保存 |
+| 自动阅读与朗读 | 隐蔽阅读窗支持自动翻页和系统语音朗读，可调朗读速度与音量 |
+| 在线搜书 | 书名／作者检索、多关键词匹配、跨站结果聚合、来源筛选、搜索历史、任务取消和耗时显示 |
+| 书籍详情 | 按源站提供的信息展示作者、分类、状态、字数、更新时间、最新章节、简介、来源及章节目录 |
+| 下载入库 | TXT／EPUB 下载、批量排队、重复书跳过、进度展示和失败项重试；切换管理页面不取消后台任务 |
+| 追更与更新 | 单本或批量检查更新、取消追更、可选每 30 分钟自动检查；目录核对通过后只追加末尾新增章节 |
+| 备份与迁移 | 导出／恢复 `.szmbak` 书库备份，包含正文、索引、进度与书签；确认后只读迁移旧版 JSON 书库 |
+| 阅读统计 | 最近阅读、最近 7 天阅读趋势及连续阅读天数 |
+| 辅助工具 | 透明网页窗口、窗口依附和数独工作表，可在应用中启停相关内置功能 |
+| 设置与关于 | 字体、颜色、透明度、窗口行为、主题、数据目录入口，以及实际版本、平台与来源说明 |
 
-[![zread](https://img.shields.io/badge/Ask_Zread-_.svg?style=flat&color=00b0aa&labelColor=000000&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTQuOTYxNTYgMS42MDAxSDIuMjQxNTZDMS44ODgxIDEuNjAwMSAxLjYwMTU2IDEuODg2NjQgMS42MDE1NiAyLjI0MDFWNC45NjAxQzEuNjAxNTYgNS4zMTM1NiAxLjg4ODEgNS42MDAxIDIuMjQxNTYgNS42MDAxSDQuOTYxNTZDNS4zMTUwMiA1LjYwMDEgNS42MDE1NiA1LjMxMzU2IDUuNjAxNTYgNC45NjAxVjIuMjQwMUM1LjYwMTU2IDEuODg2NjQgNS4zMTUwMiAxLjYwMDEgNC45NjE1NiAxLjYwMDFaIiBmaWxsPSIjZmZmIi8%2BCjxwYXRoIGQ9Ik00Ljk2MTU2IDEwLjM5OTlIMi4yNDE1NkMxLjg4ODEgMTAuMzk5OSAxLjYwMTU2IDEwLjY4NjQgMS42MDE1NiAxMS4wMzk5VjEzLjc1OTlDMS42MDE1NiAxNC4xMTM0IDEuODg4MSAxNC4zOTk5IDIuMjQxNTYgMTQuMzk5OUg0Ljk2MTU2QzUuMzE1MDIgMTQuMzk5OSA1LjYwMTU2IDE0LjExMzQgNS42MDE1NiAxMy43NTk5VjExLjAzOTlDNS42MDE1NiAxMC42ODY0IDUuMzE1MDIgMTAuMzk5OSA0Ljk2MTU2IDEwLjM5OTlaIiBmaWxsPSIjZmZmIi8%2BCjxwYXRoIGQ9Ik0xMy43NTg0IDEuNjAwMUgxMS4wMzg0QzEwLjY4NSAxLjYwMDEgMTAuMzk4NCAxLjg4NjY0IDEwLjM5ODQgMi4yNDAxVjQuOTYwMUMxMC4zOTg0IDUuMzEzNTYgMTAuNjg1IDUuNjAwMSAxMS4wMzg0IDUuNjAwMUgxMy43NTg0QzE0LjExMTkgNS42MDAxIDE0LjM5ODQgNS4zMTM1NiAxNC4zOTg0IDQuOTYwMVYyLjI0MDFDMTQuMzk4NCAxLjg4NjY0IDE0LjExMTkgMS42MDAxIDEzLjc1ODQgMS42MDAxWiIgZmlsbD0iI2ZmZiIvPgo8cGF0aCBkPSJNNCAxMkwxMiA0TDQgMTJaIiBmaWxsPSIjZmZmIi8%2BCjxwYXRoIGQ9Ik00IDEyTDEyIDQiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4K&logoColor=ffffff)](https://zread.ai/freeok/so-novel)
-[![GitHub License](https://img.shields.io/github/license/freeok/so-novel?style=flat-square)](https://github.com/freeok/so-novel/blob/main/LICENSE)
-[![Latest Release](https://img.shields.io/github/v/release/freeok/so-novel)](https://github.com/freeok/so-novel/releases/latest)
-[![GitHub Downloads](https://img.shields.io/github/downloads/freeok/so-novel/total.svg?style=flat-square)](https://github.com/freeok/so-novel/releases/latest)
+## 特色功能
 
-</div>
+### 首次欢迎，每次启动都能找到阅读框
 
-## 概述
+首次启动默认进入隐蔽模式，阅读框显示 **「欢迎使用圣子猫阅读器」**。双击阅读框即可进入书库，右键可打开菜单。
 
-**So Novel** 是一款通用的网页内容处理与导出工具，它致力于帮助用户高效地从网页中提取结构化信息，并将其灵活导出为
-EPUB、TXT、PDF 等多种标准电子文档格式。适用于学习采集、格式转换、电子书制作等场景。
+隐蔽模式每次启动都会在上次保存的位置显示约 **5 秒定位提示**，随后恢复原来的隐蔽行为；鼠标移入可立即结束提示。未选择书籍时，欢迎内容保持可见。已有书籍则按保存的阅读模式和进度恢复。
 
-## 预览
+### 两种阅读模式，共用同一份进度
 
-<details>
-  <summary>点击查看图片</summary>
+可以从书库的「大屏阅读」、书籍菜单或「设置 → 阅读」切换模式。普通模式提供完整的阅读窗口，隐蔽模式保留紧凑阅读条，两者共享阅读位置和书签，普通模式的字号单独保存。
 
-### TUI 预览 (Text-based User Interface)
+阅读窗口支持置顶开关。隐蔽阅读框右下角不再显示直角图形，仍保留拖拽缩放区域。隐蔽模式只是窗口显示方式，不保证在截图、录屏或其他系统功能中不可见。
 
-![preview-tui.png](assets/preview-tui.png)
+### 按书名和作者匹配，明确区分来源
 
-### WebUI 预览 (网页版)
+- 支持「书名 作者」形式的多个关键词，多个关键词需要同时命中，默认优先展示更相关的结果。
+- 跨站聚合会处理全半角、常见标点及作者前缀，同时区分同名但作者不同的书籍。
+- 只有在没有直接命中时才返回近似候选，并明确标识，方便判断是否为目标书籍。
+- 可以展开比较不同来源的简介与最新章节，再选择来源下载；源站未提供的字段会显示相应提示。
+- 本地目录和在线详情目录均可按章节名、序号或多个关键词搜索，长目录按需显示更多章节。
 
-![preview-webui.jpg](assets/preview-webui.jpg)
+### 追更采用目录核对和增量追加
 
-### CLI 预览 (Command Line Interface)
+在线入库会记录原站目录并加入追更。可以对单本书检查更新，也可以批量检查追更书籍；每 30 分钟自动检查为可选项，默认关闭，且只在程序运行时执行。
 
-![preview-cli.png](assets/preview-cli.png)
+增量更新会先核对已有目录，再下载并追加末尾新增章节，保留阅读进度、书签和统计。遇到目录变短、顺序改变、旧链接变化或新增章节下载不完整时，会停止追加并提示原因。**源站对旧章节的修订不会自动覆盖本地正文**，该功能也不是对源站全文的自动同步。
 
-</details>
+### 本地数据可备份，在线使用需明确确认
 
-## 安装
+首次进入在线功能，需滚动读完声明、勾选确认后才能继续；声明版本变化后需要重新确认。不同意时可以返回书库，继续本地阅读和文档转换。确认记录保存在本机，恢复别人的书库备份不会代替用户确认。
 
-### 📦 手动下载压缩包
+独立版使用自己的数据目录，旧版迁移需要主动操作并确认，不会自动覆盖旧版数据。重要书库建议定期导出 `.szmbak` 备份。
 
-<https://github.com/freeok/so-novel/releases>
+## 快速上手
 
-### 🪟 Windows
+1. 启动桌面独立版，首次会出现欢迎阅读框；双击打开书库，右键打开阅读菜单。
+2. 在「导入」中选择本地文档，导入后从书库打开书籍；TXT／EPUB 也支持拖放导入。
+3. 选择隐蔽阅读或普通大屏。字体、透明度、鼠标行为、老板键等可在设置中调整。
+4. 使用在线功能前，阅读并确认声明；输入书名或作者，核对详情和来源后再下载入库。
+5. 对已追更的在线书籍检查更新，或在设置中启用运行期间的自动检查。
+6. 在「设置 → 数据与备份」导出备份，需要时可打开数据目录或恢复备份。
 
-#### 1. PowerShell
+### 常用操作
+
+| 操作 | 作用 |
+| --- | --- |
+| 双击隐蔽阅读框 | 打开书库管理界面 |
+| 右键隐蔽阅读框 | 打开阅读菜单 |
+| `Ctrl + Shift + H` | 默认老板键，切换阅读窗隐藏／显示；可在设置中修改或关闭 |
+| 隐蔽阅读窗按 `S` | 开始／停止朗读，需要先在设置中启用朗读 |
+| 普通阅读窗按 `F11` | 进入／退出全屏 |
+| 普通阅读窗按 `Esc` | 退出全屏 |
+
+系统快捷键被其他程序占用时，可通过书库或托盘恢复阅读窗。
+
+## 导入、数据与当前限制
+
+### 格式支持
+
+| 输入格式 | 扩展名 | 说明 |
+| --- | --- | --- |
+| 纯文本 | `.txt` | 支持字符编码处理，整理为阅读正文 |
+| EPUB | `.epub` | 解析文字与章节，可选择脚注和图片占位处理方式 |
+| PDF | `.pdf` | 使用 PDF.js 提取可提取的文字；不含扫描件 OCR，加密文档需先解锁 |
+| Word | `.docx` | 提取文字；旧 `.doc` 请先另存为 `.docx` |
+| Markdown | `.md`、`.markdown` | 转为阅读文字 |
+| 网页文档 | `.html`、`.htm` | 提取正文文字 |
+
+导入内容可另存为 **TXT 或 EPUB**。文档转换以文字阅读为主，不保证原有图片、表格、公式、复杂排版或分页原样保留；不支持的文件应先用原应用转换。
+
+### 数据保存与网络访问
+
+- 默认数据目录：`%APPDATA%/shengzimao-reader-independent`，可从应用内打开。
+- 书库、正文、阅读进度、书签、统计和声明确认记录保存在本机；旧版 `%APPDATA%/single-reader` 不会被自动覆盖或移动。
+- 在线搜索会将关键词发往相应第三方来源；读取详情、检查更新和下载会访问相关网站，网站可能记录 IP 地址和访问行为。
+- 本地数据保存不代表在线操作匿名，也不代表第三方网站不会记录请求。
+- 当前版本没有承诺跨设备自动同步。请自行妥善保存和传输备份；备份包含书籍正文和阅读数据。
+
+### 可用性边界
+
+公共来源的网页结构、访问条件和规则会变化，搜索结果、目录及下载可能失败。可以核对关键词、更换来源、重试或检查服务；项目不保证所有来源持续可用，也不保证内容完整、准确或及时更新。
+
+当前桌面版主要在 Windows x64 环境验证。复杂窗口依附、多显示器、DPI、物理快捷键及长期运行仍受具体系统环境影响，验证范围见 [0.4.0 验证记录](independent-reader/VERIFICATION-0.4.0.md)。
+
+## 源码与构建
+
+### 仓库结构
+
+```text
+independent-reader/       独立桌面应用
+  app/                    Electron 主进程、界面和阅读逻辑
+  engine/                 调用 SoNovel 核心 API 的 Java 适配器
+  scripts/                启动、资源暂存、打包和界面验证脚本
+  test/                   核心功能测试
+src/、pom.xml             保留的 SoNovel Java 工程
+static/sonovel/rules/      桌面构建所用规则资源
+build/icons/              应用图标
+DESKTOP_BUILD.md           Windows 环境与完整构建步骤
+UPSTREAM_README.md         固定基线的 SoNovel 原始说明
+```
+
+桌面构建需要 **Node.js 24 LTS、JDK 21、Maven 3.9 和 Git**。引擎基线固定为 `dcfc4a3f952eedd0036eb69fada01b935c06dc04`。
+
+先按 [Windows 构建说明](DESKTOP_BUILD.md) 准备固定引擎源码、依赖 JAR 和最小 Java 运行时，再进入桌面目录：
 
 ```powershell
-# powershell
-irm https://raw.githubusercontent.com/freeok/so-novel/main/bin/windows-install.ps1 | iex
+Set-Location independent-reader
+npm ci
+npm run stage
+npm start
 ```
 
-#### 2. CMD (命令提示符)
+测试和生成安装包：
 
-```cmd
-powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/freeok/so-novel/main/bin/windows-install.ps1 | iex"
+```powershell
+npm test
+npm run build:installer
 ```
 
-### 🐧 Linux
+界面、启动、普通阅读、在线链路和打包回归命令详见构建说明。界面测试需串行执行。安装包默认输出到 `independent-reader/release/`；生成内容、运行时、依赖缓存和个人数据不提交到本仓库。
 
-```bash
-bash <(curl -sSL https://raw.githubusercontent.com/freeok/so-novel/main/bin/linux-install.sh)
-```
+当前源码锁定 Electron 33.4.11 以保持已验证构建一致；这不代表对该运行时持续受支持的承诺，升级运行时后应重新验证原生窗口与打包行为。
 
-### 🍺 Homebrew
+## 声明与使用边界
 
-```bash
-brew tap ownia/homebrew-ownia
-# https://docs.brew.sh/Tap-Trust#why-tap-trust-exists
-brew trust --formula ownia/homebrew-ownia/so-novel
-brew install so-novel
-```
+1. **独立维护与来源。** 本项目保留 SoNovel 的上游历史、署名、许可证及免责声明；项目改名不改变原作者与贡献者的权利，也不表示他们参与、认可或担保本项目。桌面代码的实现与来源边界见 [PROVENANCE.md](independent-reader/PROVENANCE.md)。
+2. **软件许可与内容授权分开。** 新写桌面代码按 `AGPL-3.0-only` 提供，SoNovel 按其随附 GNU AGPL v3 许可证提供，第三方组件和素材保留各自适用的许可。软件开源不授予小说、图片、网站内容、名称或商标的额外使用权。
+3. **只处理有权使用的内容。** 作品权利属于原作者及其他权利人。请遵守适用法律及网站服务条款，只检索、下载、转换和保存有权访问与使用的内容，不得用于未经授权的传播、商业利用，或绕过付费、登录及其他访问控制。建议优先支持作者与正版平台。
+4. **在线内容来自第三方。** 本仓库不托管小说正文，不保证第三方网站拥有内容传播权，也不保证搜索、内容质量或下载服务始终可用。用户应根据实际来源判断使用权限。
+5. **注意转换与数据风险。** 格式转换可能丢失排版；更新核对失败时会停止追加；源站修订不会自动替换旧正文。请为重要书库保留备份。
+6. **以适用文本为准。** 请同时阅读 [LICENSE](LICENSE)、[来源、许可与分发声明](NOTICE.md) 及原文保留的 [SoNovel 上游法律免责声明](bundle/DISCLAIMER.md)。本页是项目和使用边界说明，不替代许可原文，也不排除适用法律规定不能排除的责任。
 
-### 🍨 Scoop
+在线声明的确认是使用提示，不是对第三方内容合法性或用户权利的认证。
 
-```bash
-scoop bucket add freeok https://github.com/freeok/scoop-bucket
-scoop install freeok/so-novel
-```
+## 致谢
 
-### 🐳 Docker
+感谢以下项目的作者与贡献者，也感谢提出问题、反馈体验和提供改进建议的用户。
 
-**方式 1: 脚本一键安装**
+| 项目 | 在本项目中的作用或参考 |
+| --- | --- |
+| [freeok / SoNovel](https://github.com/freeok/so-novel) | 在线检索、目录解析和下载所用核心引擎；本仓库保留其源码、历史与许可 |
+| [LevineHua / single-reader](https://github.com/LevineHua/single-reader) | 单行阅读、紧凑窗口与伪装阅读的产品思路参考 |
+| [chentieli / single-reader（epub 分支）](https://github.com/chentieli/single-reader/tree/epub) | EPUB 导入、章节导航和设置体验的功能参考 |
+| [Electron](https://github.com/electron/electron) | 桌面应用、窗口和系统集成能力 |
+| [Mozilla PDF.js](https://github.com/mozilla/pdf.js) | PDF 文字提取 |
+| [iconv-lite](https://github.com/ashtuchkin/iconv-lite) | 文本字符编码转换 |
+| [JSZip](https://github.com/Stuk/jszip) | EPUB、DOCX 等 ZIP 容器的读写 |
+| [sax-js](https://github.com/isaacs/sax-js) 与 [xml2js](https://github.com/Leonidas-from-XIV/node-xml2js) | XML 解析 |
+| Node.js、OpenJDK、Maven 及其他依赖贡献者 | 开发、构建与运行基础 |
 
-```bash
-curl -sSL https://raw.githubusercontent.com/freeok/so-novel/main/bin/docker-install.sh | bash
-```
+当前独立桌面工程未导入或打包旧 single-reader 的 Vue／Electron 实现。对上述项目的功能参考与致谢，不等于取得其代码、素材或商标的额外授权，也不表示经过法律意义上的洁净室认证。具体实现来源与审计范围见 [PROVENANCE.md](independent-reader/PROVENANCE.md)。
 
-**方式 2: Docker Compose (NAS 首选)**
+SoNovel 原始项目说明、预览、安装和赞助信息单独保留在 [UPSTREAM_README.md](UPSTREAM_README.md)。其中相关入口属于上游，不是本 Fork 的桌面安装或赞助入口。
 
-```yaml
-services:
-  sonovel:
-    image: ghcr.io/freeok/sonovel:latest
-    container_name: sonovel
-    ports:
-      - "7765:7765"
-    environment:
-      JAVA_OPTS: "-Dmode=web"
-    volumes:
-      - sonovel_data:/sonovel
-    restart: unless-stopped
+## 反馈与文档
 
-volumes:
-  sonovel_data:
-```
-
-**方式 3: Docker Run**
-
-```bash
-# 如需挂载，请提前准备好 config.ini 文件、rules 目录
-docker run -d \
-  --name sonovel \
-  -v /sonovel/config.ini:/sonovel/config.ini \
-  -v /sonovel/rules:/sonovel/rules \
-  -v /sonovel/downloads:/sonovel/downloads \
-  -p 7765:7765 \
-  -e JAVA_OPTS='-Dmode=web' \
-  ghcr.io/freeok/sonovel:latest
-```
-
-**从源码构建 Docker 镜像**
-
-```bash
-# 确保已安装 git、jdk 21、maven
-sudo apt update
-sudo apt install -y git
-sudo apt install -y openjdk-21-jdk
-sudo apt install -y maven
-
-# 验证安装
-git -v
-javac -version
-mvn -v
-
-# 构建项目
-git clone https://github.com/freeok/so-novel.git && cd so-novel
-# arch: [x64|arm64]
-sh bin/release-linux.sh [arch]
-
-# 构建 Docker 镜像
-cp -r target/sonovel-linux_[arch]/{app.jar,config.ini,rules} .
-docker build -t sonovel .
-```
-
-> [!TIP]
->
-> 为获得最佳阅读体验，建议使用以下电子书阅读器：
->
-> **桌面端**
->
-> - [Readest](https://readest.com/)
-> - [Koodo Reader](https://www.koodoreader.com/zh)
-> - [Calibre](https://calibre-ebook.com/)
-> - [Neat Reader（网页版）](https://www.neat-reader.cn/webapp)
->
-> **移动端**
->
-> - [Readest](https://readest.com/)
-> - [Apple Books](https://www.apple.com/apple-books/)
-> - [Moon+ Reader（静读天下）](https://moondownload.com/chinese.html)
-> - [Kindle](https://apps.apple.com/us/app/amazon-kindle/id302584613)
->
-> 如需转换为其它电子书格式，可使用：
->
-> - [FreeConvert](https://www.freeconvert.com/zh)
-> - [Calibre](https://calibre-ebook.com/zh_CN)
->
-> 修复 WPS、掌阅等软件无法打开 so-novel 下载的 EPUB：https://github.com/freeok/so-novel/discussions/199
-
-## 自定义 JVM 系统属性
-
-| 参数            | 说明                     | 默认值          |
-|---------------|------------------------|--------------|
-| -Dmode        | 启动模式，可选值：tui\|cli\|web | tui          |
-| -Dconfig.file | 配置文件路径                 | ./config.ini |
-
-用法
-
-> [!NOTE]
->
-> Windows 修改 [sonovel.l4j.ini](bundle/sonovel.l4j.ini)
->
-> Linux 修改  [run-linux.sh](bundle/run-linux.sh)
->
-> macOS 修改  [run-macos.sh](bundle/run-macos.sh)
-
-## 使用本地 JDK / JRE 启动
-
-如果你不想使用内置 JRE（runtime 目录），可以通过本地 JDK / JRE 启动程序
-
-Windows 使用脚本 start-custom-jre.cmd：
-
-```cmd
-REM --------------------------------------------------
-REM 高级用户使用自定义 JRE 启动程序
-REM 将 "your_path\java.exe" 替换为你的 JRE 路径，例如：
-REM "C:\Java\jdk-21\bin\java.exe"
-REM --------------------------------------------------
-@echo off
-your_path\java.exe ^
-  -XX:+UseZGC ^
-  -XX:+ZGenerational ^
-  -Dconfig.file=config.ini ^
-  -Dmode=tui ^
-  -Dfile.encoding=GBK|Big5 ^
-  -jar app.jar
-```
-
-Linux / macOS：[run-linux.sh](bundle/run-linux.sh) / [run-macos.sh](bundle/run-macos.sh) 修改 java 路径
-
-## 常见问题
-
-https://github.com/freeok/so-novel/issues?q=label%3A%22usage%20question%22
-
-## 讨论
-
-https://github.com/freeok/so-novel/discussions?discussions_q=
-
-## 支持 & 赞助
-
-如果觉得有所帮助，欢迎扫码赞助☕、点击项目主页顶部的⭐Star 按钮支持！
-
-🚀这将是我们持续更新的动力源泉！同时，你也能第一时间获取到最新的更新动态。💡❤️
-
-| 支付宝赞助                                                           | 微信赞助                                                           |
-|-----------------------------------------------------------------|----------------------------------------------------------------|
-| <img src="assets/donation-alipay.png" alt="支付宝收款码" width="197"> | <img src="assets/donation-wechat.jpg" alt="微信赞赏码" width="197"> |
-
-[项目赞助者列表](./SPONSORS.md)
-
-## 免责声明
-
-在使用本工具前，请务必仔细阅读我们的[法律免责声明](bundle/DISCLAIMER.md)。使用本工具即表示您已阅读、理解并同意遵守所有条款。
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/chart?repos=freeok/so-novel&type=date&legend=top-left&sealed_token=5phfE_GEDrDmXeO6LQ3d-73K_Z4w75PKWLzMkb1UqUVwFszcO9t76DKuf9l4wYgZ-ik27ocHo67YGTpn8oCGHq0_Iy_3FKy-mi8H8BY6S3x0j5HYYO9__A)](https://www.star-history.com/?repos=freeok%2Fso-novel&type=date&legend=top-left)
+- 使用问题和建议：[本仓库 Issues](https://github.com/fixz232/shengzimao-reader/issues)。反馈时请注明版本、Windows 版本、复现步骤及必要的错误信息，注意遮蔽个人数据。
+- 开发与打包：[Windows 构建说明](DESKTOP_BUILD.md)。
+- 详细功能演进：[独立版说明](independent-reader/README.md)。
+- 验证范围与限制：[0.4.0 验证记录](independent-reader/VERIFICATION-0.4.0.md)。
+- 来源与许可：[NOTICE.md](NOTICE.md) · [PROVENANCE.md](independent-reader/PROVENANCE.md) · [LICENSE](LICENSE)。
+- Fork 变更记录：[FORK_CHANGES.md](FORK_CHANGES.md)。
