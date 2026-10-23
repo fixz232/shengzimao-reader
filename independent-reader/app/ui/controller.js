@@ -100,6 +100,10 @@
     if(action==='consent-decline'){m.route='library';m.reviewConsent=false;render();return;}
     if(action==='consent-accept'){if(!m.consentRead||!document.querySelector('#consent-checkbox')?.checked)throw new Error('请阅读到底并勾选确认。');await request('online-consent',{version:state.consent.version,read:true,accepted:true});m.reviewConsent=false;await refresh();return;}
     if(action==='online-link'){await request('online-link',{kind:button.dataset.kind});return;}
+    if(action==='update-check'){await request('update-check');await refresh();return;}
+    if(action==='update-download'){await request('update-download');await refresh();return;}
+    if(action==='update-cancel'){await request('update-cancel');await refresh();return;}
+    if(action==='update-install'){await request('update-install');return;}
     if(action==='online-details'){m.busy=true;render();try{m.onlineDetails=await request('online-details',{index:Number(button.dataset.index)});m.detailsIndex=Number(button.dataset.index);m.chapterQuery='';m.chapterLimit=300;m.dialog={type:'online-details'};}finally{m.busy=false;await refresh();}return;}
     if(action==='chapter-more'){m.chapterLimit=(m.chapterLimit||300)+300;render();return;}
     if(action==='update-all'||action==='update-book'){if(!state.consent.accepted){m.route='search';render();return;}await request('online-update',action==='update-book'?{ids:[id]}:{});await refresh();return;}

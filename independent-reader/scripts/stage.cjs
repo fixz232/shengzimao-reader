@@ -39,7 +39,7 @@ function stage() {
   copy(upstream, path.join(resource, 'source', 'so-novel'));
   // Remove only superseded, task-generated UI files from earlier staged builds.
   for(const name of ['ui.js','styles.css']){const stale=path.join(resource,'source','independent-reader','app','ui',name);if(fs.existsSync(stale))fs.unlinkSync(stale);}
-  for (const name of ['app','engine','scripts','test','package.json','package-lock.json','README.md','PROVENANCE.md','PARITY.md','LICENSE']) if (fs.existsSync(path.join(root,name))) copy(path.join(root,name), path.join(resource, 'source', 'independent-reader', name));
+  for (const name of ['app','engine','scripts','test','package.json','package-lock.json','README.md','RELEASE_NOTES.md','PROVENANCE.md','PARITY.md','LICENSE']) if (fs.existsSync(path.join(root,name))) copy(path.join(root,name), path.join(resource, 'source', 'independent-reader', name));
   const manifest = { createdAt: new Date().toISOString(), soNovel: { repository: 'https://github.com/freeok/so-novel', commit: execFileSync('git', ['-C',upstream,'rev-parse','HEAD'], { encoding: 'utf8' }).trim(), worktree: status, jarSha256: sha256(jar) }, icon: { source: 'user supplied', sha256: sha256(path.join(resource,'icon.ico')) }, adapter: { sourceSha256: sha256(path.join(root,'engine','ReaderEngine.java')), classSha256: sha256(path.join(resource,'sonovel','adapter','org','shengzimao','reader','ReaderEngine.class')) }, exclusions: ['old desktop src','old dist','.electron-vue','legacy profile','private novels'] };
   fs.writeFileSync(path.join(resource, 'BUILD_PROVENANCE.json'), JSON.stringify(manifest,null,2));
   console.log(JSON.stringify(manifest,null,2));

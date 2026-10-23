@@ -1,5 +1,6 @@
 'use strict';
 const { app, BrowserWindow, ipcMain, dialog, globalShortcut, Tray, Menu, nativeImage, screen, clipboard, shell } = require('electron');
+const { autoUpdater } = require('electron-updater');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
 const fs = require('node:fs');
@@ -10,6 +11,7 @@ const { WindowTools, listWindows } = require('./window-tools.cjs');
 const { exportBackup, importBackup } = require('./backup.cjs');
 const consent = require('./consent.cjs');
 const { readingSection } = require('./reading-section.cjs');
+const { DesktopUpdater } = require('./desktop-updater.cjs');
 const documentExtensions=require('./documents.cjs').EXTENSIONS.map(ext=>ext.slice(1));
 
 app.setName('shengzimao-reader-independent');
@@ -22,7 +24,7 @@ else boot();
 
 function boot() {
   if (dataDir.toLowerCase() === legacyDir.toLowerCase() || dataDir.toLowerCase().startsWith(legacyDir.toLowerCase()+path.sep)) throwFatal(new Error('禁止把新配置目录指向旧书库。'));
-  let library, manager, reader, normalReader, tray, online, tools, quitting = false, migrationBusy = false, boundsTimer, settingBounds = false, appliedBounds = '', shortcut = '';
+  let library, manager, reader, normalReader, tray, online, tools, desktopUpdater, quitting = false, migrationBusy = false, boundsTimer, settingBounds = false, appliedBounds = '', shortcut = '';
   let updateTimer, quitAfterFlush = false, readerRevealUntil = 0;
   const resources = app.isPackaged ? path.join(process.resourcesPath, 'independent') : path.join(__dirname, '..', 'resources');
   const html = path.join(__dirname, 'ui', 'index.html');
@@ -172,11 +174,11 @@ function boot() {
     } else { applyReaderSettings(); if (reader.isMinimized()) reader.restore(); reader.show(); reader.focus(); }
   }
   function toggleReader() { const current = library.state.settings.readingMode === 'normal' ? normalReader : reader; if (current?.isVisible()) current.hide(); else showReader(); }
-  async function flushNormalProgress() {
+  async function flushNormalProgress({strict=false}={}) {
     if (!normalReader || normalReader.isDestroyed()) return;
     let timer;
-    try { await Promise.race([normalReader.webContents.executeJavaScript('window.flushNormalProgress?.()'),new Promise(resolve => { timer = setTimeout(resolve, 1200); })]); }
-    catch (error) { console.error('[阅读进度]', error.message); }
+    try { await Promise.race([normalReader.webContents.executeJavaScript('window.flushNormalProgress?.()'),new Promise((resolve,reject) => { timer = setTimeout(()=>reject(new Error('保存普通阅读进度超时，请稍后再安装更新。')), 1200); })]); }
+    catch (error) { console.error('[阅读进度]', error.message); if(strict)throw error; }
     finally { clearTimeout(timer); }
   }
   function readerContext() {
@@ -210,9 +212,10 @@ function boot() {
   }
   async function action(command, payload = {}, source) {
     if (!payload || typeof payload !== 'object' || Array.isArray(payload)) throw new Error('请求格式错误。');
+    if (['update-check','update-download','update-cancel','update-install'].includes(command) && source !== manager) throw new Error('请在关于页面操作桌面版更新。');
     if(['search','online-download','online-download-many','online-retry','online-details','online-update'].includes(command)&&!consent.accepted(library.state))throw new Error('请先阅读并同意在线功能声明。');
     switch (command) {
-      case 'snapshot': return { ...library.snapshot(), online: online.snapshot(), consent:{version:consent.VERSION,accepted:consent.accepted(library.state)}, profile: dataDir, version: app.getVersion(), runtime:{electron:process.versions.electron,platform:process.platform,arch:process.arch}, readerRevealUntil, shortcut, attachment: Boolean(tools.attached) };
+      case 'snapshot': return { ...library.snapshot(), online: online.snapshot(), update:desktopUpdater?.snapshot()||{phase:'idle',version:'',releaseNotes:'',progress:0,error:''}, consent:{version:consent.VERSION,accepted:consent.accepted(library.state)}, profile: dataDir, version: app.getVersion(), runtime:{electron:process.versions.electron,platform:process.platform,arch:process.arch}, readerRevealUntil, shortcut, attachment: Boolean(tools.attached) };
       case 'reading-section': {
         const book = library.book(library.state.activeId);
         if (library.cache?.id !== book.id) library.open(book.id);
@@ -229,10 +232,14 @@ function boot() {
         return {fullscreen:normalReader.isFullScreen(), maximized:normalReader.isMaximized(), alwaysOnTop:normalReader.isAlwaysOnTop()};
       }
       case 'online-consent': {consent.accept(library,payload);changed();return true;}
-      case 'online-link': {if(!Object.hasOwn(consent.LINKS,payload.kind))throw new Error('未知链接。');await shell.openExternal(consent.LINKS[payload.kind]);return true;}
+      case 'online-link': {const links={...consent.LINKS,repository:'https://github.com/fixz232/shengzimao-reader',releases:'https://github.com/fixz232/shengzimao-reader/releases'};if(!Object.hasOwn(links,payload.kind))throw new Error('未知链接。');await shell.openExternal(links[payload.kind]);return true;}
       case 'online-details': return online.details(payload.index);
       case 'online-update': return online.update(payload.ids||library.state.books.filter(book=>book.tracking&&book.onlineUrl).map(book=>book.id));
       case 'online-track': {const book=library.book(String(payload.id));if(!book.onlineUrl)throw new Error('此书没有原站链接。');book.tracking=payload.enabled===true;library.save();changed();return true;}
+      case 'update-check': return desktopUpdater.check();
+      case 'update-download': return desktopUpdater.download();
+      case 'update-cancel': return desktopUpdater.cancel();
+      case 'update-install': return desktopUpdater.install({confirm:async()=>{const result=await dialog.showMessageBox(confirmWindow(),{type:'question',buttons:['取消','安装并重启'],defaultId:0,cancelId:0,message:`已下载圣子猫阅读器 v${desktopUpdater.snapshot().version}，现在安装并重启吗？`,detail:'安装前会保存阅读进度与书库数据。'});return result.response===1;},flushProgress:async()=>{await flushNormalProgress({strict:true});if(reader&&!reader.isDestroyed())library.state.readerBounds=reader.getBounds();library.save();library.flushSave();}});
       case 'page-chunk': {
         const book=library.book(String(payload.id));if(library.cache?.id!==book.id)library.open(book.id);
         const start=Math.max(0,Math.min(book.length,Math.floor(Number(payload.start)||0)));
@@ -397,6 +404,7 @@ function boot() {
   app.whenReady().then(() => {
     const firstLaunch = !fs.existsSync(path.join(dataDir,'library.json')) && !fs.existsSync(path.join(dataDir,'library.json.bak'));
     library = new Library(dataDir);
+    desktopUpdater = new DesktopUpdater({ updater:autoUpdater, isPackaged:app.isPackaged, platform:process.platform, onState:()=>changed() });
     online = new OnlineTasks({ resources, profile: dataDir, library, notify: () => changed(), importPaths:(files,metadata,options)=>importPaths(files,undefined,metadata,options) });
     tools = new WindowTools({ getReader:() => reader, icon:path.join(resources,'icon.ico'), notify:message => { library.recovery = message; changed(); } });
     ipcMain.handle('reader:request', async (event, request) => {

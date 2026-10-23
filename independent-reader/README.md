@@ -19,7 +19,7 @@
 
 新写桌面代码以 AGPL-3.0-only 提供。SoNovel 单独保留其上游 LICENSE、来源与完整对应源代码。此工程不是原 single-reader 的授权证明，也不声称经过法律意义上的洁净室流程；此前已审查过旧项目，实现来源审计与法律判断需区分。
 
-当前为 0.4.0 本地验证版，不自动发布 GitHub、不替换旧版、不迁移真实数据，除非用户主动操作。开发工具暂复用本机 Electron 33.4.11，正式公开发布前还需升级受支持运行时并重新回归。
+当前独立版版本为 0.5.0。Windows 安装版可在关于页面检查 GitHub 上的新版本并远程下载；下载校验完成后，需确认才会安装。开发工具使用 Electron 33.4.11，公开发布前仍需评估运行时支持周期并重新回归。
 
 ## 阅读框默认行为（0.1.2）
 
@@ -64,3 +64,14 @@
 - 阅读窗口置顶在原生样式修改、显示及恢复后重应用；可取消。去掉单行框右下角直角图形，仍支持右下角拖拽缩放。
 - 参照 SoNovel SearchResultsHandler 的相关性思路，搜索优先书名与作者，过滤无关条目，默认按匹配度排序；「书名 作者」必须同时命中。跨站合并规范化标点、全半角及作者前缀，仍区分不同作者。近似结果仅在无直接命中时返回，并明确标识。
 - 回归入口：npm run test:normal、npm run test:welcome、npm run test:startup、npm run test:online-ui。生产安装包使用 Node.js 24 LTS 构建，并校验 ASAR 全部文件哈希。
+## 桌面版更新
+
+Windows 安装版可在「关于」页面检查 GitHub 上的独立版新版本、下载更新，并在确认后安装。首次包含自动更新能力的安装包发布后，旧安装包需先手动升级一次；之后可使用内置更新。
+
+发布桌面版时，将 `package.json` 版本更新后推送匹配的 `desktop-v版本号` 标签（例如 `desktop-v0.5.0`）。仓库根目录的 `../.github/workflows/desktop-release.yml` 会运行测试和 Windows 安装包构建，发布该版本，并把当前安装包及 `latest.yml` 更新到独立的 `desktop-updates` 通道。SoNovel 使用的 `v*` 标签和发布资源不参与桌面版自动更新。
+
+工作流会检出固定提交 `dcfc4a3f952eedd0036eb69fada01b935c06dc04` 的 SoNovel 源码，使用 JDK 21 构建引擎和 Java 运行时，再测试与打包。更新通道先上传安装包及 blockmap，最后更新 `latest.yml`；保留旧版文件，避免已检查到旧版本的客户端在稍后下载时遇到文件丢失。版本说明来自 `RELEASE_NOTES.md`，发版时应同步更新版本号和说明。
+
+`npm run test:update` 使用真实 Electron 更新器和本地模拟发布服务，验证版本判断、取消与重试、SHA-512 校验、安装确认以及安装前阅读进度保存。测试使用隔离的配置和下载缓存，拦截安装程序启动，不会安装测试文件。开发环境中关于页仅提供手动下载入口；网络或发布信息不可用时会显示错误，并保留版本发布页入口。
+
+项目源码：[https://github.com/fixz232/shengzimao-reader](https://github.com/fixz232/shengzimao-reader)；手动下载：[GitHub Releases](https://github.com/fixz232/shengzimao-reader/releases)。

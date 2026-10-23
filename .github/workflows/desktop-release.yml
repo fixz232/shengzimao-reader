@@ -1,0 +1,112 @@
+name: Independent desktop release
+
+on:
+  push:
+    tags:
+      - 'desktop-v*'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: independent-desktop-release
+  cancel-in-progress: false
+
+jobs:
+  release-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Check out tagged source
+        uses: actions/checkout@v4
+
+      - name: Check out the pinned SoNovel engine source
+        uses: actions/checkout@v4
+        with:
+          repository: freeok/so-novel
+          ref: dcfc4a3f952eedd0036eb69fada01b935c06dc04
+          path: vendor/so-novel
+          persist-credentials: false
+
+      - name: Set up Java and Maven cache
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+          cache-dependency-path: vendor/so-novel/pom.xml
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: independent-reader/package-lock.json
+
+      - name: Validate desktop version and tag
+        working-directory: independent-reader
+        shell: pwsh
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          $tagVersion = $env:RELEASE_TAG -replace '^desktop-v', ''
+          $packageVersion = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          if ($tagVersion -ne $packageVersion) { throw "Tag version $tagVersion does not match package.json version $packageVersion" }
+
+      - name: Install dependencies
+        working-directory: independent-reader
+        run: npm ci
+
+      - name: Build the pinned engine
+        run: mvn -B -f vendor/so-novel/pom.xml -Pwindows-x64 '-Dmaven.test.skip=true' compile assembly:single
+
+      - name: Prepare the bundled Java runtime
+        shell: pwsh
+        run: |
+          & "$env:JAVA_HOME/bin/jlink.exe" --add-modules java.base,java.datatransfer,java.xml,java.prefs,java.desktop,java.logging,java.management,java.security.sasl,java.naming,java.net.http,java.security.jgss,java.transaction.xa,java.sql,java.xml.crypto,jdk.charsets,jdk.crypto.ec,jdk.crypto.mscapi,jdk.unsupported,jdk.zipfs --strip-debug --no-header-files --no-man-pages --compress=2 --output static/sonovel/runtime-minimal
+          if ($LASTEXITCODE -ne 0) { throw 'Failed to build the Java runtime' }
+          "SZM_JAVAC=$env:JAVA_HOME/bin/javac.exe" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Stage engine resources before testing
+        working-directory: independent-reader
+        run: npm run stage
+
+      - name: Run tests
+        working-directory: independent-reader
+        run: npm test
+
+      - name: Test the real desktop update flow
+        working-directory: independent-reader
+        env:
+          SZM_SKIP_SCREENSHOTS: '1'
+        run: npm run test:update
+
+      - name: Build Windows installer and update metadata
+        working-directory: independent-reader
+        run: npm run build:installer
+
+      - name: Publish versioned desktop release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: 圣子猫阅读器独立版 ${{ github.ref_name }}
+          body_path: independent-reader/RELEASE_NOTES.md
+          files: |
+            independent-reader/release/*.exe
+            independent-reader/release/*.exe.blockmap
+            independent-reader/release/latest.yml
+          fail_on_unmatched_files: true
+          make_latest: false
+
+      - name: Update the isolated auto-update channel
+        working-directory: independent-reader
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          channel=desktop-updates
+          if ! gh release view "$channel" --repo "$GH_REPO" >/dev/null 2>&1; then
+            gh release create "$channel" --repo "$GH_REPO" --target "$GITHUB_SHA" --title "圣子猫阅读器桌面更新通道" --notes "仅供独立版内置更新器读取。" --prerelease
+          fi
+          gh release upload "$channel" release/*.exe release/*.exe.blockmap --repo "$GH_REPO" --clobber
+          # Publish the manifest last, after every installer asset is available.
+          gh release upload "$channel" release/latest.yml --repo "$GH_REPO" --clobber

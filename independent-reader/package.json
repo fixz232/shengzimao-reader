@@ -1,7 +1,7 @@
 {
   "name": "shengzimao-reader-independent",
   "productName": "圣子猫阅读器·独立版",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "description": "独立实现的桌面阅读器；SoNovel 在线引擎单独保留许可与来源。",
   "main": "app/main.cjs",
@@ -20,9 +20,12 @@
     "test:features": "node scripts/v030-smoke.cjs",
     "test:normal": "node scripts/normal-reader-smoke.cjs",
     "test:welcome": "node scripts/welcome-smoke.cjs",
-    "test:startup": "node scripts/startup-smoke.cjs"
+    "test:startup": "node scripts/startup-smoke.cjs",
+    "test:update": "node scripts/desktop-update-smoke.cjs"
   },
   "dependencies": {
+    "builder-util-runtime": "9.7.0",
+    "electron-updater": "6.8.9",
     "iconv-lite": "0.6.3",
     "jszip": "3.10.1",
     "pdfjs-dist": "4.8.69",
@@ -74,6 +77,21 @@
         "zh_CN",
         "en_US"
       ]
-    }
+    },
+    "releaseInfo": {
+      "releaseNotesFile": "RELEASE_NOTES.md"
+    },
+    "publish": [
+      {
+        "provider": "generic",
+        "url": "https://github.com/fixz232/shengzimao-reader/releases/download/desktop-updates/",
+        "channel": "latest"
+      }
+    ]
+  },
+  "homepage": "https://github.com/fixz232/shengzimao-reader",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fixz232/shengzimao-reader.git"
   }
 }
