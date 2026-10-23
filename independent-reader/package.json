@@ -1,0 +1,79 @@
+{
+  "name": "shengzimao-reader-independent",
+  "productName": "圣子猫阅读器·独立版",
+  "version": "0.4.0",
+  "private": true,
+  "description": "独立实现的桌面阅读器；SoNovel 在线引擎单独保留许可与来源。",
+  "main": "app/main.cjs",
+  "license": "AGPL-3.0-only",
+  "scripts": {
+    "start": "node scripts/start.cjs",
+    "test": "node --test test/*.test.cjs",
+    "test:ui": "node scripts/parity-smoke.cjs",
+    "test:reader": "node scripts/reader-fit-smoke.cjs",
+    "test:online-ui": "node scripts/online-ui-smoke.cjs",
+    "test:packaged": "node scripts/packaged-smoke.cjs",
+    "stage": "node scripts/stage.cjs",
+    "build:dir": "node scripts/build.cjs --dir",
+    "build:installer": "node scripts/build.cjs",
+    "ui-preview": "node scripts/ui-preview.cjs",
+    "test:features": "node scripts/v030-smoke.cjs",
+    "test:normal": "node scripts/normal-reader-smoke.cjs",
+    "test:welcome": "node scripts/welcome-smoke.cjs",
+    "test:startup": "node scripts/startup-smoke.cjs"
+  },
+  "dependencies": {
+    "iconv-lite": "0.6.3",
+    "jszip": "3.10.1",
+    "pdfjs-dist": "4.8.69",
+    "sax": "1.2.4",
+    "xml2js": "0.6.2"
+  },
+  "devDependencies": {
+    "electron": "33.4.11",
+    "electron-builder": "24.13.3"
+  },
+  "build": {
+    "appId": "com.shengzimao.reader.independent",
+    "productName": "圣子猫阅读器·独立版",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "app/**/*",
+      "engine/**/*",
+      "package.json",
+      "README.md",
+      "PROVENANCE.md",
+      "LICENSE"
+    ],
+    "asarUnpack": [
+      "app/*.ps1"
+    ],
+    "extraResources": [
+      {
+        "from": "resources",
+        "to": "independent"
+      }
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "resources/icon.ico",
+      "artifactName": "圣子猫阅读器-独立版-${version}-安装包.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "shortcutName": "圣子猫阅读器·独立版",
+      "deleteAppDataOnUninstall": false,
+      "runAfterFinish": false,
+      "installerLanguages": [
+        "zh_CN",
+        "en_US"
+      ]
+    }
+  }
+}

@@ -1,13 +1,14 @@
 # 圣子猫阅读器
 
-> 基于 [freeok/so-novel](https://github.com/freeok/so-novel) 的独立 Fork，由 [fixz232](https://github.com/fixz232) 维护。不是 SoNovel 官方发行版，不代表原作者或上游贡献者。
+> 基于 [freeok/so-novel](https://github.com/freeok/so-novel) 的独立 Fork，新增独立编写的 Electron 桌面阅读器。不是 SoNovel 官方发行版，不代表原作者或上游贡献者。
 
 ## 本仓库的范围
 
-- 本仓库的唯一代码上游是 **SoNovel**，保留其 Java 源码、构建配置、提交历史及现有功能。
-- 2026-10-22 核验并同步的上游基线为 `main` 分支提交 `dcfc4a3f952eedd0036eb69fada01b935c06dc04`。
-- 本次仅补充项目名称、来源与修改声明，没有改动上游业务代码，不包含本地 Electron/Vue 单行桌面阅读器工程。
-- 当前发布的是源码，尚未制作本 Fork 的独立安装包。下方保留的上游安装脚本、下载入口和赞助链接仍属于 SoNovel，不是本 Fork 的发布或收款入口。
+- **桌面独立版 0.4.0** 源码位于 [`independent-reader/`](independent-reader/README.md)，包含隐蔽单行与普通大屏阅读、首次欢迎和每次启动位置提示、关于页面、原生置顶、书库与文档转换、在线检索与增量追更。
+- 在线引擎上游为 **SoNovel**。仓库根目录保留其 Java 源码、构建配置和提交历史；固定基线为 `dcfc4a3f952eedd0036eb69fada01b935c06dc04`，本次未修改根目录的上游业务代码。
+- 独立版的 Java 适配器位于 `independent-reader/engine/`；它与桌面代码一起发布，不包含旧 Electron/Vue 阅读器工程、个人书库、阅读进度、配置或测试缓存。
+- 开发和安装包构建步骤见 [Windows 构建说明](DESKTOP_BUILD.md)，功能与验证范围见 [0.4.0 验证记录](independent-reader/VERIFICATION-0.4.0.md)。
+- 本次上传源码及必要图标、规则资源，**未上传二进制安装包**。下方保留的上游安装脚本、下载入口和赞助链接仍属于 SoNovel，不是本 Fork 的桌面发行入口。
 
 ## 许可证与来源声明
 

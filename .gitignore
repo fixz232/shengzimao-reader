@@ -17,3 +17,13 @@ logs/
 bundle/jre*.zip
 
 config-dev.ini
+
+# Generated desktop build inputs and local-only data.
+/vendor/
+/static/sonovel/runtime*/
+/independent-reader/node_modules/
+/independent-reader/resources/
+/independent-reader/release/
+/independent-reader/.verification/
+*.log
+*.szmbak
