@@ -1,4 +1,4 @@
-# 桌面独立版 0.4.0：Windows 源码构建
+# 桌面独立版 0.5.2：Windows 源码构建
 
 桌面工程在 `independent-reader/`。根目录的 Java 工程是保留历史的 SoNovel Fork；桌面构建使用另一个固定提交、干净工作区的上游克隆，避免将本 Fork 文档或未确认变动混入引擎。
 
@@ -51,13 +51,15 @@ npm run test:normal
 npm run test:welcome
 npm run test:startup
 npm run test:online-ui
+npm run test:about-ui
+npm run test:tomato-ui
 npm run test:features
 npm run build:installer
 npm run test:packaged
 ```
 
-界面测试会创建临时窗口，请串行运行；所有测试使用独立配置。在线链路测试使用内置 Java 引擎和合成站点，不读取私人书库。
+界面测试会创建临时窗口，请串行运行；所有测试使用独立配置。在线链路测试使用内置 Java 引擎和合成站点，不读取私人书库。番茄 UI 回归会访问真实公开搜索、详情与目录，不下载整本正文；需要相应网络可用。关于页回归只验证本地声明展示。
 
-安装包输出到 `independent-reader/release/圣子猫阅读器-独立版-0.4.0-安装包.exe`；开发运行目录为 `release/win-unpacked/`。打包过程对 ASAR 每个文件校验哈希，错误时停止生成安装包。
+安装包输出到 `independent-reader/release/圣子猫阅读器-独立版-0.5.2-安装包.exe`；开发运行目录为 `release/win-unpacked/`。打包过程对 ASAR 每个文件校验哈希，错误时停止生成安装包。
 
-`VERIFICATION-0.4.0.md` 中的证据路径指维护者本次本地验证记录。`.verification/` 不公开提交，可以使用上述命令重新生成自己的记录。此源码上传不代表已经在 GitHub Releases 发布安装包。
+`VERIFICATION-0.5.2.md` 中的证据路径指维护者本次本地验证记录。`.verification/` 不公开提交，可以使用上述命令重新生成自己的记录。此源码上传不代表已经在 GitHub Releases 发布安装包。

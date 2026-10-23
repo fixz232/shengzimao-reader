@@ -6,6 +6,7 @@ const { pathToFileURL } = require('node:url');
 const fs = require('node:fs');
 const { Library, scanLegacy, migrateLegacy } = require('./library.cjs');
 const { OnlineTasks, runEngine } = require('./online.cjs');
+const { TomatoTasks } = require('./tomato.cjs');
 const { runFileTask } = require('./file-tasks.cjs');
 const { WindowTools, listWindows } = require('./window-tools.cjs');
 const { exportBackup, importBackup } = require('./backup.cjs');
@@ -24,7 +25,7 @@ else boot();
 
 function boot() {
   if (dataDir.toLowerCase() === legacyDir.toLowerCase() || dataDir.toLowerCase().startsWith(legacyDir.toLowerCase()+path.sep)) throwFatal(new Error('禁止把新配置目录指向旧书库。'));
-  let library, manager, reader, normalReader, tray, online, tools, desktopUpdater, quitting = false, migrationBusy = false, boundsTimer, settingBounds = false, appliedBounds = '', shortcut = '';
+  let library, manager, reader, normalReader, tray, online, tomato, tools, desktopUpdater, quitting = false, migrationBusy = false, boundsTimer, settingBounds = false, appliedBounds = '', shortcut = '';
   let updateTimer, quitAfterFlush = false, readerRevealUntil = 0;
   const resources = app.isPackaged ? path.join(process.resourcesPath, 'independent') : path.join(__dirname, '..', 'resources');
   const html = path.join(__dirname, 'ui', 'index.html');
@@ -213,9 +214,9 @@ function boot() {
   async function action(command, payload = {}, source) {
     if (!payload || typeof payload !== 'object' || Array.isArray(payload)) throw new Error('请求格式错误。');
     if (['update-check','update-download','update-cancel','update-install'].includes(command) && source !== manager) throw new Error('请在关于页面操作桌面版更新。');
-    if(['search','online-download','online-download-many','online-retry','online-details','online-update'].includes(command)&&!consent.accepted(library.state))throw new Error('请先阅读并同意在线功能声明。');
+    if(['search','online-download','online-download-many','online-retry','online-details','online-update','tomato-search','tomato-details','tomato-download'].includes(command)&&!consent.accepted(library.state))throw new Error('请先阅读并同意在线功能声明。');
     switch (command) {
-      case 'snapshot': return { ...library.snapshot(), online: online.snapshot(), update:desktopUpdater?.snapshot()||{phase:'idle',version:'',releaseNotes:'',progress:0,error:''}, consent:{version:consent.VERSION,accepted:consent.accepted(library.state)}, profile: dataDir, version: app.getVersion(), runtime:{electron:process.versions.electron,platform:process.platform,arch:process.arch}, readerRevealUntil, shortcut, attachment: Boolean(tools.attached) };
+      case 'snapshot': return { ...library.snapshot(), online: online.snapshot(), tomato: tomato.snapshot(), update:desktopUpdater?.snapshot()||{phase:'idle',version:'',releaseNotes:'',progress:0,error:''}, consent:{version:consent.VERSION,accepted:consent.accepted(library.state)}, profile: dataDir, version: app.getVersion(), runtime:{electron:process.versions.electron,platform:process.platform,arch:process.arch}, readerRevealUntil, shortcut, attachment: Boolean(tools.attached) };
       case 'reading-section': {
         const book = library.book(library.state.activeId);
         if (library.cache?.id !== book.id) library.open(book.id);
@@ -352,6 +353,10 @@ function boot() {
         const result = online.search(String(payload.keyword || ''));
         library.settings({ searchHistory:[result.keyword,...library.state.settings.searchHistory.filter(keyword => keyword !== result.keyword)].slice(0,12) }); changed(); return result;
       }
+      case 'tomato-search': { const result = tomato.search(String(payload.keyword || '')); library.settings({ searchHistory:[result.keyword,...library.state.settings.searchHistory.filter(keyword => keyword !== result.keyword)].slice(0,12) }); changed(); return result; }
+      case 'tomato-cancel': return tomato.cancel();
+      case 'tomato-details': await tomato.details(payload.index); return tomato.snapshot().details;
+      case 'tomato-download': await tomato.download(payload.index, payload.format); return tomato.snapshot();
       case 'online-cancel': return online.cancel();
       case 'online-download': return online.download(payload.index,payload.format);
       case 'online-download-many': return online.downloadMany(payload.indexes, payload.format);
@@ -406,6 +411,7 @@ function boot() {
     library = new Library(dataDir);
     desktopUpdater = new DesktopUpdater({ updater:autoUpdater, isPackaged:app.isPackaged, platform:process.platform, onState:()=>changed() });
     online = new OnlineTasks({ resources, profile: dataDir, library, notify: () => changed(), importPaths:(files,metadata,options)=>importPaths(files,undefined,metadata,options) });
+    tomato = new TomatoTasks({ profile: dataDir, notify: () => changed(), importPaths:(files,metadata,options)=>importPaths(files,undefined,metadata,options) });
     tools = new WindowTools({ getReader:() => reader, icon:path.join(resources,'icon.ico'), notify:message => { library.recovery = message; changed(); } });
     ipcMain.handle('reader:request', async (event, request) => {
       try {

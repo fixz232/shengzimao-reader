@@ -1,0 +1,68 @@
+'use strict';
+// Real Electron UI and public Fanqie metadata; uses an isolated, empty library.
+const fs = require('node:fs'), path = require('node:path'), assert = require('node:assert/strict');
+const { spawn } = require('node:child_process');
+const { CDP, until, freePort } = require('./cdp.cjs');
+const root = path.resolve(__dirname, '..');
+(async () => {
+  const evidence = path.join(root, '.verification', 'tomato-ui-' + Date.now());
+  fs.mkdirSync(evidence, { recursive: true });
+  const profile = path.join(evidence, 'profile'), legacy = path.join(evidence, 'legacy');
+  fs.mkdirSync(legacy);
+  new (require('../app/library.cjs').Library)(profile).save();
+  const fixtures = path.join(evidence, 'fixtures.json');
+  fs.writeFileSync(fixtures, JSON.stringify({ importFiles: [] }));
+  const port = await freePort(), env = { ...process.env };
+  delete env.ELECTRON_RUN_AS_NODE; delete env.NODE_OPTIONS;
+  let child, manager, logs = '';
+  const checks = [], check = (label, value) => { assert.ok(value, label); checks.push(label); console.log('PASS ' + label); };
+  try {
+    const executable=process.env.SZM_TEST_EXECUTABLE;
+    child = spawn(executable||require('electron'), [...(executable?[]:[path.join(__dirname, 'test-host.cjs')]), `--profile=${profile}`, `--legacy-profile=${legacy}`, `--test-fixtures=${fixtures}`, `--remote-debugging-port=${port}`], { cwd: root, env, windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] });
+    child.stdout.on('data', chunk => logs += chunk); child.stderr.on('data', chunk => logs += chunk);
+    const target = await until(async () => (await (await fetch(`http://127.0.0.1:${port}/json/list`)).json()).find(item => item.type === 'page' && item.url.includes('mode=manager')), 30000);
+    manager = await CDP.connect(target.webSocketDebuggerUrl);
+    await until(() => manager.eval('!!document.querySelector(".nav")'));
+    await manager.click('[data-route="search"]');
+    await manager.eval('const c=document.querySelector("#consent-scroll");c.scrollTop=c.scrollHeight;c.dispatchEvent(new Event("scroll"));');
+    await manager.click('#consent-checkbox'); await manager.click('#consent-accept');
+    await until(() => manager.eval('!!document.querySelector("#keyword")'));
+    check('在线搜书内有两个标签，侧栏不单列番茄', await manager.eval('document.querySelectorAll("[data-tab=searchTab]").length===2&&!document.querySelector("[data-route=tomato]")'));
+    await manager.click('[data-tab="searchTab"][data-value="tomato"]');
+    check('番茄标签保留在线搜书主导航和单一标题', await manager.eval('document.querySelector("[data-route=search]").getAttribute("aria-current")==="page"&&document.querySelector("h1").textContent==="在线搜书"&&document.querySelectorAll("h1").length===1'));
+    await manager.eval('var input=document.querySelector("#tomato-keyword");input.value="我不是戏神";input.dispatchEvent(new Event("input",{bubbles:true}));document.querySelector("#tomato-search-form").requestSubmit();');
+    await manager.click('[data-route="settings"]');
+    check('离开搜索页后可通过后台任务按钮返回番茄标签', await manager.eval('!!document.querySelector("[data-action=tomato-route]")'));
+    await manager.click('[data-action="tomato-route"]');
+    await until(async () => { const t = (await manager.request('snapshot')).tomato; if (t.error) throw new Error(t.error); return !t.running && t.results.length; }, 30000);
+    await until(() => manager.eval('!!document.querySelector(".tomato-result")'));
+    let snapshot = await manager.request('snapshot');
+    check('截图中的书名通过真实接口找到原作者，过滤音频和推荐条目', snapshot.tomato.results.some(book => book.bookName === '我不是戏神' && book.author === '三九音域') && snapshot.tomato.results.every(book => book.bookName.includes('我不是戏神')));
+    await manager.eval('var input=document.querySelector("#tomato-keyword");input.value="三九音域";input.dispatchEvent(new Event("input",{bubbles:true}));');
+    await manager.click('[data-tab="searchTab"][data-value="aggregate"]');
+    check('聚合搜索页仍显示原搜索表单', await manager.eval('!!document.querySelector("#search-form")&&!document.querySelector("#tomato-search-form")'));
+    await manager.click('[data-tab="searchTab"][data-value="tomato"]');
+    check('切换标签保留新关键词草稿和上次结果', await manager.eval('document.querySelector("#tomato-keyword").value==="三九音域"&&document.querySelectorAll(".tomato-result").length>0'));
+    await manager.click('.tomato-result [data-action="tomato-details"]');
+    await until(() => manager.eval('!!document.querySelector(".tomato-detail")'), 30000);
+    snapshot = await manager.request('snapshot');
+    const details = snapshot.tomato.details;
+    check('真实详情读到书名、作者、简介、字数、封面和完整目录', details.book.bookName === '我不是戏神' && details.book.author === '三九音域' && details.book.intro.includes('赤色流星') && Number(details.book.wordCount) > 0 && details.book.cover.startsWith('https:') && details.toc.length > 100);
+    await manager.eval('var input=document.querySelector("#tomato-chapter-filter");input.value="戏鬼回家";input.dispatchEvent(new Event("input",{bubbles:true}));');
+    check('详情目录可以按标题筛选', await manager.eval('document.querySelectorAll(".chapter-entry").length===1&&document.querySelector(".chapter-entry").textContent.includes("戏鬼回家")'));
+    await manager.screenshot(path.join(evidence, 'tomato-desktop.png'));
+    await manager.call('Emulation.setDeviceMetricsOverride', { width: 560, height: 650, deviceScaleFactor: 1, mobile: false });
+    await until(() => manager.eval('innerWidth<=560'));
+    check('560 像素窄窗口没有横向溢出', await manager.eval('document.documentElement.scrollWidth<=innerWidth&&document.querySelector(".workspace").scrollWidth<=document.querySelector(".workspace").clientWidth'));
+    await manager.screenshot(path.join(evidence, 'tomato-narrow.png'));
+    await manager.call('Emulation.clearDeviceMetricsOverride');
+    check('没有页面未捕获异常，也未改动真实书库', manager.errors.length === 0 && snapshot.books.length === 0);
+    fs.writeFileSync(path.join(evidence, 'report.json'), JSON.stringify({ passed: checks.length, checks, search: snapshot.tomato.results.map(({ bookName, author, bookId }) => ({ bookName, author, bookId })), details: { title: details.book.bookName, chapterCount: details.toc.length, first: details.toc[0], last: details.toc.at(-1) }, scope: '真实番茄搜索和详情；隔离配置；未下载正文' }, null, 2));
+    console.log(JSON.stringify({ passed: checks.length, evidence }));
+    await manager.request('quit').catch(() => {});
+    await until(() => child.exitCode !== null);
+  } finally {
+    manager?.close(); if (child?.exitCode === null) child.kill();
+    fs.writeFileSync(path.join(evidence, 'runtime.log'), logs);
+  }
+})().catch(error => { console.error(error); process.exitCode = 1; });

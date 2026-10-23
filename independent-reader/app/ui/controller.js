@@ -2,7 +2,7 @@
 (() => {
   if (new URLSearchParams(location.search).get('mode') === 'normal') return;
   const root=document.querySelector('#app'),V=window.ReaderViews,readerMode=new URLSearchParams(location.search).get('mode')==='reader',startedAt=Date.now();
-  const m={route:'library',libraryTab:'library',settingsTab:'appearance',appsTab:'web',query:'',sort:'default',status:'all',more:'all',category:'',tag:'',source:'',advanced:false,savedFilter:'',filterName:'',page:1,selected:new Set(),dialog:null,chapterQuery:'',chapters:[],textQuery:'',textResults:[],textStatus:'',onlineQuery:'',onlineSite:'',onlineSort:'match',onlineFormat:'epub',onlineSelected:new Set(),keywordDraft:null,busy:false,windows:[],attachHandle:null,attachTitle:null,appOptions:{}};
+  const m={route:'library',searchTab:'aggregate',libraryTab:'library',settingsTab:'appearance',appsTab:'web',query:'',sort:'default',status:'all',more:'all',category:'',tag:'',source:'',advanced:false,savedFilter:'',filterName:'',page:1,selected:new Set(),dialog:null,chapterQuery:'',chapters:[],textQuery:'',textResults:[],textStatus:'',onlineQuery:'',onlineSite:'',onlineSort:'match',onlineFormat:'epub',onlineSelected:new Set(),tomatoQuery:null,tomatoFormat:'epub',tomatoDetails:null,keywordDraft:null,busy:false,windows:[],attachHandle:null,attachTitle:null,appOptions:{}};
   let state,refreshTimer,resizeTimer,noticeTimer,readBusy=false,mouseHidden=true,pointerInside=false,focused=document.hasFocus(),lastInteraction=Date.now(),autoTimer,lastAuto=0,pointerTimer,pointerBusy=false,addressTimer,focusEventAt=0;
   let paintRevision=0,lastPaint=null,locateDismissed=false,lastRevealUntil=0;const previousPages=new Map(),textMeasure=document.createElement('canvas').getContext('2d');
   let snapshotRevision=0,textSearchRevision=0,actionBusy=false,probeBusy=false;
@@ -31,6 +31,7 @@
   function applyTheme(theme){const tokens={classic:['#2b2d38','#f5f6f9','#4569df','#fff'],ink:['#2d3430','#f8f6f0','#8b713d','#fff'],chinaRed:['#af2b24','#fff6f2','#ce9b38','#fff'],celadon:['#2b6c62','#f1f8f5','#8f7d48','#fff']}[theme]||['#2b2d38','#f5f6f9','#4569df','#fff'];for(const [index,key] of ['--ink','--sidebar','--accent','--button-text'].entries())document.documentElement.style.setProperty(key,tokens[index]);}
   async function refresh(){const revision=++snapshotRevision,wasAutoReading=state?.settings.autoRead;const snapshot=await request('snapshot');if(revision!==snapshotRevision)return;// 旧响应到达时已有更新的请求，直接丢弃。
     if(state?.online.revision!==snapshot.online.revision){m.onlineSelected=new Set();m.onlineSite='';m.onlineQuery='';}
+    if(state?.tomato?.revision!==snapshot.tomato?.revision){m.tomatoDetails=null;}
     if(ttsActive&&(!snapshot.settings.ttsEnabled||snapshot.activeId!==state?.activeId))stopTts();
     state=snapshot;if(state.readerRevealUntil!==lastRevealUntil){lastRevealUntil=state.readerRevealUntil;locateDismissed=false;}if(state.settings.autoRead&&!wasAutoReading)lastAuto=Date.now();render();if(readerMode)await paintReader();}
   function rgba(hex,alpha){const value=parseInt(hex.slice(1),16);return `rgba(${value>>16},${value>>8&255},${value&255},${alpha})`;}
@@ -105,6 +106,7 @@
     if(action==='update-cancel'){await request('update-cancel');await refresh();return;}
     if(action==='update-install'){await request('update-install');return;}
     if(action==='online-details'){m.busy=true;render();try{m.onlineDetails=await request('online-details',{index:Number(button.dataset.index)});m.detailsIndex=Number(button.dataset.index);m.chapterQuery='';m.chapterLimit=300;m.dialog={type:'online-details'};}finally{m.busy=false;await refresh();}return;}
+    if(action==='tomato-details'){m.busy=true;render();try{m.tomatoDetails=await request('tomato-details',{index:Number(button.dataset.index)});m.tomatoIndex=Number(button.dataset.index);}finally{m.busy=false;await refresh();}return;}
     if(action==='chapter-more'){m.chapterLimit=(m.chapterLimit||300)+300;render();return;}
     if(action==='update-all'||action==='update-book'){if(!state.consent.accepted){m.route='search';render();return;}await request('online-update',action==='update-book'?{ids:[id]}:{});await refresh();return;}
     if(action==='track-book'){await request('online-track',{id,enabled:!book.tracking});await refresh();return;}
@@ -115,7 +117,7 @@
     if(action==='library-tab'){m.libraryTab='library';render();return;}
     if(action==='advanced-filter'){m.advanced=!m.advanced;render();return;}
     if(action==='reset-library-filter'){Object.assign(m,{query:'',status:'all',more:'all',sort:'default',category:'',tag:'',source:'',savedFilter:'',filterName:'',page:1});render();return;}
-    if(action==='search-route'){m.route='search';render();return;}
+    if(action==='search-route'||action==='tomato-route'){m.route='search';m.searchTab=action==='tomato-route'?'tomato':'aggregate';render();return;}
     if(action==='view-grid'||action==='view-list'){m.libraryTab='library';await request('settings',{view:action.slice(5)});}
     else if(action==='page-next'||action==='page-prev'){m.page+=action==='page-next'?1:-1;render();return;}
     else if(action==='clear-selection'){m.selected.clear();render();return;}
@@ -155,6 +157,8 @@
     }
     else if(action==='online-clear-selection'){m.onlineSelected=new Set();render();return;}
     else if(action==='online-retry'){await request('online-retry');notify('已重新提交任务。');return;}
+    else if(action==='tomato-cancel')await request('tomato-cancel');
+    else if(action==='tomato-download'){await request('tomato-download',{index:Number(button.dataset.index),format:m.tomatoFormat});notify('番茄下载任务已提交。');}
     else if(action==='backup-export'){m.busy=true;render();try{const result=await request('backup-export');if(!result.canceled)notify(`备份已保存：${result.file}（${result.books} 本）`);}finally{m.busy=false;await refresh();}return;}
     else if(action==='backup-import'){m.busy=true;render();try{const result=await request('backup-import');if(!result.canceled)notify(result.message||`已导入 ${result.imported} 本，跳过 ${result.skipped} 本。`);}finally{m.busy=false;await refresh();}return;}
     else if(action==='open-profile'){await request('open-profile');return;}
@@ -183,7 +187,8 @@
   root.addEventListener('input',event=>{
     if(event.isComposing)return;// 中文输入法组词期间不重排，避免打断候选词。
     const input=event.target;if(input.id==='keyword')m.keywordDraft=input.value;
-    for(const [id,key]of [['library-filter','query'],['online-filter','onlineQuery'],['chapter-query','chapterQuery']])if(input.id===id){m[key]=input.value;if(id==='online-filter')m.onlineSelected=new Set();if(id==='chapter-query')m.chapterLimit=300;m.page=1;render();}
+    for(const [id,key]of [['library-filter','query'],['online-filter','onlineQuery'],['chapter-query','chapterQuery'],['tomato-chapter-filter','tomatoChapterQuery']])if(input.id===id){m[key]=input.value;if(id==='online-filter')m.onlineSelected=new Set();if(id==='chapter-query')m.chapterLimit=300;m.page=1;render();}
+    if(input.id==='tomato-keyword')m.tomatoQuery=input.value;
     if(input.id==='text-search-keyword'){m.textQuery=input.value;updateTextSearchList();}
     if(input.id==='saved-filter-name')m.filterName=input.value;
     if(input.dataset.appOption)m.appOptions[input.dataset.appOption]=input.type==='checkbox'?input.checked:['number','range'].includes(input.type)?Number(input.value):input.value;
@@ -203,7 +208,7 @@
     if(input.dataset.onlineSelect!==undefined){m.onlineSelected ||= new Set();const index=Number(input.dataset.onlineSelect);input.checked?m.onlineSelected.add(index):m.onlineSelected.delete(index);render();return;}
     if(input.id==='online-select-all'){m.onlineSelected ||= new Set();const groups=V.groupedResults(state,m);for(const group of groups){const index=group.variants[0].index;input.checked?m.onlineSelected.add(index):m.onlineSelected.delete(index);}render();return;}
     if(input.id==='select-all'){const items=V.books(state,m).slice((m.page-1)*50,m.page*50);for(const book of items)input.checked?m.selected.add(book.id):m.selected.delete(book.id);render();return;}
-    const maps={'library-sort':'sort','library-more':'more','library-category':'category','library-tag':'tag','library-source':'source','online-site':'onlineSite','online-sort':'onlineSort','online-format':'onlineFormat'};if(maps[input.id]){m[maps[input.id]]=input.value;if(input.id==='online-site')m.onlineSelected=new Set();m.page=1;render();return;}
+    const maps={'library-sort':'sort','library-more':'more','library-category':'category','library-tag':'tag','library-source':'source','online-site':'onlineSite','online-sort':'onlineSort','online-format':'onlineFormat','tomato-format':'tomatoFormat'};if(maps[input.id]){m[maps[input.id]]=input.value;if(input.id==='online-site')m.onlineSelected=new Set();m.page=1;render();return;}
     if(input.id==='current-book'&&input.value){await request('open',{id:input.value});await refresh();}
     if(input.id==='saved-filter'&&input.value==='save')await openDialog('save-filter');
     else if(input.id==='saved-filter'){m.savedFilter=input.value;const saved=input.value!==''&&state.settings.savedFilters[Number(input.value)];if(saved){for(const key of ['query','status','more','sort'])m[key]=saved[key]??({query:'',status:'all',more:'all',sort:'default'}[key]);for(const key of ['category','tag','source'])m[key]=saved[key]||'';m.filterName=saved.name;m.page=1;}render();}
@@ -214,6 +219,7 @@
   }));
   root.addEventListener('submit',event=>{event.preventDefault();task(async()=>{
     if(event.target.id==='search-form'){await request('search',{keyword:document.querySelector('#keyword').value});await refresh();}
+    if(event.target.id==='tomato-search-form'){await request('tomato-search',{keyword:document.querySelector('#tomato-keyword').value});await refresh();}
     if(event.target.id==='text-search-form'){m.textQuery=document.querySelector('#text-search-keyword').value;m.textStatus='正在搜索正文…';const scope=document.querySelector('#text-search-scope').value;m.textResults=[];render();const revision=++textSearchRevision;const results=await request('local-search',{keyword:m.textQuery,ids:scope==='all'?state.books.filter(book=>!book.missing).map(book=>book.id):[m.dialog?.bookId||state.activeId].filter(Boolean)});if(revision!==textSearchRevision)return;// 旧搜索晚到，丢弃以免覆盖新结果。
       m.textResults=results;m.textStatus=`找到 ${results.length} 条匹配（最多显示 100 条）。`;render();}
   });});

@@ -19,6 +19,11 @@ test('about page links to the repository and Releases and exposes update check',
   assert.match(html,/data-kind="releases"[^>]*>GitHub Releases/);assert.match(html,/data-action="update-check"[^>]*>检查更新/);
   assert.match(html,/https:\/\/github.com\/fixz232\/shengzimao-reader/);
 });
+test('about page discloses licenses, rights, network boundaries, risks and acknowledgements',()=>{
+  const html=about();
+  for(const text of ['AGPL-3.0-only','MIT','内容权利与使用边界','数据与网络说明','免责声明与风险提示','致谢与来源','软件开源许可不等于作品授权','不自动上传书库','novel.snssdk.com','不得排除或限制','Tomato-Novel-Downloader','LevineHua/single-reader','Mozilla PDF.js'])assert.ok(html.includes(text),text);
+  assert.match(html,/data-kind="tomatoUpstream"/);assert.match(html,/data-kind="disclaimer"/);
+});
 
 test('about page disables check in development and while cancellation or install is pending',()=>{
   for(const update of [{phase:'idle',supported:false},{phase:'cancelling'},{phase:'confirming'},{phase:'installing'}]){

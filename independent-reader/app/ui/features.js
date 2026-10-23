@@ -7,6 +7,7 @@ window.ReaderFeatures=(()=>{
       '<section class="panel"><div id="consent-scroll" class="consent-scroll" tabindex="0" role="region" aria-label="在线功能声明">'+
       '<h2>来源与开源许可</h2><p>圣子猫独立版的在线检索、目录解析和下载能力使用开源项目 SoNovel。桌面界面与适配层由本项目独立实现。SoNovel 项目地址为 https://github.com/freeok/so-novel。本软件保留 AGPL-3.0 许可、对应源码和来源说明，随安装包提供。</p>'+
       '<div class="toolbar">'+button('online-link','SoNovel 项目','data-kind="project"')+button('online-link','上游声明','data-kind="disclaimer"')+button('online-link','开源许可','data-kind="license"')+'</div>'+
+      '<h2>番茄小说来源</h2><p>番茄搜索使用 novel.snssdk.com 公开接口，详情、目录和公开章节来自 fanqienovel.com，并参考 Tomato-Novel-Downloader 的功能流程。番茄内容版权属于作者及其他权利人；本软件不授予下载、复制、传播或商业使用权。请先确认你拥有相应权限，并遵守番茄平台服务条款。</p><p>本功能不绕过登录、付费、验证码或其他访问控制；源站限流、接口变化、地区限制或章节权限可能导致搜索和下载停止。参考项目采用 MIT License，详情请查看其仓库和本项目来源记录。</p><div class="toolbar">'+button('online-link','番茄公开页面','data-kind="tomato"')+button('online-link','参考项目','data-kind="tomatoUpstream"')+'</div>'+
       '<h2>内容与授权</h2><p>在线内容由第三方网站提供，版权归原作者及其他权利人所有。本软件不提供作品授权，也不保证第三方网站有权传播内容。请仅检索、下载和转换您有权访问和使用的作品，尊重作者、网站服务条款及适用法律，不得用于未经授权的传播或商业用途。建议优先选择作者与正版平台。</p>'+
       '<h2>网络访问与数据</h2><p>搜索会将关键词发往启用的第三方书源；读取详情、检查更新及下载会访问相应网站。第三方可能记录网络地址和访问行为。书库、阅读进度与确认记录保存在本机；导入书库备份不会替您确认本声明。</p>'+
       '<h2>可用性与风险说明</h2><p>第三方内容的准确性、完整性、时效性与持续可用性无法保证。网页规则改变、网络故障可能导致目录缺失或下载失败。增量更新只在旧目录可核对时追加新章节，不负责替换源站对旧章节的修订。重要书库请定期导出备份。</p>'+

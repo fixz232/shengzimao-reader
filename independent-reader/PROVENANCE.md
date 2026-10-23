@@ -8,8 +8,9 @@
 
 ## 单独保留的第三方
 
-- Electron、iconv-lite、JSZip、sax、xml2js：通过 npm 精确版本依赖，许可随依赖分发。
+- Electron、electron-updater、builder-util-runtime、Mozilla PDF.js、iconv-lite、JSZip、sax、xml2js：通过 npm 精确版本依赖，许可随依赖分发。
 - SoNovel：`freeok/so-novel`，GNU AGPL v3，以其随附许可为准。新写 Java 适配器调用其核心 API，不复制旧适配器。构建时记录源码提交、工作区变更和资源 SHA-256，并随包附源码（排除 Git、构建缓存与 .env）。
+- 番茄小说功能参考：`zhongbai2333/Tomato-Novel-Downloader`（HEAD `75f0dd327d7fd55ee646564a4da4d028139c591c`，MIT License）。本项目仅参考其公开搜索、详情、目录和下载流程，独立实现适配层；未复制私有 API、token、第三方地址池、验证码绕过或反爬逻辑。
 - 应用图标：使用用户此前提供的猫图标，不取自 single-reader；暂存时记录哈希。
 
 ## 审计范围

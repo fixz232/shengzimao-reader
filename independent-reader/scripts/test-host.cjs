@@ -25,7 +25,8 @@ if(fixtures.desktopUpdateFeed){
 }
 if(fixtures.rulesDir){
   const online=require('../app/online.cjs'),runEngine=online.runEngine,OnlineTasks=online.OnlineTasks;
-  online.runEngine=options=>runEngine({...options,rulesDir:fixtures.rulesDir});
+  let failFirstSearch=fixtures.failFirstSearch===true;
+  online.runEngine=options=>{if(failFirstSearch&&options.input.action==='search'){failFirstSearch=false;return Promise.reject(new Error('合成搜索失败：用于验证重试入口。'));}return runEngine({...options,rulesDir:fixtures.rulesDir});};
   online.OnlineTasks=class extends OnlineTasks{constructor(options){super({...options,runner:online.runEngine});}};
 }
 require(path.join(__dirname,'../app/main.cjs'));

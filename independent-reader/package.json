@@ -1,7 +1,7 @@
 {
   "name": "shengzimao-reader-independent",
   "productName": "圣子猫阅读器·独立版",
-  "version": "0.5.0",
+  "version": "0.5.2",
   "private": true,
   "description": "独立实现的桌面阅读器；SoNovel 在线引擎单独保留许可与来源。",
   "main": "app/main.cjs",
@@ -12,6 +12,8 @@
     "test:ui": "node scripts/parity-smoke.cjs",
     "test:reader": "node scripts/reader-fit-smoke.cjs",
     "test:online-ui": "node scripts/online-ui-smoke.cjs",
+    "test:about-ui": "node scripts/about-ui-smoke.cjs",
+    "test:tomato-ui": "node scripts/tomato-ui-smoke.cjs",
     "test:packaged": "node scripts/packaged-smoke.cjs",
     "stage": "node scripts/stage.cjs",
     "build:dir": "node scripts/build.cjs --dir",
