@@ -6,6 +6,8 @@
 | --- | --- | --- |
 | SoNovel | https://github.com/freeok/so-novel | AGPL-3.0，以随附许可为准；来自桌面版暂存的 JAR，Android 适配源码位于 engine/src，保留上游许可与声明 |
 | Tomato-Novel-Downloader | https://github.com/zhongbai2333/Tomato-Novel-Downloader | MIT；参考提交 75f0dd327d7fd55ee646564a4da4d028139c591c 的公开接口和流程，Android 适配独立实现 |
+| fanqienovel-downloader 字符数据 | https://github.com/ying-ck/fanqienovel-downloader/blob/4cbb46e9038f2d714407745898380cf02c629deb/src/charset.json | AGPL-3.0；仅用于识别的公开网页字体，移植自桌面同源数据，见 `data/TomatoFont.kt`；全文 `notices/fanqienovel-downloader-LICENSE.txt` 随源码及 APK assets 分发 |
+| ASM 9.9（仅引擎构建工具） | https://asm.ow2.io/ | BSD-3-Clause；使用本机 Gradle 分发中的 ASM，替换上游不受 Android 支持的 executor 调用；不随 APK 作为依赖分发 |
 | Rhino 1.7.15 | https://github.com/mozilla/rhino | MPL-2.0；解释执行书源脚本，不使用 V8 原生库 |
 | AndroidX / Jetpack Compose | https://android.googlesource.com/platform/frameworks/support | Apache-2.0；按依赖所附声明为准 |
 | Kotlin / kotlinx.coroutines | https://github.com/JetBrains/kotlin / https://github.com/Kotlin/kotlinx.coroutines | Apache-2.0；按依赖所附声明为准 |

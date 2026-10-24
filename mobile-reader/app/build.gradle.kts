@@ -18,8 +18,8 @@ android {
         applicationId = "com.shengzimao.reader.mobile"
         minSdk = 26
         targetSdk = 36
-        versionCode = 3
-        versionName = "1.1.1"
+        versionCode = 4
+        versionName = "1.1.2"
         testInstrumentationRunner = "com.shengzimao.reader.mobile.OnlineSmokeRunner"
 
         // SoNovel 引擎以「预编译 dex + 规则资源」的形式随 APK 分发，不进 R8/AGP 的源码集合。

@@ -2,7 +2,12 @@ package com.shengzimao.reader.mobile.data
 
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
@@ -52,19 +57,35 @@ class TomatoEngine(private val client: OkHttpClient = OkHttpClient.Builder()
         return Updates.Details(book.copy(chapterCount = toc.size), toc)
     }
 
-    suspend fun chapters(chapters: List<OnlineChapter>, progress: (Int, Int) -> Unit = { _, _ -> }): String {
+    suspend fun chapters(chapters: List<OnlineChapter>, progress: (Int, Int) -> Unit = { _, _ -> }): String = coroutineScope {
+        require(chapters.isNotEmpty() && chapters.size <= 30000) { "下载章节列表无效。" }
         val text = StringBuilder()
-        for ((index, chapter) in chapters.withIndex()) {
+        val starts = Mutex()
+        val completed = Mutex()
+        var lastStart = 0L
+        var count = 0
+        // Only four chapter requests exist at once; preserve directory order when joining each batch.
+        for (start in chapters.indices step 4) {
             coroutineContext.ensureActive()
-            if (index > 0) delay(200)
-            val body = TomatoParser.chapterHtml(fetch(chapter.url))
-            check(body.isNotBlank()) { "番茄章节「${chapter.title}」没有可读取的公开正文，已停止。可在官网阅读。" }
-            if (text.isNotEmpty()) text.append("\n\n")
-            text.append(chapter.title).append("\n\n").append(body)
-            check(text.length <= 64 * 1024 * 1024) { "正文超过入库上限，已停止。" }
-            progress(index + 1, chapters.size)
+            val bodies = (start until minOf(start + 4, chapters.size)).map { index -> async {
+                starts.withLock {
+                    val elapsed = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - lastStart)
+                    if (lastStart != 0L && elapsed < 120) delay(120 - elapsed)
+                    lastStart = System.nanoTime()
+                }
+                val chapter = chapters[index]
+                val body = TomatoParser.chapterHtml(fetch(chapter.url), chapter.title)
+                check(body.isNotBlank()) { "番茄章节「${chapter.title}」没有可读取的公开正文，已停止。可在官网阅读。" }
+                completed.withLock { progress(++count, chapters.size) }
+                body
+            } }.awaitAll()
+            for ((offset, body) in bodies.withIndex()) {
+                if (text.isNotEmpty()) text.append("\n\n")
+                text.append(chapters[start + offset].title).append("\n\n").append(body)
+                check(text.length <= 64 * 1024 * 1024) { "正文超过入库上限，已停止。" }
+            }
         }
-        return text.toString()
+        text.toString()
     }
 
     suspend fun probe(): String {
@@ -240,13 +261,36 @@ object TomatoParser {
         }.take(30001).toList()
     }
 
-    fun chapterHtml(html: String): String {
-        val body = Regex("<article\\b[^>]*>([\\s\\S]*?)</article>", RegexOption.IGNORE_CASE).find(html)?.groupValues?.get(1)
-            ?: Regex("<(div|section)[^>]*(?:class|id)=[\"'][^\"']*(?:muye-reader-content|reader-content|chapter-content|content)[^\"']*[\"'][^>]*>([\\s\\S]*?)</\\1>", RegexOption.IGNORE_CASE)
-                .find(html)?.groupValues?.get(2) ?: return ""
-        val text = clean(body)
+    fun chapterHtml(html: String, expectedTitle: String = ""): String {
+        val page = html.replace(Regex("<!--[\\s\\S]*?-->|<(script|style)\\b[^>]*>[\\s\\S]*?</\\1>", RegexOption.IGNORE_CASE), "")
+        val openings = Regex("<(div|section|article)\\b[^>]*>", RegexOption.IGNORE_CASE)
+        val opening = openings.findAll(page).firstOrNull { match ->
+            Regex("\\s(?:class|id)\\s*=\\s*[\"']([^\"']*)[\"']", RegexOption.IGNORE_CASE).findAll(match.value).any { attr ->
+                attr.groupValues[1].split(Regex("\\s+")).any { it in setOf("muye-reader-content", "reader-content", "chapter-content") }
+            }
+        } ?: Regex("<article\\b[^>]*>", RegexOption.IGNORE_CASE).find(page) ?: return ""
+        val tag = Regex("<([a-z]+)", RegexOption.IGNORE_CASE).find(opening.value)!!.groupValues[1]
+        var depth = 1
+        var body: String? = null
+        for (token in Regex("</?$tag\\b[^>]*>", RegexOption.IGNORE_CASE).findAll(page, opening.range.last + 1)) {
+            if (token.value.startsWith("</")) depth-- else if (!token.value.endsWith("/>")) depth++
+            if (depth == 0) { body = page.substring(opening.range.last + 1, token.range.first); break }
+        }
+        val content = body?.replace(Regex("<(header|nav|footer|aside|button|h[1-6])\\b[^>]*>[\\s\\S]*?</\\1>", RegexOption.IGNORE_CASE), "") ?: return ""
+        // A directory made only of chapter links is not a chapter body.
+        val withoutLinks = clean(content.replace(Regex("<a\\b[^>]*>[\\s\\S]*?</a>", RegexOption.IGNORE_CASE), ""))
+        if (interfaceOnly(withoutLinks, expectedTitle)) return ""
+        var text = TomatoFont.decode(html, clean(content))
+        if (expectedTitle.isNotBlank() && text.lineSequence().firstOrNull()?.trim() == expectedTitle.trim())
+            text = text.substringAfter('\n', "").trim()
+        if (interfaceOnly(text, expectedTitle)) return ""
         if (text.any { it in '\uE000'..'\uF8FF' } || Regex("登录后阅读|购买本章|验证后阅读|付费解锁").containsMatchIn(text)) return ""
         return text
+    }
+
+    private fun interfaceOnly(text: String, title: String): Boolean = text.lineSequence().all {
+        val line = it.trim()
+        line == title.trim() || Regex("(?:上一章|下一章|返回目录|章节目录|目录|加入书架|首页|开始阅读|立即阅读|\\s)*").matches(line)
     }
 
     fun clean(value: String): String = value

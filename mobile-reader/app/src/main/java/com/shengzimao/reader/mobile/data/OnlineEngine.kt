@@ -139,7 +139,7 @@ class SonovelEngine(private val context: Context, private val rulesOverride: Fil
         val version = runCatching {
             context.packageManager.getPackageInfo(context.packageName, 0).lastUpdateTime
         }.getOrDefault(0L)
-        val stamp = "v11-$version"
+        val stamp = "v12-$version"
         val dexDir = File(engineDir, "dex").apply { mkdirs() }
         val rhinoDir = File(dexDir, "rhino").apply { mkdirs() }
         val required = listOf(

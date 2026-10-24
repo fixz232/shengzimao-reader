@@ -29,7 +29,8 @@ public final class ChapterRenderer {
             if (!text.isBlank()) body.append(text).append('\n');
         }
         if (body.length() == 0) body.append(Jsoup.parseBodyFragment(content).wholeText().strip());
-        if (body.toString().isBlank()) throw new IllegalStateException("章节正文为空。");
+        if (body.toString().isBlank() || body.toString().trim().equals(title.trim()))
+            throw new IllegalStateException("章节正文为空或只有标题。");
         return title + "\n\n" + body;
     }
 

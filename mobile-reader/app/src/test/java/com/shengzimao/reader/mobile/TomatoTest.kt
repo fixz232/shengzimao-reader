@@ -72,6 +72,32 @@ class TomatoTest {
         assertEquals("", TomatoParser.chapterHtml("<html>需要验证</html>"))
     }
 
+    @Test fun exactContentClassAndBalancedNestedTagsPreserveAllParagraphs() {
+        val html = """<article><nav>目录</nav><div class="muye-reader-content-16"><h1>第一章</h1>
+            <div class="muye-reader-content"><div><p>第一段。</p></div><p>第二段。</p><div><p>第三段。</p></div></div>
+            <footer>下一章</footer></div></article>"""
+        assertEquals("第一段。\n第二段。\n第三段。", TomatoParser.chapterHtml(html, "第一章"))
+    }
+
+    @Test fun titlesDirectoriesAndNavigationCannotBecomeChapterBodies() {
+        for (html in listOf(
+            "<div class='muye-reader-content-16'><h1>第一章</h1><nav>目录</nav></div>",
+            "<article><h1>第一章</h1><nav>上一章 下一章</nav></article>",
+            "<article><a href='/reader/1'>第一章</a><a href='/reader/2'>第二章</a></article>",
+            "<div class='muye-reader-content'>第一章</div>",
+            "<div class='muye-reader-content'><p>目录</p><p>下一章</p></div>",
+        )) assertEquals(html, "", TomatoParser.chapterHtml(html, "第一章"))
+    }
+
+    @Test fun onlyKnownPublicFontIsDecodedAndUnknownCharactersRemainRejected() {
+        val markers = "<style>DNMrHsV173Pd4pgy dc027189e0ba4cd</style>"
+        val body = "<div class='muye-reader-content'><p>&#58345;&#58346;。</p></div>"
+        assertEquals("在主。", TomatoParser.chapterHtml(markers + body))
+        assertEquals("", TomatoParser.chapterHtml(body))
+        assertEquals("", TomatoParser.chapterHtml(markers.replace("dc027189e0ba4cd", "new-font") + body))
+        assertEquals("", TomatoParser.chapterHtml(markers + "<article>&#60000;</article>"))
+    }
+
     @Test fun idsAndLinksRequirePublicHttpsHosts() {
         assertEquals("7276384138653862966", TomatoParser.bookId("7276384138653862966"))
         assertEquals("123", TomatoParser.bookId("https://fanqienovel.com/page/123?foo=1"))

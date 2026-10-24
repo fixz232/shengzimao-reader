@@ -237,7 +237,7 @@ fun OnlineScreen(viewModel: ReaderViewModel, navigator: Navigator, embedded: Boo
                     Column(Modifier.padding(14.dp)) {
                         Text("书源与网络", fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
                         Text(
-                            if (tomatoPage) "直接访问番茄公开搜索、书籍详情和目录，不依赖聚合引擎。正文仅在官网公开且可读时入库；遇到登录、付费、验证或字体加密会停止，请前往官网阅读。"
+                            if (tomatoPage) "直接访问番茄公开搜索、书籍详情和目录，不依赖聚合引擎。支持已识别的公开网页字体；遇到未知字体、缺字或登录、付费、验证要求会停止，请前往官网阅读。"
                             else "搜索会把关键词发到启用的第三方书源站点，需要联网。若长时间没有结果，可先点右上角「检查服务」确认内置引擎状态。部分书源使用 HTTP，传输不加密。",
                             fontSize = 12.sp,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -497,7 +497,7 @@ private fun ConsentText() {
             "番茄小说说明" to (
                 "本项目与番茄小说及其运营方无隶属、合作或授权关系，相关名称与标识归各权利人所有。" +
                     "番茄页仅访问公开接口与网页，不绕过登录、付费、验证码及其他访问限制。公开可访问不等于已获得转载或再传播授权，请优先支持正版平台。" +
-                    "公开协议研究参考 Tomato-Novel-Downloader（MIT），保留来源与致谢；本软件不承诺目录中每章均可下载。"
+                    "公开协议研究参考 Tomato-Novel-Downloader（MIT）；已知公开网页字体字符数据来自 ying-ck/fanqienovel-downloader（AGPL-3.0），保留来源与许可。不支持的字体或缺字会停止；本软件不承诺目录中每章均可下载。"
                 ),
             "责任与退出" to (
                 "请根据您的用途自行判断来源和使用权限。若不同意，可返回书库继续使用本地阅读、导入与导出功能。"

@@ -424,9 +424,9 @@ fun AboutScreen(viewModel: ReaderViewModel, navigator: Navigator) {
                 InfoLine("数据位置", "应用私有目录，卸载即清除")
                 InfoLine("在线搜书", "聚合搜书（SoNovel）、番茄小说")
                 InfoLine("开源许可", "AGPL-3.0；保留第三方组件各自许可，详见源码 README 与声明。")
-                InfoLine("番茄说明", "独立适配公开接口，与番茄官方无隶属或合作关系。不绕过登录、付费、验证码或字体加密。")
+                InfoLine("番茄说明", "独立适配公开接口，与番茄官方无隶属或合作关系。仅还原已识别的公开网页字体；未知字体、缺字或登录、付费、验证要求会停止。")
                 InfoLine("内容与免责", "作品版权归各权利人。请仅使用有权访问的内容并遵守平台条款；不保证第三方内容、接口或下载持续可用。")
-                InfoLine("致谢", "SoNovel、Tomato-Novel-Downloader（MIT）、Rhino、AndroidX、OkHttp、Okio 等开源项目。")
+                InfoLine("致谢", "SoNovel、Tomato-Novel-Downloader（MIT）、ying-ck/fanqienovel-downloader 字符数据（AGPL-3.0）、Rhino、AndroidX、OkHttp、Okio 等开源项目。")
             }
             Spacer(Modifier.height(16.dp))
             if (welcome != null) {

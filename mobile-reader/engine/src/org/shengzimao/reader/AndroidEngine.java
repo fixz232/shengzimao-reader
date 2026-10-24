@@ -255,6 +255,18 @@ public final class AndroidEngine {
         if (value != null && !value.isBlank()) target.put(key, value);
     }
 
+    private static ChapterParser chapterParser(AppConfig cfg) {
+        ChapterParser parser = new ChapterParser(cfg); // Source applies the rule's crawl overrides here.
+        // Upstream nextLong(origin, bound) rejects fixed intervals, including an intentional 0 ms delay.
+        int min = Math.max(0, Math.min(Integer.MAX_VALUE - 1, cfg.getMinInterval()));
+        cfg.setMinInterval(min);
+        cfg.setMaxInterval(Math.max(min + 1, cfg.getMaxInterval()));
+        int retry = Math.max(0, Math.min(Integer.MAX_VALUE - 1, cfg.getRetryMinInterval()));
+        cfg.setRetryMinInterval(retry);
+        cfg.setRetryMaxInterval(Math.max(retry + 1, cfg.getRetryMaxInterval()));
+        return parser;
+    }
+
     private static Map<String, Object> append(JSONObject input) throws Exception {
         String url = input.getStr("url");
         AppConfig cfg = configForUrl(url);
@@ -265,7 +277,6 @@ public final class AndroidEngine {
         List<Chapter> toc = new TocParser(cfg).parseAll(url);
         int start = input.getInt("start", -1);
         if (start < 0 || start + data.size() > toc.size()) throw new IllegalArgumentException("源站目录已变化，请重新检查更新。");
-        ChapterParser parser = new ChapterParser(cfg);
         StringBuilder text = new StringBuilder();
         for (int i = 0; i < data.size(); i++) {
             if (Thread.currentThread().isInterrupted()) throw new InterruptedException("在线任务已取消。");
@@ -273,7 +284,7 @@ public final class AndroidEngine {
             Chapter current = toc.get(start + i);
             if (!current.getUrl().equals(requested.getStr("url")) || !current.getTitle().equals(requested.getStr("title")))
                 throw new IllegalStateException("源站目录已变化，已取消追加。");
-            Chapter parsed = parser.parse(current);
+            Chapter parsed = chapterParser(cfg).parse(current);
             if (parsed == null || parsed.getContent() == null || parsed.getContent().isBlank())
                 throw new IllegalStateException("章节下载失败，原正文未改动。");
             text.append(parsed.getContent()).append("\n\n");
@@ -300,8 +311,9 @@ public final class AndroidEngine {
         cfg.setDownloadPath(downloads.toString());
         Map<String, Object> metadata = details(url);
         // 桌面 Crawler 依赖 Java 21 虚拟线程和终端组件，不能直接在 Android 上运行。
-        // 保留同一套解析规则，顺序读取并核对全部章节；EPUB 由 Android 宿主转换。
-        BookContext.set(new BookParser(cfg).parse(url));
+        // 保留书源并发/间隔配置，最多四个普通工作线程；EPUB 由 Android 宿主转换。
+        Rule.Book book = new BookParser(cfg).parse(url);
+        BookContext.set(book);
         List<Chapter> chapters = new TocParser(cfg).parseAll(url);
         if (chapters.isEmpty() || chapters.size() > 30000) throw new IllegalStateException("源站没有有效章节。");
         List<?> expected = (List<?>) metadata.get("toc");
@@ -311,22 +323,56 @@ public final class AndroidEngine {
             if (!chapters.get(i).getTitle().equals(item.get("title")) || !chapters.get(i).getUrl().equals(item.get("url")))
                 throw new IllegalStateException("下载前目录已变化，请重试。");
         }
-        ChapterParser parser = new ChapterParser(cfg);
+        okhttp3.OkHttpClient httpClient = HttpClientContext.get();
+        int concurrency = Math.max(1, Math.min(4, cfg.getConcurrency()));
+        ExecutorService workers = Executors.newFixedThreadPool(concurrency);
         Path textFile = downloads.resolve("book.txt");
         long size = 0;
         try (java.io.BufferedWriter writer = Files.newBufferedWriter(textFile, StandardCharsets.UTF_8)) {
-            for (Chapter chapter : chapters) {
+            for (int start = 0; start < chapters.size(); start += concurrency) {
                 if (Thread.currentThread().isInterrupted()) throw new InterruptedException("在线任务已取消。");
-                Chapter parsed = parser.parse(chapter);
-                if (parsed == null || parsed.getContent() == null || parsed.getContent().isBlank())
-                    throw new IllegalStateException("章节「" + chapter.getTitle() + "」下载失败，未导入不完整正文。");
-                String content = parsed.getContent();
-                if (!content.stripLeading().startsWith(chapter.getTitle())) writer.write(chapter.getTitle() + "\n\n");
-                writer.write(content);
-                writer.write("\n\n");
-                size += content.length();
-                if (size > 64L * 1024 * 1024) throw new IllegalStateException("正文超过入库上限。");
+                List<Future<Chapter>> pending = new ArrayList<>();
+                for (int i = start; i < Math.min(start + concurrency, chapters.size()); i++) {
+                    Chapter chapter = chapters.get(i);
+                    pending.add(workers.submit(() -> {
+                        HttpClientContext.set(httpClient);
+                        BookContext.set(book);
+                        try {
+                            if (Thread.currentThread().isInterrupted()) throw new InterruptedException("在线任务已取消。");
+                            AppConfig local = buildConfig(cfg.getActiveRules());
+                            local.setSourceId(cfg.getSourceId());
+                            local.setExtName("txt");
+                            Chapter parsed = chapterParser(local).parse(chapter);
+                            if (Thread.currentThread().isInterrupted()) throw new InterruptedException("在线任务已取消。");
+                            if (parsed == null || parsed.getContent() == null || parsed.getContent().isBlank())
+                                throw new IllegalStateException("章节「" + chapter.getTitle() + "」下载失败，未导入不完整正文。");
+                            String body = parsed.getContent().strip();
+                            if (body.startsWith(chapter.getTitle())) body = body.substring(chapter.getTitle().length()).strip();
+                            if (body.isBlank() || body.equals(chapter.getTitle()))
+                                throw new IllegalStateException("章节「" + chapter.getTitle() + "」只有标题，已停止下载。");
+                            return parsed;
+                        } finally {
+                            HttpClientContext.clear();
+                            BookContext.clear();
+                        }
+                    }));
+                }
+                try {
+                    for (Future<Chapter> future : pending) {
+                        Chapter parsed = future.get();
+                        String content = parsed.getContent();
+                        if (!content.stripLeading().startsWith(parsed.getTitle())) writer.write(parsed.getTitle() + "\n\n");
+                        writer.write(content);
+                        writer.write("\n\n");
+                        size += content.length();
+                        if (size > 64L * 1024 * 1024) throw new IllegalStateException("正文超过入库上限。");
+                    }
+                } finally { for (Future<Chapter> future : pending) future.cancel(true); }
             }
+        } finally {
+            workers.shutdownNow();
+            if (!workers.awaitTermination(5, java.util.concurrent.TimeUnit.SECONDS))
+                System.err.println("[engine-download] workers still closing after cancellation");
         }
         Files.write(Path.of(baseDir, "download-metadata.json"), JSONUtil.toJsonStr(metadata).getBytes(StandardCharsets.UTF_8));
         List<String> files = new ArrayList<>();

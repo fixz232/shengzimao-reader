@@ -6,6 +6,7 @@
 ## 需要的东西
 
 - JDK 21（`D:\java21`）：`javac`、`jar`、`javap`
+- ASM 9.9（Gradle 9.7.1 的 `lib/asm-9.9.jar`，仅构建时使用，不打进 APK）
 - Android SDK build-tools 36.0.0：`d8.bat`
 - 依赖 jar（放在 `.tools/libs/`）：`rhino-1.7.15.jar`、`okhttp-jvm-5.1.0.jar`、`okio-jvm-3.15.0.jar`、`json-20250517.jar`
 - 桌面版 `app.jar`（37 MB）与 `rules/*.json`
@@ -17,12 +18,14 @@
 在手机版工程根目录执行：
 
 ```powershell
-./engine/build-engine.ps1 -JavaHome D:/java21 -AndroidSdk "$env:LOCALAPPDATA/Android/Sdk"
+./engine/build-engine.ps1 -JavaHome D:/java21 -AndroidSdk "$env:LOCALAPPDATA/Android/Sdk" -AsmJar C:/path/to/gradle-9.7.1/lib/asm-9.9.jar
 ```
 
 脚本仅从桌面版暂存的上游 JAR 读取公开代码与版本资源，编译 `engine/src`，重建核心及适配层 dex，并输出 SHA-256。Rhino dex 沿用步骤 3 的独立产物。
 
-原始 `com.pcdd.sonovel.utils.JsCaller` 与 `VirtualThreadLimiter` 必须从核心 JAR 排除，替换为本项目提供的同名 Java 入口：分别转发到 Rhino 桥、使用有上限的普通线程池。仅移除 V8 DLL 仍会出现 JavetEnginePool 缺失；目录解析也会调用上游虚拟线程辅助类。下载通过 `ChapterParser` 顺序读取正文，不使用依赖 Java 21 虚拟线程与终端组件的桌面 `Crawler`；EPUB 由 Android 的 `DocumentExporter` 生成。
+原始 `com.pcdd.sonovel.utils.JsCaller` 与 `VirtualThreadLimiter` 必须从核心 JAR 排除，替换为本项目提供的同名 Java 入口：分别转发到 Rhino 桥、使用有上限的普通线程池。仅移除 V8 DLL 仍会出现 JavetEnginePool 缺失；目录解析也会调用上游虚拟线程辅助类。下载通过 `ChapterParser` 以最多 4 个工作线程读取正文，遵守书源更低的 concurrency 和原有请求间隔，按原目录顺序写入，不使用依赖 Java 21 虚拟线程与终端组件的桌面 `Crawler`；EPUB 由 Android 的 `DocumentExporter` 生成。
+
+`CoverUpdater` 也必须替换：Android 保留源站封面，去除依赖 Java 21 虚拟线程与 AWT 图像处理的跨站封面排名。普通 `needProxy=false` 书源必经此路径，不能用 `needProxy=true` 的单一测试代替。`build-tools/AndroidApiRewriter.java` 使用 ASM 9，重写原始 JAR 中 executor 工厂与 `ExecutorService.close()` 调用到 `AndroidExecutors`，保留上游其余逻辑；构建日志会列出匹配类及调用数量。Android 适配层自身只使用普通有上限线程池。
 
 原始 `ChapterRenderer` 也必须排除并替换：保留上游的过滤和段落格式化，直接输出正文与标题，避免即使下载 TXT 也在类初始化时加载桌面模板引擎。Android 不通过引擎渲染 EPUB/HTML 模板，EPUB 统一由宿主原有导出模块生成。
 
