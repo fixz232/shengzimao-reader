@@ -1,0 +1,1094 @@
+[
+  {
+    "index": 10,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://ymcdnyfqdapp.ikmmh.com",
+    "ciphertext": ":_H006_V6GeOf6zCHu0yTUuYP9WX5MPO8o9F1nw6sIP6jW8+W93exkXbgKmFU4NPatyOBKQevgZxZHHBRcX\nIoD2eHxYqbT30dVpe+fq9p/XzE7QlKI=\n",
+    "plaintextSha256": "c5a8f67ced181799851871df3792a236f3e9a93e885a3c4966f7c94101ff37f2"
+  },
+  {
+    "index": 10,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://ymcdnyfqdapp.ikmmh.com",
+    "ciphertext": ":_H006_sPG1w66mEIVYEESsjRArhA==\n",
+    "plaintextSha256": "b701f28d920626cdca8e092a60e913b617df6d5da4486ef9aae465e635e68f30"
+  },
+  {
+    "index": 11,
+    "field": "ruleBookContent",
+    "sourceUrl": "http://m.ymgjmh.com",
+    "ciphertext": ":_H006_rD5jjJDiwEW3X286Wcwf5PoEYOXMbyw687OFcGTI3jA=\n",
+    "plaintextSha256": "b77b3e33a427e2ae7bc4d75f5e8851a31a90f34ae1c6cede7c52d773f998f0dc"
+  },
+  {
+    "index": 11,
+    "field": "ruleChapterList",
+    "sourceUrl": "http://m.ymgjmh.com",
+    "ciphertext": ":_H006_8TUGy4nCZtAADTJt8T2JMQ==\n",
+    "plaintextSha256": "56cdc892d3a346c714c09b5a3423f869875e49596ede0096ea311a0d6b248eec"
+  },
+  {
+    "index": 12,
+    "field": "ruleBookContent",
+    "sourceUrl": "http://www.2animx.com",
+    "ciphertext": ":_H006_0vLCkAWWXGPpZPcDDzXZ9CbFCYZ+LpKwLU17O5P9HIfL1Yy8DXbBuD7I8gFkJDfa1WB1nA6t63gL\nRMBhLpHNTxZCs/3XdXhlx1juzTBpLvkVpKkPw/mTlVESURG8UK8Ec+Wi+hECQfvprcQUAIRXZmRN\n09JG4wraBVYW8CyT+FUX2R8TuMmuTJdBiFueYHIs4ajzXIbKmb56+G3dsPZyegsjMcaAaUQb1uC6\nBJlLG1ZgI70ybdelXHpabyVzfAptNAXuqPy7PGKw/ywH5pRVsHy0tj4opezHtrWKWMSxm5t9o1CK\n1hjOVnQ2nVFLN6ZEzJwb4Cf+609wzKX6aSeAehtV9RQNbbgGblEKhz4uBFHndduuFjLC2rcgoNAb\nC12+YXksFnVW7n1n+yA5f8eUmqf8nOUxAcAqGfHgVmRudZutOsiVf4Rz3NZDcy1ijzrfxNmRk6LN\nh2TVRwIhh2AffYMe7gtXOqLtpLicQUuIAV30ZnXdxhZT8QefDBWxgnE8yA+Hf/4qt9TC91Y3Gz6u\n+UhP+sueqqaJG3F8ozgSkNYAIuvTWaXZjIsMOIL2YEBucDstqdaEus6lTFlRSGd2yqD9OS3LM9qT\narh9kDHInag=\n",
+    "plaintextSha256": "6880483f95c59f9d4378c17f4c56784b6f40f01463e3025fdb26d75e0e561f12"
+  },
+  {
+    "index": 12,
+    "field": "ruleChapterList",
+    "sourceUrl": "http://www.2animx.com",
+    "ciphertext": ":_H006_3bN9EdMuhY0Zx7ZStoygWagzlUF5d4KTq+dCrSDe4Vw=\n",
+    "plaintextSha256": "5d0718892cdfd537d20cf53822683b228c110dda77342a559ac8976fb9591282"
+  },
+  {
+    "index": 14,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://m.ac.qq.com",
+    "ciphertext": ":_H006_IPNaAzUuEQ5s51U+msqWPd7ya8A420ZVBFawLbmR/KFQ6GyVeBG1rfVXFkR414+Rr0ZM8ltmgBwU\nvyvvoL1kxzUWHP2O8kpetbe9wTdZUqyjkg6pBOPEbdzWABnrTqKqItd2jwSbcD8Fa1DjV7lnSshU\nUvNOKk2bDgaxJGIVURdKqwxUvIA6bT8b29J8XzptZpKoj26pSuHpJ7SzypcKnq4gPAlYkBEnTRGF\nWsL+CuNZoKyxfuKhBl3n/VQJDTzrRjhbRaQojBh3WBmB0S8oE4F12tK+MIfeEGiRm//W1ACGJxRh\napHuXfvCT4iIXv1SxOV7lCAiV6hYWxJhLqXfOgJxqVLDGtrpmFVsKqziVfhk4mVC0RwAK6/7MYxQ\n6a5hX3ecFSJHgfkbzHEYNWWlF5Ke46+NdorZoHauF0BI5yYYNsSALBmOkwuhbDAk7tA70HjKWiZh\nZVvNuwvnVIn0UtcL5wg5f/eiJqQq3k06tGm0/QWSZes/NcL/9Bav4jmsjiWlmWV2FB3QgcIhK/A1\njVNjwQiXk//rm9ZaozW1VzXMKjh2WNtLtuaNGgsrbMscZ/Unu/CVKwz/7YtfoS9vwjrPTw1RIc1v\nIzTS/N6CAZ1vrgiN2EN6jbRiQO6L5XXkYnMLHMjyvuqrwOBKRNXY3+yRrnIRfmk0QK4D8ph6bD9L\n5VzupDNUaUV64TnGxkFw61mN9nl+02KQqoi7FSySsncHfyEY00r7nXQitGtP/5fMkPUiT/Qg/w4V\n8bvR1LdRyKUWXp33CRwyBK4r/y/sofzTYVcl4TYzOVTmcN+pJX2U/cH/NWLuM6M18pm2Qejmw7qM\nsgZ0vSGghnVgq6weLP/vQEWYqTvi9ZmGDgfhIvIKsbLcDgttLHV5B6huBSEG\n",
+    "plaintextSha256": "11c5707df635a77183d5acbc44e1bc7f51adadaa9ed0f58dde5a63b2ae018abc"
+  },
+  {
+    "index": 14,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://m.ac.qq.com",
+    "ciphertext": ":_H006_y7Zpkw6hjU2CM+8YLBkOVn7wunWZDzfjkRo5dYqF/Oz5tU+ieDEuE0sONuYk6kEV\n",
+    "plaintextSha256": "c8f4d280d0c8ac5c1ec1fb090e77561163d0313b2022cdbf61435a02a4d56b02"
+  },
+  {
+    "index": 15,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://mm.sfacg.com",
+    "ciphertext": ":_H006_ClcL6IMPkZ0d03KNMB3vOdfRBMelmfxuPv2W/m463QjbrWJjrReCVdhpZusU2klwGdrQh64NsQXd\nqmGb4C2R145cb/tap8MB86oILEoA0jRkjT3+BnBUOM3RkcJrLd9H\n",
+    "plaintextSha256": "d5e24e8f6984bedd8c1dfe5781ae3b438db14865aa692c395a1fb82a897dfdd4"
+  },
+  {
+    "index": 15,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://mm.sfacg.com",
+    "ciphertext": ":_H006_sOeCKrYZuKP5CW0TmetongXPQh0XCF09bt5SBsqp3Hg=\n",
+    "plaintextSha256": "6878b56d77f0ce50af867c1e1e9b56392e163fc6c208d6f4adbe3be48a2a467a"
+  },
+  {
+    "index": 17,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://m.comic.naver.com/index.nhn",
+    "ciphertext": ":_H006_HsIBjqlIadFiPcxMcObLJQ3ty7VZbHn3L/DQxXNgp6Zw2jFlK/1nVIBmKOuTNkwu\n",
+    "plaintextSha256": "093a77ba6c1a7ed1496a15dc0127c6dc9a169bdd482fafb16e38b6bbf647cdeb"
+  },
+  {
+    "index": 17,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://m.comic.naver.com/index.nhn",
+    "ciphertext": ":_H006_3zdD4B+BzNBWm5VGhSePzugerxdS+8RX592TxLQsJeI=\n",
+    "plaintextSha256": "e2a2ccc02beff5c2da1c0866bfb4731ad0e59d75b2047f6f014be95a9765de77"
+  },
+  {
+    "index": 18,
+    "field": "ruleBookContent",
+    "sourceUrl": "http://www.zerobywgbo2.com",
+    "ciphertext": ":_H006_tlMRgZ73c1tubrYMUCjzcY3zfqcctoDprMGAJV/D5vlfxlrUhdk0wzl87bDZQzns\n",
+    "plaintextSha256": "60460e8786e339fca3befc853486697af93ba9da485f597360091374dd88a61a"
+  },
+  {
+    "index": 18,
+    "field": "ruleChapterList",
+    "sourceUrl": "http://www.zerobywgbo2.com",
+    "ciphertext": ":_H006_ntgUerXEi3I0pu/9atBA+w==\n",
+    "plaintextSha256": "4a4aa4f273eb929b80aebc4089fcfc0bc08094e581b20153213f341ef15a8393"
+  },
+  {
+    "index": 19,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://m.gaonaojin.com",
+    "ciphertext": ":_H006_vexHs3sLb0+tFuZl7JzNgsFdStS4FWWcCpyHqRB72vnzSiidII+V7c/q4S9Qkw1VKryYUHHfq0S3\nKKUKDfnMlwHiHoJWFOvEO/45v/VS9nkSF18ZfenGQEmtgSNG8DDwR3SdFOxgtF0bOnMHFEjacazm\nQPF2MQxxFgeP36gbiacVsmewUMF/uXBqjkkxpgG0Spi1T26P7em8Cw0uTDV9K7+FWNsml3caQYQ1\n7Zgl4a+/+OHCOJR2hXBPgQLustSo7gmu1ySyt4KQn0HAb+4MUgeO6IG1VdSW95zNvrDdijbZeqKS\nNk7jYDH1r+L9IUtqOGt9XKtQmSIzaS+sF1qhvFVS088QtuWOPNA/c3D+aK8OV8mxq3J2V5xf4KnO\nHGxlizDfG2S604EB6zCzGPYcrw==\n",
+    "plaintextSha256": "5f8988c8e92f71013ccf84915fbb325298e650690bbe044c4590927ea7985f3f"
+  },
+  {
+    "index": 19,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://m.gaonaojin.com",
+    "ciphertext": ":_H006_vNidBwwf42cdxK2YdpvD6DV2+FDiE/vyfr7cTyyxbLU=\n",
+    "plaintextSha256": "9d4a2ff442bb1ddb7cb4209942821df14d1f32be7023b5e42ac0059104ed88e2"
+  },
+  {
+    "index": 20,
+    "field": "ruleBookContent",
+    "sourceUrl": "http://mangahasu.se",
+    "ciphertext": ":_H006_vOQ2EW7a+P47LwFaBdOxUWM5hpd81DNuIfRoYy8T0s4=\n",
+    "plaintextSha256": "3c510f9a668a8d16d6107d62a6bddc705e18e93baef3ce4b8533008deb900d17"
+  },
+  {
+    "index": 20,
+    "field": "ruleChapterList",
+    "sourceUrl": "http://mangahasu.se",
+    "ciphertext": ":_H006_sABmW/vipU3YiCcF4WWuw0tzngfUAlfC6eE6H/6j250=\n",
+    "plaintextSha256": "8ad3ac337ff8c53690600f4755e3a7e8a902e1e065d59149fb7c073edf4b0987"
+  },
+  {
+    "index": 21,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://www.xmanhua.com",
+    "ciphertext": ":_H006_UxK6OSDp/pvRsMZWKmdJDxHxttmDJ7G5neLK1O+GDW5KEqUs3B6Kj6AWDVSSuqq7GPkvnNswS+mC\nJl8q5YW67BcOo+yTZcLVTm2yrY0NZPY=\n",
+    "plaintextSha256": "e298b6c535d10f464a9e2e84017bc41bb65bd35e5df8e44f8686d76bbd60da71"
+  },
+  {
+    "index": 21,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://www.xmanhua.com",
+    "ciphertext": ":_H006_BB6ULgpxVv/JCG3OvcSJdYWG41J/v5bIXkDSxoQx2pc=\n",
+    "plaintextSha256": "c923fcc49f18f6014138d859958f87aedfe4c0cee87441b458a9d8bbb606aff5"
+  },
+  {
+    "index": 22,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://xmanhua.com",
+    "ciphertext": ":_H006_GYK9NA/ms9m/us65P/a4hBejfOS6SpFI3wTfT9dOQv0dYB0VzoJfKPUU19I0uBeyP5200URkIOfu\nHpJNqRHBw+WSGpcye8ZwIBieqbesZCovsHbVuTVoGcjdRcBxJdwGuxS+Ch05TR2lALC5oSgNxeAN\nKfiF0AyDw4D4kOv5XAeWhfvntMlFSfN/w5Vs9r12uk3QLfEtYdUtCOoE0vH2k7N3PwcUzSBcq+f+\nhimJseunApNr2Pv3hJSs4VXwj/8BNaBrBCuz0ROroKat+v63Lt+/AghpJkwi+qU89rf4O/3b2BfI\n6jguSqUYPhuQc4UUT/hPikg2MNFXo+PB8IZ1uM4ZXdLped3UIpaTROrNShyz1gc5y2EG+GCyxJxz\n8bpKEEV/gCekkq/4aROn3mce5ygzZsasJQUUm6htBXZtu87WOEs+FEsfzaVCNT5CXjQhwL164nxa\n2eCI852E+4iMlC+3x4MD0YszYtGh+qIutF183skrXOHk//kjxO2LfZhKBoI4qActOr0P2HxzHpot\nnI3pqhUpkAbmV4IBHfNFrST4qVyIrASW4kJodlP/sYX3vJmuA5eCXRd/AWYRBUUh/YYsImXvU7G3\npkbiKNPKbXNrxepbeijnowmGt225d1znRZmuTs6CayZK3G3GxJ6MSZg/6nDuRjBxzjBgRgaflbBO\n4yj3gN5yRM6JwOtpE6zVZGi4JJze6CTQ1TBWW3oKHlZ0xtAIahUHufNQACcqoZt/6/r/pE1K0IYW\nk7cyAw04ZKwEct0ver/Ap8NPPwl44vgcU3soj8h6kewrY6zfiyMMtrRLcTXerEBtU6xBPaIEMivw\njO1Lseu+Zyj7HnVYHmVpKM4MzA4RqEqQv9GVMDmCjKMxWvk5soM+oKUnMFG1BozytUcUZ53dlDLE\nCnx04avLdREQUJ9ZVbPuRX1+Y+i6kEQRswEMOsGifFC5oTM2M/ANCDI8Mm/w+exLG9Rc8ZHIqC9M\nTcaH65OzNZBvnjWXfZG4koLtNQQBoM8awLOXtZv3d+/knIpQQdX/J0/pNw==\n",
+    "plaintextSha256": "cd15f7f7ae1be2c6c9437d288d26d1ece345a3e42cde843fccd6803adc806478"
+  },
+  {
+    "index": 22,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://xmanhua.com",
+    "ciphertext": ":_H006_SMDy7MjAmIFvp+U5vcj1JTH//IDgYj+POZb77qIBYXM=\n",
+    "plaintextSha256": "a69b64245c51f88d516696c9f34c4f6b126f32c6a7bcd33426b9cddb96c88daf"
+  },
+  {
+    "index": 23,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://comic.bh3.com",
+    "ciphertext": ":_H006_owxWyc4jG8XuD5YQ86+mwbAfBm6ze7Mnp8YS2O81l24=\n",
+    "plaintextSha256": "d693bdd82e1ddebd9f6a2d4207c87addb7d05452750c7e33a9321c00338c3e81"
+  },
+  {
+    "index": 23,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://comic.bh3.com",
+    "ciphertext": ":_H006_MK2asNCy0H0kJ1tu8BI8qQAawUiKkQPqG33/FHyQra3WVOuICmAUSaAusTSFNJB2\n",
+    "plaintextSha256": "dfe69a1acc1b5051d47e65bf2942bb4ba4c047dd3af12ea37e78452a57f68a85"
+  },
+  {
+    "index": 24,
+    "field": "ruleBookContent",
+    "sourceUrl": "http://www.90mh.org",
+    "ciphertext": ":_H006_NU79hII1dG7vCRf133IXZt5PRP3u4fwddOrgnXYDMSXCmUTTmaDI3J3tEP46heqGpuajNVGoqIaz\npKLn22Nv6G2puWK3T6M6nHlyIagqy9ynrY6XDMSFKCpZ0hHVkZcpnuIGZMwZWvn9TD7NgGHC0V45\n1jpI52S6hY4ckbiLUeNBr2SFJb5C3lf3OTuN3uYIwclIs+UV/Or3E6wfEK0teRtHnNJIRzZGkJEp\nf7K0pGsuivnzALeFTM9Nbar2dW++YjC3xy8TVvyQccQoQu6iZh0yjrIK024qYDIHZL0gDl6SkpM1\n+9AHHxlcYJCgfECIIK/k7ziAfiJzmoy4/qI5x7ae4xeT/GcOI5bFgFSBCjT4r/uZA6kCSv5lYoBy\nA7CmD+lKccA6/95uP+Di8Co0BpBGfX1Ticd0T748ewnw3U/jRiBh7Bkid1RLLYiWNqN8twuf9FIN\nr/INIVbQ0bR88l6Gecak09sFTbc100jGyJhhJS36GeL6QoQFP4pdM6uSQJh6Wxv2pgcWCZ2oRg/j\nInEFd4VgInsz4s7N2ymeyNsIAG1LnTEPhCwS/wFZkueRxKVYXmDwMGp/FoC1y6MsciszjW8GPyn8\nVTU8SykQ+60Lenbq4ssS8gcYHC7b4r/Ht6SUAKSn0VXjOKBH0lRXgSqaun8DU307n2cY40KVDUHB\nKoVj81U14Lwh516r8nFZRycTbKbLstlIvNrb2Glq3ZuWffA7oPrZ5ZoR0uxs86bFQZyGHxSo0SVe\nWhcxBxkv/4ytM9dnn5DrgXsQUTkkcLOcyZev/kInw7I66sbyaw/Wb7Gnmb1VzO1Hx3Z00fwb9lU0\nvcXF0c4CwbaxTMYygPcJTIRlUzZGalCOzGzsGYp3vj0PbeNXKiARxfs6SIkBzxKfg/a2lQDaxsvT\nPl689roxDvQEmttcP2222BT57BB1G71aDLZ8ev8vfWDmMWbf2KmtdYxc691InJhthrKn83wWcHk1\nwosR0dCzfbLhk8E=\n",
+    "plaintextSha256": "d88f47d5d5a8bb11742435bb4d25e059a339601d970a8e91b5e87cb6e6537606"
+  },
+  {
+    "index": 24,
+    "field": "ruleChapterList",
+    "sourceUrl": "http://www.90mh.org",
+    "ciphertext": ":_H006_7jLg42mN7+48GX3j3xAygRzchImYqw4T6WrlgxEAmuMyCt1xNuh0pv99hoCa77y6/L5JsEs4G3wE\nHOtLsjlcOI4vNe9SRIZNOJrGIdSLqGkF1S+9b4AjcroQMwxxgYk5WppdLSHxWZO0DKXSJMpbU7Ph\nszXrmOeEz967LhqLh9YGNxX9NamVVQSZF+P/x6NJSwzJFc9bPyh9Rk7TNjD0Z0cAgVguBDgG0kbw\nsqbHpEhv/jNNuNJPypckWmniV6FJMqm1XHsWc8mrtsXcImP5VNPofg1lQ/2+aSiZIBlRKqRQBbDU\nbYpbdxG00sh0d3skKh3miYFqKv8hK5FNPr6qIy79Nm9jITc3bWrkE0giQu/IC8Ba0xvTpePxZPp5\nRSCE/DXc610ngTq0qhakRegRZ8RgB/L528IbbgnLSz0K06rtZA1BrzPYTlFFK3vtyTS1M3+uGbpU\nYm+24KE1cT9lYjgpJJHjvS1i86n+JjBdFZg=\n",
+    "plaintextSha256": "3e7315f9436bb9d9d94380016370fac9b44381739c3989fc50a788d2f89203e6"
+  },
+  {
+    "index": 25,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://www.setnmh.com",
+    "ciphertext": ":_H006_UxQmLG2iuhzJXYCxcxw/HFKJAJRGFTARlE6rDiWgbWbYBK0zCN+igcAIfFXMh8/I164eFaxdoPYf\npnB+wq5IMhKVmOYd21P7sru844gjMOVV5rhI6I+6Cj219AXpqW6H7Z3DG+gfWaVu2DYzhRn70+xb\nWGnM36N1y+LSQgyCiN59fJw5cKj9sFb1f9byxSZS1JwAG5JuX0zf+DYe4qbOqdPGkisE5uWcGeCA\nAqKbfBK/FQndceEHYm59fIrECW5l6YRvWMeoRhiVbbIe8OYssJuU4+D2Mql2JBt6ShYHQt+UoUC5\nSxC2kVLlhl++lh1dRvNlNgA/GeczDR8hQ9V5EvGWIUgzCqpvGew/9Yso4ebVIZAkzwW3bRlnOBGM\naVwNHVy7vTETpvTJugBMQZVZbdIOxb6PiRHcFEK8yPmwZXWcVFyVaMu5UZPdSsGQvaYCaCsEDHOl\niN2EZyRB0C7enYX4Iup1RqH9QG58HM9YKMK0K6sOT4ZwApS0vjyZelmUhLJaIc2qFW2K32FEsWQ5\nlm9IERdy9qsyJ5tVYVNaItr4h3z7N/UrLRtmFPUParAGSjZtYS2nOioxkcqqNZAzuXunBAnew5iD\nDP7aDukQC5Xq5jGlwdKweORK6n+dsRdo/YwHzTxPmUB7HRLys4OxS3GPoTuBMXZiFjG0h7BuMgnS\nvFQOO7bNBd1C/J0mnZPcgjlbljj/nYaJP3H8v4W0XANlOG+TERqBr+noyxCG4E2RexeukOsQh58G\ntAudVyDih3vVwakQ22jkK9LxzYBR61o2dDTRwvPfllqmt7cecs5Ut0wUVxHZzcYLnAUPWPTVBVDk\n3xqHnVhZ5FCB6fWPz4HHs4h6/ixxAvzY+ypC/Ikv5YgdL52Rm/nzeCE117mMG79jD69L+H1L2QWL\n/CmAnSKfWx5tOPBP4eLpWsperje7h4e9m82vJ9mEz0X76SJsMgtq0NAUhFAbgG6OW80Xg65X338S\nMEu/QX/FNiwaR48wXjS4SrikYiRf8GSAfPn+/jvxP3szEcS6navYAXHu7fITdoqvnIrIL+KlzIZD\nHNa0LEU7STeJEbC4VSWxTkgtgtVXsyK6QyOzETCUzS3+f9VGJTPgeYsZo/8dTYopJXR4cAErmdSi\nh1YG4QzONCVaVmDiBSdxkEC69cS0+oVLcbrZbECm3wD8Q0YTGVl/6A8=\n",
+    "plaintextSha256": "947d12b37a15a74dec779c29b4e9bd0814c9e4d8decfb3d8ebdf14cb0d807853"
+  },
+  {
+    "index": 25,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://www.setnmh.com",
+    "ciphertext": ":_H006_UvdKoqb4fKe/jNrhMcA2OSxkQASRAeAczm38H++1Y3bsBSFMKTHaI2DeUGE9e5hewfp7cLGpPLP8\nzevtgQlMIaulkeYvq8fr5WcOO9kMdSUnm6mb4HS4wo8wqHqFDBkTT0RchbLL242NcXcjHsVYcg1Q\ngYljtHpTc671QnzHFs1pjxqX4uOHmFB6R/xqKQEfFmr/8UrOhRwIjCDIegJfBqySFtTxe/lhz0BB\nwwvSr0bwRNOi5XKkZtmnADZWUqnqlA+wHAaysTu4zUpPmEncke9i1XtBrQXLm3YPIonIHXWD8jLZ\nsWtv5R+u2O9gl/E9huPJQ7cfke+Mrb+A8yx3K5++rvkG7+U8izH7UowDyd47ZjKcCvDFVaRJIz3W\nAGVT7GGjtFEFm+eNOp3wDbRJXEgpxUlgNVlx1USfR2ubPKldAHfvNfizBLXIqSPN0YXG/Xjgzon/\nlzd1kvkWB0gRRQ9iXjzA++AjWTtg6Mv1HqXQ7PoXaf76Of0wqLQFOvML+jLZrjStuGKp1aNvPw9v\nvKALHr6YTC6QHsVmCYYYidNU35h7kxyXRPSRYdXQ3VlDRlze+Ff5WgBKPLNECCemQzP81+UKCcHc\nHla1pjgDHpKiwZc3w0Jstm42bUvk4g/uTglug14R9ib949O57yXD/D9BTrdro+JRbqePdzUlRDc+\nsOkAUnzZW6w4Efuy+l9k6640/pnVU1kh5H+PVd3eSatOJQst0pfvoqCMEYmrj0Wx5v8J7wAFaKQ1\nkP2ghOTGEwr3mR16UHa/QBmugfhnTg==\n",
+    "plaintextSha256": "24083fce0e46608a1f4040ec14f59614bfb4d383de97e5d97d7fcfd636d26942"
+  },
+  {
+    "index": 26,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://tw.manhuagui.com",
+    "ciphertext": ":_H006_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\nTJ191wTgGr08PB49k4XF\n",
+    "plaintextSha256": "323dbec81008aa02ed9163ae337c1c8415fb99312f39271699cd9874a9a21338"
+  },
+  {
+    "index": 26,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://tw.manhuagui.com",
+    "ciphertext": ":_H006_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\n",
+    "plaintextSha256": "0f609b56d7e3c0a73159dd6b8746c8cb24e4ee30d3b19223d83d6baa16f0a9d0"
+  },
+  {
+    "index": 27,
+    "field": "ruleBookContent",
+    "sourceUrl": "http://m.90mh.org",
+    "ciphertext": ":_H006_LmmW008EUSKtUWOKdNB/E3ZFUuTdDlIgNkVSAt0nNac=\n",
+    "plaintextSha256": "46bb39da4a597b1d215bdac6e45c3927cc77abc9c97c7c56015e3657148c06a4"
+  },
+  {
+    "index": 27,
+    "field": "ruleChapterList",
+    "sourceUrl": "http://m.90mh.org",
+    "ciphertext": ":_H006_4h/4HmI80Wp8HLkEfAQND5syteIFZV23ejF83ERDNAgfRQf6en8Jqs7yiwOMi/0Cfna1CCNhrIdM\nyxC3Zba6xce/tlt/7lvrhCbtxQ1433/hE+FsG57XYHo/RyVwv8nXc5DKa1c0wxwm5qootnDXX4Pk\nLXFIZc2p/dx+LmGhor2RbqZhcqvoVz3FvS2FDs0IyR+QqdN6SpQTpOcYH+0ufN2kBK/zNCJnbdCm\nEisFbjZ/KZogYYlRFpMXYHJtwfmBfSUV1UuJ3AqxRMwTRuKtpCLK92OxNPIGcgESpCHHbbKdSFJL\nBnHanKLL/xvsltG3GIFvwDcoqzFLh7Tqj79I0SvnBamoUYqhQlx+fNA8edvDE/k1/UxSW0RlAWtE\nnQmvrRZt41cUx7mBSJwqm1aapD7WEKcuQaN/N2tSVUyvga2lMVky++jB9TRWur8s7MwjRsG8C2CJ\ncvBN+dogb8iNtAYIReGPq+DISDdqSzs483M9/05CvWNurd9DxR8ZMKTG\n",
+    "plaintextSha256": "bb25166251410ef8e49f4524a9c21098ec0398a2667ef31dd434d692bc566e97"
+  },
+  {
+    "index": 28,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://www.44te.com",
+    "ciphertext": ":_H006_Bw5JPdQcciQSX82J1h+sfkhmxw4AdTBkQsA67o/v6b4HEUyp7b7mL9HYxkj2L4aKdXE43v5ytz71\nMac7tdzTXw==\n",
+    "plaintextSha256": "9818f432b13db0bbc6e7d93e0cc8d903f2ebae577f5c9c9beb196b2e75d3edc4"
+  },
+  {
+    "index": 28,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://www.44te.com",
+    "ciphertext": ":_H006_yXvUcvAsz/I1j9ovww2Pn4R6ed/IWUBJO7JZQFDeBdg=\n",
+    "plaintextSha256": "fce308148aafc75ee419237372ff21aae05e08ec53bcee65ed4fc73ec3abfc7c"
+  },
+  {
+    "index": 29,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://www.mumumh.com",
+    "ciphertext": ":_H006_TJuulQmKXDxPy4h3tJOWDrWFoUHbzwpeq094OTui9ZvK4SxbqLnACxrxY1KLdD9u\n",
+    "plaintextSha256": "8e47ddde20f1706ec7fd5a025041ced8f582d517928bab5bff739df6c6379245"
+  },
+  {
+    "index": 29,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://www.mumumh.com",
+    "ciphertext": ":_H006_gxY9Lr35GuBTzyz/PIQopbZyzQviGik8jelIinzUinA=\n",
+    "plaintextSha256": "fc9e34ed1da8a506ca905cce0a9204c4d2e1eb5769c3e7723fb67952bae224f1"
+  },
+  {
+    "index": 30,
+    "field": "ruleBookContent",
+    "sourceUrl": "http://www.manhuaren.com",
+    "ciphertext": ":_H006_NSPsBKZS0OOchw66WktD6Wg9iDGnWl1iwQLNgfguAgdJoTo97NHYOa2xS7IT/Pa9JaE+x/iG41K7\n5DwEpI+/L8EaSwBbHnUmHV9dSWd7tgdhr7ucJjL+MHAIif5NMOtA\n",
+    "plaintextSha256": "10a1ff41afe5bd098620ac0c361ee297420ec9397853b2df7ad461358929ea79"
+  },
+  {
+    "index": 30,
+    "field": "ruleChapterList",
+    "sourceUrl": "http://www.manhuaren.com",
+    "ciphertext": ":_H006_pcaDTL12ON/cGv4SRE922KK/U+L4oj2S/ipkAxQLTLXlWLrNIEGo56iqgpIekhcT\n",
+    "plaintextSha256": "f770f280023be12354446573614496437d8c8a7c094ee74dcac334ab676f9201"
+  },
+  {
+    "index": 31,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://muamh.com",
+    "ciphertext": ":_H006_L0YpBDT4Y7h4TvcHtfKvmzrZiQRH7poVuhQksR9/zZ4=\n",
+    "plaintextSha256": "cd48096dec332ee2b2918a31095849fa8dcd35680d0f8d205362c99d6c29bbb8"
+  },
+  {
+    "index": 31,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://muamh.com",
+    "ciphertext": ":_H006_PoYMLcopoVrhsCy4VQJjrsSR5InUBplz1HwCkJhRvnw=\n",
+    "plaintextSha256": "ca8f3287aa53d0a58effb6f105fcf8fe55a2ce595073dc89ff550745274e2131"
+  },
+  {
+    "index": 32,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://www.dongmanmanhua.cn",
+    "ciphertext": ":_H006_Bmrz4M96uMzpDRCxMFt0yIxDWtkIkjHmuD6/TDa3d47+ta26YusfQBNRBI2H0p9uBfZMzWdXk9fI\nXqmOwqPLpg==\n",
+    "plaintextSha256": "01667e879ef5c85fa8389ff9730dc6e63f1a2b0aed03b370a15bcd4421059fa0"
+  },
+  {
+    "index": 32,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://www.dongmanmanhua.cn",
+    "ciphertext": ":_H006_jOJcdYJYySjmzjy1Vko4IZyjP0t53ZBFj7WRVtHf9ks6t7IbBvn8wpbhKGJJL7YjZVUG0pjo5na2\nAIm7Q9wX5d0QRbUfcN3ZShQNyIkkipmr23xtzNCuVS/lcK1u8qMQ2989l87CS9J3qjmGmlBrrBiR\nlaS6Vg+Pqnec34Thepq7NWj9Py+ADD9S8M7vfEpNXA9Ims09jLY0B/6ZUYJdeJYTeg5+dXEylTeI\nvntQV5JANepZemOsIbAuL8DsYAknkbwdgAQYlRtWwAnZrt1jqecCf9BOdVMz/+Ro9xJ2dGSHUzD1\nL/oUuTTb7SXYrDn/JFE695IVEeggW8ZIbqkMzpOTWno6OGXWPvC1Wips5GuKV8LT0GgxIgBO67ox\n1U+q\n",
+    "plaintextSha256": "d5154135a20eae95172f90aa25bed6753c5e083a8d4551d88ed57241494d46ef"
+  },
+  {
+    "index": 33,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://m.manmanapp.com",
+    "ciphertext": ":_H006_YJc3HWk9vBeonovump86eaEZ6C2ZcEL7mOWcOgDIoJZFkh5Ecbn6y+muD73hsCxE\n",
+    "plaintextSha256": "667a8ec6bc0bca406ca411bb77ebfd8f5ad5aec22d85fa8f28400461b1e284f5"
+  },
+  {
+    "index": 33,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://m.manmanapp.com",
+    "ciphertext": ":_H006_by7rH6ogxBGuj5tpXtWaxaeHDT2P9u1TMpZsRXLfUMq4RQyJaYgUtuT6wjdhX/2oJWqDdkh1HMWI\nDvvlvvGTAGNigs6QusAbk2i22iTTuyiPA4u6Xip2/pjvI2m8T3lvy2wIk4FyrXbcPqYl6H8WigXo\nx2SYpRTw24xDnTRh/fadWUH3z5/2nAN+TO6zYgFT5b1XH3qCOeQIXjqXkfCsBSLhtHlkGxQMT98i\nElWzXP3iW8qa6Rze1IKYyu1gpxn/QfSV7XcGOVoL3zz1SC3IFwnPe7u0SEkx8BDz3B15/wjJWvgX\nsK21+EahzNJPCyBt88Vj+3pzG0Bu/6h8lcq2JTnw2HNfA5Pf0eG+XcjOcM5dePcK5nt3g4E2PbFy\nvkVQKVtUw+wsOP52Go1XR/x5fdyJKSpciYvTShBUUTvJ/6B8KoLMObsPwkFRCFa7ZdsAuZ3aAytx\nCyvDbynI2tjlNsayrsycEwT32vad7fVYWA0MWQNEzTmZ4hyuBwMsRSb2eN2PvfOjqQXUgoyVLdX9\nVpqz3a2Y+6/eA3HiOL1WaLcQfWM98FsiYTTL5ni4itS2jh2h5JQyh+Wk1sp7SV4VIKRyWZvF7q2D\n0nXuq5xUayXn1FJHbiL3nEagPq9uwkWJoiNKM8YAozyatQzyVJ+GN8DZyV7BLb9hbm8a/YfiJVr5\nhkfMIG643JVIfKkiBhmuiRsoOPd9l46rIFgHDZgM8u+Wv5WD08y9BM1+gtfu3wJtUflIEmmKu+Ef\nunCVvRaQdW9saDvBirPktdb4xakkCE+N7Vfa5JhuljkhsgC7f0uNPfd/mW4AsQqwX6VSeFF8mdPB\n1C5hGCDznevfI8qqVXTs+pohTV0w4OAKDOHB8sVbsPN+DRuSVM5az+uiQbdRM5v4LkIL2diiEMid\nRGfV+E/VzEovHZzTgIZ5VsQGWqc=\n",
+    "plaintextSha256": "852cac2e435614885a0eb068c784d5051734818fd2a57781c70cebdd16ec6a94"
+  },
+  {
+    "index": 35,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://comic.acgn.cc",
+    "ciphertext": ":_H006_VYbAaZDiJDjv8cx72tspHPWFOIAGB2WTTWVhCNV06Sc=\n",
+    "plaintextSha256": "88d893be471686c1fcf9d9bf62a44a0bc8f648f7f8a761e3bb3bdf7cc687826f"
+  },
+  {
+    "index": 35,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://comic.acgn.cc",
+    "ciphertext": ":_H006_S8p9oFy9mXflJJemEWABMKEtZxCoi2GP1gGNIWaD7sU=\n",
+    "plaintextSha256": "faf46bd1b10d017057a73462073c0bb672d3b7d94679bc1bcd5784c3cfb7ec62"
+  },
+  {
+    "index": 36,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://www.77mh.xyz",
+    "ciphertext": ":_H006_3+eo7/m09Z0xxzbL0fu4ZUR7ENd/Jazg57scQowu02nVnosKgTMyD8Kp85ljI3KWAlUqSJdSLZHY\ns/mMdEW6TshhdkqYQoik9RzNXj2FXvBwAZp/kl4jozOLu2ztgFcXeX81AlsWwvHnpBTJDkdr2Ae8\n5Nb/e/ffCUJc/XZvKLT2e1zdAILcuyKPTWzBCmsY0Wwt3b698DnSGYPwM0xy1YYSWfKnSiTALYu1\nfzy4wLPQZiXg0ZA+RfSWjNHFXwu/Hnv4Lui9CK5yqh1oKVkAsqfrokKIHz0G8seT2UYE61SQSblQ\nxuBYt9YiQr83mi7MfpXGah5rXbbHi5gVncO7Txt3aHFttDVbOSjVtHjntIoYqfbpm1CI/3hxYSrA\n2QmClrQEpd5jl4foP16sHKTgYxFuEIQyXJmwmCyFEju4a6EYWjFwido11X2zBIISzBq1Q4m1nZGD\ntNqLH+4ZkLuV8mnvRboypV0psKvihqkssVPOnsdFsk2tr4m7MdAFBsGhmrw4FsKfACQk8bcEVQFM\nnU1lIOIj1neZizSm+Z+48qpx0SExUdlauYoIdwU918jJ8DjhQHRinf1fUvPju+0BGVFbpsSXDcAE\n0bmPKJ0zHUOYWrE5FCiKIdKeZYToDlSIRE3tKtuU9iL8gJ+GK3YXJlQuVRoc69JvLz3+gKrXSv6u\n2LNxSI9P0v2IG139Jn79EMNZ462cTy1wZUHeEFQwWQ==\n",
+    "plaintextSha256": "dc80c5f67f470d3539d7ca46e73210a9b87d24e3355cfee675a5cb96333afe42"
+  },
+  {
+    "index": 36,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://www.77mh.xyz",
+    "ciphertext": ":_H006_h3UlCglklSGOJeiE++4MvbJqiUTquv4fgGDohCpOYs0=\n",
+    "plaintextSha256": "30162c5264106facbedbe93f6f67f5ee6714a30533e3f1e6998478b766589b8e"
+  },
+  {
+    "index": 37,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://www.77mh.nl",
+    "ciphertext": ":_H006_BPeOOGO/o556FgQZvjXK3T9TQdT00vjQSRCDOjoT404rlw+o78coviWLpGgTa1xB3O0yPzk2BJj5\nF/z3SCRtHjQtr2gPEZKtsSgeg/zuKlYTI8w/D+49IGzW1Ul1r4jNa+Psy4Tb5Gg7yaOc4Pmo2d5h\nKseY2z+NRUqlrBX4owUuw0wa0r7SYYTD5htG1ugClvAiP6LMEGpsiuZTCe/6vyduWanVUwBrDfCf\nCjD85e8=\n",
+    "plaintextSha256": "39d143a1552edb25f0eb1fc098e7ff2cfd654f465ddcc4e19d32969d055a3466"
+  },
+  {
+    "index": 37,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://www.77mh.nl",
+    "ciphertext": ":_H006_/EzOlBpNDSQf70m6MLfWrIKJaCCpb5hC+9FQtV1kbII=\n",
+    "plaintextSha256": "30162c5264106facbedbe93f6f67f5ee6714a30533e3f1e6998478b766589b8e"
+  },
+  {
+    "index": 38,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://m.gufengmh9.com",
+    "ciphertext": ":_H006_iLmosRCSfwZSPzVUm2uluxE5YL8zk3Ip6hR91vKSMyRPMc459I/e4J9zRE4AQFF63Bo/wu+Wc0uT\nxTVI3eNCMLMBw4C4LKyYyRCE1/4Bz/q2AAf8qm+pFyrMmuZXf+i7RYbpD51DhhL2DGoRKe17wVhJ\nW0tcXsgA8YN2RzMTxDtQTGQROiBNEe8VUgmY+go3RZCZmy1JnG2jXCthzLMLl/qvFsCscLAlQ+0g\nJ/Ef7BYXLvKEHvywu2D23+DhpPlYprUe0332uH5E820hdVEhNyrFmDpH0lS7BFmBWHcZnPijKLN4\nRYHkDR0UteeSE06HUJ5FUByEY4c2y4H4Aoz5oTx31XUdZaevtGB0qb6uFhRcKKcAK8HwLH1LxLJy\nEEdjpp2FlQFwmHmcB4WKQp4U7fmT1dWin4RE5Vlmnl7xryf/DLr3Igl/rbvLFtNe1kiz0vOavNJb\n9RAbwgRD6TAR1ixCgi9+hpbXB0YyXKjpSU+r59tJSEQ8bqBA5OtVGYccW5VUWWqVe+EiqidJt6Xq\n7KqOwlw+D8AF6h4vXOdDOlNjDPuWvF7TheYHCS3/mHNqoolZKs0eKoAAKRooY9R3NzB3uhloa8d1\n/uIb4mn774aiEuLhY8LAFUQRAg0oz3z3CuHVYO7JUQp1vTmlwafB+UcFfTTZlyg5yh4K8k+08aBC\ncDW4WXtDZ1GQihyt0ZnKaEUonDEijwki38arKS270RmUUhl+I1+wq40Zyx8V8+reIcc8IASXpYO/\ndbQ4OP7Ss+4LpOcNs/urSmTIdYptIZcxSqK4E/4Cz0oIxPwh27M=\n",
+    "plaintextSha256": "7bcb9a61aaf84e17ad0f6366c74f4981ac2d55a4d9929c2bdbb5fdfd9592d11a"
+  },
+  {
+    "index": 38,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://m.gufengmh9.com",
+    "ciphertext": ":_H006_4PX35fA7n7sFc/TERkRIHdLcGRCnK4YUIJFSO14Ypxk0EK4h/nbkPYFRMv44C5zCA966qjg9pN6d\nCY0vlKxB+Cq1aam1MOinhJ95TbFauf2uVlcVUpLBZR3pf1krG4Orjq59zWXCCC3L98JDDeXFuORB\nIyo7hbD4DkCW7/WwbnuBL7bC+YZQ1q1nkQSE98NgJmNzK+JEAP8xjZmgneH/1WBxp+6IO8IIMR6X\ncAj2AjciJs6nSBAUy1c2jPqPkN0A6Ff2Pnp5G8kn6QzGTuNER//Bf6OstW/vqFnfVYW3V4SrZhdf\nVemwwXRahWCXN2NIvTpzyNihPkviObBtdIlvIr4xdQcTBrqtSjc0p9ijnHMXMI9nzv9l8LV6DGZJ\n7ZNeF7nHAb6AppHS9U9YAj2anbZ41iyj/GlOFoK4fm00qyttTAHyLMTj0pLXzOfKTpyTzqjhtIm9\ngS3QorQtBhzyCONwTV0mGrAvlzEy0AtOp3e3KBqmVKZzMF4+jEhMnlRb\n",
+    "plaintextSha256": "bb25166251410ef8e49f4524a9c21098ec0398a2667ef31dd434d692bc566e97"
+  },
+  {
+    "index": 39,
+    "field": "ruleBookContent",
+    "sourceUrl": "http://www.1kkk.com",
+    "ciphertext": ":_H006_nrIuzhJuT1FIXAS5go99EgD7hTOBJEP3HPOzH1oO+HaAr5Or6yPscyhXEq08wvy5PS1EMrs4EpvA\njPm3wI05WES037URF/AxSEkDDo12LzH7NhJeDRVdEBoDSB08QxnKxThFNPw/qZd/zkkPsYLHM5He\nPMrUXNhpyJTowSIZKkHL/TFlD4/J0C/u9A9zlnqeP7k2B67cmhCfKPfBzaRJJCTGFxMVawLWw+M0\nxzWyPcKaeOUDroLdMZGOUyxGlUph2aLpFlOF0WzzsTudKtKSUA==\n",
+    "plaintextSha256": "a4f318c56f4ef1d0d513189847e0b09b634727c18d07a97ce568fe3e657a7797"
+  },
+  {
+    "index": 39,
+    "field": "ruleChapterList",
+    "sourceUrl": "http://www.1kkk.com",
+    "ciphertext": ":_H006_5bCVPp2ep0iQbR3h1AtyXo+wNl2uEUbSNhUM6pVesfUgHvLUfJkqKYxx5zRgHlr0\n",
+    "plaintextSha256": "bfdc943bff28f4f0d058a0855180dd8571cf81c35359f6b4feff21506c9d6daf"
+  },
+  {
+    "index": 40,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://www.mhua5.com",
+    "ciphertext": ":_H006_K648NHlMVpJjfnlnsQKTYxThQRSLXRvZzjpbn1i+S58=\n",
+    "plaintextSha256": "d852bb4cf41f03f42f8a4c612d4af04b312ba2f4947235bfa9d078d3f8b6065a"
+  },
+  {
+    "index": 40,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://www.mhua5.com",
+    "ciphertext": ":_H006_1byeP5DLBRwuWiaV5q7tLTMtn0WBI4v7dRQh8vQqzcQ=\n",
+    "plaintextSha256": "780ee70b09bf9244be7e5b2dbd74f827bc4f025ebd1a95999625e5d153f42cef"
+  },
+  {
+    "index": 41,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://manhua.fffdm.com",
+    "ciphertext": ":_H006_WFtQsVPbO/9cXpjNr/ldyVB3taom4+4MhF9utb1/a9NZZeFxShHE+aF76VNYVM8/AGKhkIFJlbw/\ndb4nUuJ3Xg==\n",
+    "plaintextSha256": "d81347ca4e71aa360baf770048ff2ff376e2cd6e5ab19e88a94abc884cbf0205"
+  },
+  {
+    "index": 41,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://manhua.fffdm.com",
+    "ciphertext": ":_H006_2QWM2oV+J+hOTvpGzeTyu7NtQmDAfyI6tv5W53Zcw2I=\n",
+    "plaintextSha256": "57f3b271fc93ab270d4427a9c4919348a77275b7e43973721720d5bfa81c538a"
+  },
+  {
+    "index": 42,
+    "field": "ruleBookContent",
+    "sourceUrl": "http://www.hanmanwo.com",
+    "ciphertext": ":_H006_Kyzpv4qJ1ytacNdHr0Gdj7CogguaAuraPQeLYIyUc98=\n",
+    "plaintextSha256": "5cac025628cce7e48f60b5d3fd5f3d0eae48d7f87e9250a9c747ab79116a583c"
+  },
+  {
+    "index": 42,
+    "field": "ruleChapterList",
+    "sourceUrl": "http://www.hanmanwo.com",
+    "ciphertext": ":_H006_yLytZGBPKpIQZV/r14/1juD3I3WBHQxbGE6iqUv0/20=\n",
+    "plaintextSha256": "c58792629c1c8b621f1740c8f0f350f046d5802b261972b2bec36726e5336d8f"
+  },
+  {
+    "index": 43,
+    "field": "ruleBookContent",
+    "sourceUrl": "http://www.dongman.la",
+    "ciphertext": ":_H006_jLra4nV64zIM/5LdxYpfpVcXORpASqsSjQ+LVh72H3GyteOI1C+OpQJh4RSgmRw1\n",
+    "plaintextSha256": "9c7e519f5809c0dfd3614606dbf97886090b55971dea4024ac63f1cd49076afc"
+  },
+  {
+    "index": 43,
+    "field": "ruleChapterList",
+    "sourceUrl": "http://www.dongman.la",
+    "ciphertext": ":_H006_kUVE/n25+OL0YW63RgX3vee1rzimhpPk7YVzjBMFcSI=\n",
+    "plaintextSha256": "7245ff4e722287fb72966c17ea5551194f0bf36129f64af6a45c1199d77bd330"
+  },
+  {
+    "index": 44,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://m.dm5.com",
+    "ciphertext": ":_H006_f5lSueYUvp0wlUBKpeRomMyT6YQeBBCAayFPeG1bC8LaYU2myAqA7z33/wBbBTYWmuRUFm912/+u\n+xAAnOHy4q2QkYWeTpp2kiwNPwgKeVbXG7eyyp7mw8qpEVYnlYAI\n",
+    "plaintextSha256": "10a1ff41afe5bd098620ac0c361ee297420ec9397853b2df7ad461358929ea79"
+  },
+  {
+    "index": 44,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://m.dm5.com",
+    "ciphertext": ":_H006_fA+QctF3irI/0dCJTTbQa15Hl4P5Wv8k9nbQcXsupR0WqlcC+0JgBqbfSq+BIwRpBMj8MlezVwj2\ns8I+X06Fe5Z1XFrA+Nx0eMwI2uwWcBrbumpdaWR0hgQNPvMR7Rf1k8c6Xu94QDo7DKdMGsrvYl4i\ngHYGCsN5kau53MYcbsoZGcM/iCZZYqwqdu9/ErAwLT4yuA4LqZJurnirPsUL6QatpePB5iQU82q9\nrMpCvzip7GX10s2L44HzL5W01S0HrLo0o3VAmZA+HT9VJJCR6ylyTthjkLuVVO3e5LjOAo8XElhD\nvWcxrrzuR9kzzxY8wgVfEWm/zC5MN97tkBcIDwZBRScnjpBB/5JoPS7AEOUgbrkbjJvcSPGV585H\nLLf2RgWaftnRuz18S7gzVJ7OFG13noAYu3ecVI7kQvNDSAuM/zEba8WpocJ3/hfE574zr+tb72g+\nqugUf3q1S7xLbmLJHpweedsnDCQNF2lTGrjw/egzcX18my2mTGImjpS1MmIf6ZdOQVx8A3LMSQNh\nGGwmCdhc2KRVmXPlUQqVEfifJhyv/C6eSMap70BC6L8njial1GGj1W3TQQ9Pe5WTU2fnDBv3+wNA\ncfjmev0T82ya6x517Xi7djEdXXFiBDowgbV8aws4mpQzj5/O8HA/B7IGEHiqMajQtNeVXQ2Afjgh\naLhIdtNF8/6mV5gB2yJ26bBPPCBlUoncnAudvF5xQgPsT4SqZvEsinrsmniitpIwSZ8vuQ8MfDAO\nk44fCbNaXhSyEnPG5daioWyWCXxOftRNQputIChF8l3V/cvkhKyCFqo7fNzpALv8bHQHRjSxr/0c\nQGlu49AzxG8IK4LvPZDKjmqZRcOTHsfMmWj2CILNood35vk6tY/ijNHjTxKrtKdr4pIZfY7HbOzA\njvpTGj5hY/GeyxZ7HQlE0NHEdu5HBpb99X+mWYmNDmau5KDij/cjuyJ8XSsZJL4qm4YJddy06n8s\nFpnLS2rBYntrLhwLtBbjn2YnKWoLODXUEx7t\n",
+    "plaintextSha256": "15a5eea75d41138c5ce918fcbeef26916ef3660ebbc89a45c9ed9e5943d59add"
+  },
+  {
+    "index": 45,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://www.roumh.com",
+    "ciphertext": ":_H006_Wg4w2Nqo4nPWcXCNap4FZ76rLbX7Gj9RIdusFFniS+vEshVoXW0HV37jSrab24Pe\n",
+    "plaintextSha256": "8e47ddde20f1706ec7fd5a025041ced8f582d517928bab5bff739df6c6379245"
+  },
+  {
+    "index": 45,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://www.roumh.com",
+    "ciphertext": ":_H006_iEWnCQyXml4L7S0shTCSvATrNAi3EflDoooJElQ1m38=\n",
+    "plaintextSha256": "ec252d0a8564a65b0e586ec8106a9ad5424ad6b501611eb3b77c38565e1e0485"
+  },
+  {
+    "index": 46,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://www.2nunu.com",
+    "ciphertext": ":_H006_oyTjO0cZiZxpMjvpn0qR24zR115fZAclVE4/SGqc3oY=\n",
+    "plaintextSha256": "1058b7fd4b155d6d8a0cd2fed84bbe1c46fdecb7c788876982dbc9e02f042181"
+  },
+  {
+    "index": 46,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://www.2nunu.com",
+    "ciphertext": ":_H006_C8zjxJf7ClCb/lrGyYol+Y3bI5eTQ8/t77GqJAf41Ug=\n",
+    "plaintextSha256": "2d0750ed4c4f4b102a6bd72d2d52a44fdcf68d8a15a59f5c977ce4cc44b2acf6"
+  },
+  {
+    "index": 47,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://www.manmanapp.com",
+    "ciphertext": ":_H006_nPUsQ3UW7Chy66zQ8aOwfsgQy6YliSJ6lQ9bpdviV8Q=\n",
+    "plaintextSha256": "e65798ed9f2665bb89aa5cc8226f15b01c95a4872f2ad5246f864475c43bb73e"
+  },
+  {
+    "index": 47,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://www.manmanapp.com",
+    "ciphertext": ":_H006_3jpQTUG6YEA8HvuGUt4h3ar8C2VtppnDiT/tpChFvvmwzm67y0JLCIiwGeVBnM73XPwTmyj685y/\nJ6KJw5kRBi3Msf1X4Z2ZjbplYP1ufQTsijF3i5hNjXDsXkAC5ET2pX5Rno7HXqK8NF1VZdnFBj7S\nnBRYL3+2/fqvN2w3Uel2b6T5iJLD6AeqKV8qahPa1oZzm2Y4R5dqWDRunnnl/gYVzwFcQC+nmF+t\nkxWPXtCjjG3/v4ctdp2XYQ3YonYue2SXbQlg3yHg05ukYiI/zzhZcGEpFez3Jd/im/TRq3v65Umc\n09Y8tQOowjL9zryf2pocyL1zCi/Y+F3Z5vX8GIylF+2FL9ZYJ7qSpstC2l/BEL1W2bEcIysQZLCP\n/mUGHgOyMgrqw/EcDL1FyDVz8Vo9m8ehWlpX/e6KRxAGGs6LeFbZFu4Qffq62pSm2viot9CPsxjJ\nWPvrLbxL1QJe5NkkqQUvpc2qpdlyhakPEDivEhvaHc5PI0jdUgecDGjKqdXcCChnFSIgCFjTt929\nQ06sQlzucEReqSTT7EQTHNeyRDTyBidsg9Vam8FbJzyqhxE8vK5I2PtkuihZoMQanLFBZlXlT6Xv\nqIG/JQ05PE2glyKd0aq80tcOjyqjGorMJd4LEYrVFu9Q1MpVxg1EQaLxbkaCaDWB/vc4MS+A7HqD\nAJteNkg2ga0xb7WgEooVegydub4GwSlcBTJLMw+0Z5qAZhV6w4PCXLSf9rJU2Ob0gHLO2WNDFywE\n1FJyS0PexQSnmv2povuLX1bwdjvt4FDjySNxDuLO7gXa1ykNUARA7Jg5W3TvVRhHR7DH5A4pD9lY\n9ezpOgDeb4cj3uwLY52dZdv4BJsOF9myhTxLWVD82D8n3nSgPXqkcSoMhJtD6eOQCu/EpmCOvRBK\nJ57qig==\n",
+    "plaintextSha256": "fd8bd09e783f9df25ecd86949e39b7ed2cbe74ab8fba8fc5e0d471079c7a7971"
+  },
+  {
+    "index": 48,
+    "field": "ruleBookContent",
+    "sourceUrl": "http://wap.ikukudm.com",
+    "ciphertext": ":_H006_zfOwQF2bY3IBjdJ03+lH85ulLZFeKrQ7lMXxVGwiRxu0cJdcsXzsDCLgd7NPFeKXN3W1hfuZv+z3\nYy4+B+3sIbWB5zg0ugUM+W/NydgaJltZLgeGqsBeX9JuBfH/4810kVtQgNlrr2uz5AM6pff7zyTD\nNuCJITk//9sx0p6sz05shQ+/t39JHG6sIQfotZ+qTOr045EJ9uDXx4itXTdJfVuUerT9GIW7dN3B\nvzMTCSt0kHBgeKfNX2xC3kU8+hXQmsaTozrPO9xKfN8K1fTR0XWOVb66Pkgn9+0QrwrUnWH9TVez\nfmKFuQ0iHw3osrxGxxArIleGQtZoPwMaCzRrzAZRIlDssA9sw6DM79vKZOw3PYmjz19KngLrRUcT\n/df+48MfqINdSTm39/NcK0Vp1uy6Yl8rYmkJS0zT8NuG+ERx0+Wg86umEOWEca3ypirOtJenJSKK\n6QGqtlYmU31h5aP5jrSBvZY837hiLPUFfsZfN5+rSOGtD3epciz2ZlXGIQ2gkYEBXpkH+zPt5jr/\nt69mE03lSGYaSeYgBb3lV0mvUsdyjDgVLKRdinELjXOXX5sYsnZ7Zfee7mwkyYieznWXgWL5bwI7\n72GVxs5YybY=\n",
+    "plaintextSha256": "8fb134bc398268801c7c6db018ed3e0b885cfebec6353c4ce443e24599cb1acb"
+  },
+  {
+    "index": 48,
+    "field": "ruleChapterList",
+    "sourceUrl": "http://wap.ikukudm.com",
+    "ciphertext": ":_H006_3qcwvy7DSpP7YtHm+KaPnQ==\n",
+    "plaintextSha256": "1a7c02d60c1975818cf1abb3bb03c65a0bf6808f85f4746e673f778b2215d0ce"
+  },
+  {
+    "index": 49,
+    "field": "ruleBookContent",
+    "sourceUrl": "http://acg.gamersky.com/manhua",
+    "ciphertext": ":_H006_cJNTIxMxTrhXR5bN4sOgKqla/9zyDQGinFW2RHtseCM=\n",
+    "plaintextSha256": "fdfa19cf134f87183e86adf30e615b392b1579c26b9cecb1d7e9e0091cd9f768"
+  },
+  {
+    "index": 49,
+    "field": "ruleChapterList",
+    "sourceUrl": "http://acg.gamersky.com/manhua",
+    "ciphertext": ":_H006_GpcaJpeftxGSJV03SxE6tKl5A91IyJBZE72gI1+xDrqSzoEnTrxDULdBEeQ6mV05MQII+NUJF2DW\nDVYdcmsrCgKwMsL33bTL4hqfSyyqFmk=\n",
+    "plaintextSha256": "a0ca54c252d2c22760a1b8e17aa09cb2494d93dd64cd710e6599c6da3e19d4ed"
+  },
+  {
+    "index": 50,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://xapi.xinmanhua.net",
+    "ciphertext": ":_H006_r/n49zozVr5hzWEgcgiPopq/emTYNK4x0Qm8+024FdE=\n",
+    "plaintextSha256": "c60e6542ddbd3a8a33227adc63da7895b994d65a599705807a442f89cd7ea150"
+  },
+  {
+    "index": 50,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://xapi.xinmanhua.net",
+    "ciphertext": ":_H006_q18e+LNigXNr9XvRs4LuD8NPHHh3jiNZVfUtOtJiALs=\n",
+    "plaintextSha256": "30695b06603c5ca9eeefbf49e3cc5087aa97fd0ca5df2a40e4cb668c785a1bcc"
+  },
+  {
+    "index": 51,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://www.iqiyi.com/manhua",
+    "ciphertext": ":_H006_slWanPheDLlPmC8qswG7D6x9tFY+aoZz90Ju7diL5J/ZKgxQKAmr6jFsx9FtAJiA\n",
+    "plaintextSha256": "b44c2a1580f54390851c8599621092b4856b679809d5d2c0b828a21865d89989"
+  },
+  {
+    "index": 51,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://www.iqiyi.com/manhua",
+    "ciphertext": ":_H006_G/3KC/YOO/rkXAcjNGH6oNiyWw3aV89Drm58S+ZfTIg=\n",
+    "plaintextSha256": "b10a9d5d12241e967eb0e1e1c264fd9f4e4263218ffa68522e4e4202f25c6345"
+  },
+  {
+    "index": 52,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://www.k886.net",
+    "ciphertext": ":_H006_xZZNyvvOYqGsb5n3ILJ/9mZekV7ZALQOvm7mVOdyp3YWqJsWp4V11YtSg0BARr78\n",
+    "plaintextSha256": "6f3587eceeba5f3304b3ec589293bf5ae1add25b16f027e995896aa234ea6cf5"
+  },
+  {
+    "index": 52,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://www.k886.net",
+    "ciphertext": ":_H006_tlEGHXw42ARv7DT1Pa4dDsBvR2ZooaC2DMCLtjVRfaM=\n",
+    "plaintextSha256": "4640e0eba5b08652ed31f58ac144a647abac58e116d1bf9ff5e19f0ab809877c"
+  },
+  {
+    "index": 53,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://dogemanga.com",
+    "ciphertext": ":_H006_zD03z1bB8NMi5916F2FsSK14JY/lPHs4E7pksfKBGWy7OZNF73Upesd5EoRlIr1k\n",
+    "plaintextSha256": "e6be33f9709ea1b42c50a9a89bbd5dea807d811eaa4719df0425ece219f71a21"
+  },
+  {
+    "index": 53,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://dogemanga.com",
+    "ciphertext": ":_H006_mjRLJIe0sIGoiVSTVsQmTlVCVVv1pT2hYfhMKWy0EPrQNh71mIxKBo1JKksI2c7c\n",
+    "plaintextSha256": "6074e43dbc936c20cc1ef5a2f7f9d404c890371b42d4ebd2606967f0e0681ae9"
+  },
+  {
+    "index": 54,
+    "field": "ruleBookContent",
+    "sourceUrl": "http://www.manben.com",
+    "ciphertext": ":_H006_6jXD1NM2e5Nj7vsgzld/eNwUxPHG1f6Scd28Xhzmx1DRbz8rAVJk/g2AJduhv1w+0q2DXuX8BbB3\nsqydd2VuXmFb4K0JlJZmT/9WHnyIFMQKtBVbi2R8MW/GAwiRGb8jJM0wketPdJhHzeqM9UeTq1lh\nFLnN5segRdvyUq89JishpsREJ0f1ei5WTn8FNnEcOR3AnEi8OrCi2uh1UZqARF/GK/HxHbMgP6l5\nFDZflOrgiMxHw6l/ruT7LZXfB4bVhjDE96vPRNOLYnA0X89Qtu202NmU+sHSWPOY+PkAyosDy21K\nBA5ATOVlN60nq7vd0968Yw99Sxq5U7l8RsddgdnjQlIy/euvp/HrrQ03l70+2zXVwQT3xkgYhOHk\nNAUdK4/0IDVO3Z1jvTfA4ocmOIIZOGY0qjPNcNnj2xTomWIobdNrLWSreGWc2YkRJEwB5l7H8Ct3\ng3xPvrGUeu2b6GUfVYqVWW0iIZtSWC8SzgCs1lnkf6PrWQrVbgXZ8BbMwsow7+58Z3s2x3fowBxV\nYApo2/NE2cxh7tRJ5zamFqL9qQq2f4pwDVl7JAPbszARg5Zh2U+bDRoEGeoHQBKDVZ2w3Ty2bJ5U\nQnrWpUc4oH2z8r8HOba/ESWWqDiMK1L4Ofr1QSURW8w0/Gwc2/vM/hxPCK8+DSgHfTDYoiy1dFam\nDBVxMnWaGwSfFHlTAaoSIaGVF8rIgpyq/HGx8LahmdyYxoA6sXrdA4gb/pP8ectwarLHyghKNE4x\nTQL2maZQ4vgTSKjXR6I1S6uk9grtll22I0uw13lPFtLlf8NVnp1sqw43V/PSrA8leJpeF2Tfb4Wa\nBdmZV896E63Tqhtpbg==\n",
+    "plaintextSha256": "f368b46fb2e03e65d9cf579c1d8c6e3e43668097405cc370536ec9e2e7c84269"
+  },
+  {
+    "index": 54,
+    "field": "ruleChapterList",
+    "sourceUrl": "http://www.manben.com",
+    "ciphertext": ":_H006_8HU+jeXktgWoFVWpF6Xru3s6B+asE4JQpxihvjJLJrg=\n",
+    "plaintextSha256": "a69b64245c51f88d516696c9f34c4f6b126f32c6a7bcd33426b9cddb96c88daf"
+  },
+  {
+    "index": 55,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://m.dongmanmanhua.cn",
+    "ciphertext": ":_H006_9d37cG+QxlesGma2ggoXdjq67voNjdWhkv6z3pcBI2Qe76C6uTeD8tECZC+6qWs9bIygNpEyO+L6\nAKjZzHNqjFcYA6RVIN0IeZgn3n5CLp/508X2tEw/BTVKQZinZcew38pPkaTB83buCfdl57H0nMqC\nJ3rz1Ea4DRwxaxvuKrr4/vg322VG8ESTUWViPpBO\n",
+    "plaintextSha256": "6c5339e15e27f74839961efedcbc682c5bb42e86fa925bcb614865f9a53c7572"
+  },
+  {
+    "index": 55,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://m.dongmanmanhua.cn",
+    "ciphertext": ":_H006_6u21ycjpLKm+txCEuIN9Ue/Z5OzrmINBG6Pj/AqUNBU=\n",
+    "plaintextSha256": "565257f5e6dcee91213c0cc91d1f254b58aa428fb87401113cd4d5d845737f1f"
+  },
+  {
+    "index": 56,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://www.manhuadb.com",
+    "ciphertext": ":_H006_mNd+PTn+o2nhfkUcTikbXY1HSDPRppIKypOhFAAe4ErpzLOCseuU3tMm1HGc8Yb3zUXKlAkfP99j\nOgMKzQczp82ulEiBLNmkeOmvlJjEnp8CeV0Yc15wkTKyAq0zHIHKEQR267yTjoooA0Rl2EZb8+9+\nQKz7VzMenMemYDU/cgW4YmrbdBmUA2cWPqYekUp7Ert+KgIIKx595zAat3dPT97n9BhcxlswQGt5\noIxJcLl1d7h++1ldP0CfYSlke0u4K63vgRV6ToaGW/nUQ3CBif05NuH+ZBv6pT+AzzHSKlueWk5L\ncGg/Mk/eK34tK4kpsXlCl8QgoajbiBsJyAl9PGhQ+Or9T4vX8Buw8rs7N4rcIol5Rqx3sdkSuVUA\nJHyLxGYbBi1jECTnH80Eu/aSQD6sg+fQzZSjU7G+tF25iSt+94nMnwYHQM4Z/YOSs8SPUbZPqzAe\n2cIRsjc6JNXCnA==\n",
+    "plaintextSha256": "037012ec744ee6876f34453aaa633ab5603bc18fc8c8631463ac3d44e62772d4"
+  },
+  {
+    "index": 56,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://www.manhuadb.com",
+    "ciphertext": ":_H006_7SF2ViBsOQpmRfPQPdeLDXZy3+jRUbUAXQaGpN9zGM12fGMVRcdRdBTI+ovC26B9oK83oVXsLJN3\nfvxGMu4M/87EuBZc29aiGLUTJ9+Haq9Nf9ohe8rP5nlS56e1MPiyopc2uxTJo/64Bmy3uEgNyg==\n",
+    "plaintextSha256": "4d321488b26a5063b4bbc96873e6b08c2d266c3ef1443699fefeecb13a472add"
+  },
+  {
+    "index": 57,
+    "field": "ruleBookContent",
+    "sourceUrl": "http://wap.veryim.com",
+    "ciphertext": ":_H006_5PYh2zyVJ7QDcDMKgY32OOMGyH+dGDjzBigR8NvKn+GOXIwQoI7R/qLprVlW+8VfTXE+OfG8+fDF\n4I2KwliugFoVjFnziBdQLMV53uPgXi62+pRyeplsgBcTMihguL32JyYrAM9Yu7xKZGuoCe5xAhDS\n1mIV3o/VAKBUF8YXu4ur0e8eQKBwO05H1qIWeazVWuxGW8GFlSRXTXiZy420qlFKbAXNgmpWUSTH\n+3N2m+bUV6j3afzxgtb5eDc13YzrsLQJ6+cfOqGIEtHthddf4NfWkrHJZ0nKUvUGxz6IlMdb3JMg\n2YqJsW4i6cKBZo1Qb+F8o+5mvM/CZ274gOUA0BP4FH0W0CBUjsicPQ+u1zs0secbEyH42e5QyUVk\nCOpEMrqj5EhufJ8elKDZOrIVbZEK75yXpAb2pzro5BRJtkYvk0HmU8SfUy5LTDTC7t5JyD5a/7If\nB7r/iaR5j4gflAuKlc5uXYLqpeggnE9tDkcjJ9PPZJdgG0p+xGVM0AgUV8as5CyIvce7pdLFleWq\nfLx64Qd3D3NOKTUhwnJ7FqGUQWMYOOhTGVh3BwUahMTQ0AQ6isK5cmyiIJCJdHSYBVAS7FXMWMXW\n/bA8k58ocKQbMVHSQgwt4UZCaCkEUHeNlo9nDkMufCayUAQ1SN9jeAYG+Ocw7mwTi8PRwiLB4Huq\n5a8v5TesjGaDibxUNbgOUMAQ6Elv1/dO6xm7pUUVcttm2HnPLugQ6mje/uUkpdfJN5cdFkAr+h3T\nIZNWqlJalSCy6sKTlWz6a96BaSjso8U99x7o155/rszV0oGJexTzRwpSPOW+s3TlaEuqwXbVzwTS\nIFhIA7+w6C0kxzlZVFHWFmZ7BqRm24Mbmm+jEOccNxA5Qx4al86/EYmTPo6Mkx7qMyHbcoQvkYZb\n58/1+qBdFi6eXEUaqE0r2p2M6/O/MsJIKt/axTQIveVW8rZ26LZBbqyZsyBQYYo/5HJxVZkxgbVX\niZYAsHlWpcJs2U7vpHvT88SaJTLOQhYH3gR+cH5hbQ4IV4oFMkYS8L+k+VSnFQiQoLjGKPcYmZ/i\nGpQ24Q77xvLcApxaOcRoQfQeIvrExi9Qd1UFLjIyDS0KP9USckxwy1CopjUYfCKnefxS8BoYkffB\nPZd7DpE6Qt3wL/Umsff62kIWc1M+Ime04x3b95PZyBUjdJnR8wjv+TVPQIXVsOZVh07g7Uh03ie7\n2pf7xE8asMc1YNSnjo++z8S6NogpDH9PwVJV42Qu1+xs19/0rIycjqDGUjwj/UhNrUUOgYNFvETQ\nHB7/Gp7y/UZzgGojvQ7HIUEzzAyg9rSjK9BNxdvwAWwmZgmLiU+ctEhQeYE9P8o8Lw1NnCawuhFl\nkkUYw+Np3z2dJMGoQ/arawD03+Rt1w3GvooTcBxjL2Xv+IFT4h5ZeWoI9/U5f9Tr6QMlRFP5TuBg\n19KD8ssjynrkzxQsOzwAwEnxGRA5cb3e67fRFMP4NvgI5zHgbbZTB9VMGtSAcbyl73G9HYwOsg+I\nNtj+Xq7lT1bF99shQoxAjLffAvmNXxePo/BI/bFd75nz2/CZxIJtzMmMsvNGvlJFSM86FpJJCD2+\nTb6Bw7QPFD7lF7KJ9/nylf8Lag==\n",
+    "plaintextSha256": "dc0c9d72ad8f44ad0c5e2eec5474e3fdc45882a3a0fffdb82d5213ec9781c7bf"
+  },
+  {
+    "index": 57,
+    "field": "ruleChapterList",
+    "sourceUrl": "http://wap.veryim.com",
+    "ciphertext": ":_H006_7i+3huO3bt3Xm/Sl0NMO81spIEHrqlgVOFsQeVn/JDA=\n",
+    "plaintextSha256": "8886f0aabc6cd633dc92a6ec59e3de65c2200aa52c27d1f407f13c7d74694b06"
+  },
+  {
+    "index": 58,
+    "field": "ruleBookContent",
+    "sourceUrl": "http://m.migudm.cn",
+    "ciphertext": ":_H006_iLwDs6UAoyVUDVoRhzMTiBAxmk1L4/tGnybhFLTCS24=\n",
+    "plaintextSha256": "c339b0f674ffee1836a5c814c9fbecf56b84381de97cbdebaa7a9eacdf3a6926"
+  },
+  {
+    "index": 58,
+    "field": "ruleChapterList",
+    "sourceUrl": "http://m.migudm.cn",
+    "ciphertext": ":_H006_jtle6+nflTBSgwnZJU5JjQ==\n",
+    "plaintextSha256": "98f1d109ac1d5792aa5428cd1f2e2e1b39411637e41a4c0bcbe3378968a3c109"
+  },
+  {
+    "index": 59,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://www.manhuapi.com",
+    "ciphertext": ":_H006_6NXsLZs0TI105JGJBTasNO6YvVfdCCWY/SE9N7SNunk=\n",
+    "plaintextSha256": "22e8077def8a7cb56bd49ab7551f5f5881dd1e42b8e228ba0977a87b08867fef"
+  },
+  {
+    "index": 59,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://www.manhuapi.com",
+    "ciphertext": ":_H006_ETL5JZvcc4bTJkHgl5iM9gniJYd6FXbnQnTjxVi5jCY=\n",
+    "plaintextSha256": "4c0e6a88592200e20f41fb7e0699ec70411081f4cd105c33fde9dd99bba147c4"
+  },
+  {
+    "index": 60,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://www.mkzhan.com",
+    "ciphertext": ":_H006_+P1upe2g5AZRVHO5bdyTg60FxMxZPpQudx9a5VE3Khoel6saThQGwhjKgXxo3ABxlAykUp372qSq\nsw3P8N62foGWCnlxg4jRJoOFnvwga6FEr7XYeu6ibpjTN5k1QrIUFKrDjeIrUoaEMtdTUceN4rwJ\nhzZu//iezq6/5/AFWKOveyE6u3FzUvj1u6nxMvVUKcpRYCh3ILNTvODHtOM0lp/NLmMGv7iLjNoI\nyNPnxqnQ9aqb1fdLB1yG8enSfTC8hKyh+dU4kghIwKRAtWeyBA==\n",
+    "plaintextSha256": "374d35073c47ce2279b779a4a452bfb67e5228950341f5232358815470bbfd7e"
+  },
+  {
+    "index": 60,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://www.mkzhan.com",
+    "ciphertext": ":_H006_26JyXc3p+4xEp5r/MFi48ADANjX9ATKXNnQNRiaKdoYRjb5FBEeDeLqyPJXH7A1raoDf7gooitKQ\nl/JSgCOxUkjbMSa5UkIw/pV9vCRfk90fnRvINa3wahNcNGlv3iF0exY6/RovmVJPDNcBx/igoudf\nlU/AHsA1VwEgbzdcGd2Qf+EweHOc5c4o9sstdas9KxIbC0cvfivxSzyZqPDlB9p+K2l+dXpCgmXF\n9ovV2wBLAP1iSeutJtByg0lhewiX7vret7Mint/aeKLf8/hKNvpasxPQZRzvCbrBxDejz0UjsxM3\nJbF9ELRQaeUlD55OUaF68uU1RguJK81OUQwNgrF6yK9kv0pOdGRK7+LxJ1NlHEkCSj5FADZOxdid\nQJOk1NB+bf0vPO0kXKyVrCDqpIFUzuK+no91RcnZM+r/6QS+Snk/QtTAdzZnZHeq6pdHHv9hXyke\nKhAHBAi2f9RpnmknT5kjkU6caj5ZveHFFAGhVqp8qCNr8S+Whg7mZcfm2wEHSwxIqt9sL3/cGuYC\n8bvLrN8/F9wLrXZqc+sSQMCTjYVM+RYvcxmI5PSSwEYnR5Zw8m06i18RtHiK1tX3XZQZjvVEsvgx\nHN0o+M4Kxp0=\n",
+    "plaintextSha256": "0bfdcaf2be8036b28f66557b6e2d17d9ed951dfd9508c6218e03d4cbcee47045"
+  },
+  {
+    "index": 61,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://www.yibenmanhua.com",
+    "ciphertext": ":_H006_Sjv5jhBsEKjgB1qURSEw7NudBzKQ62g9nocPRay/L+1CbXFSe4YeBOnuxFglv5zidu3pFSzRgLcN\nyJXxBvokIDfqvcnMyZiOkyV2F4u/GfYdz+3eufIgR71fo/LqtkQZo2Li0pmzDirciAIet+aYlVgQ\niEtb2L3Ve/N1sRWHiuKNel9AXR3y/U+V85TxATUhaw17bg2i/WL08mpYYBZIBGywRTTlMpG0sFAs\nCQjTGNHpz7NaJZOyrBHYg2mUsd+xTB1YpfmGA4QYwBZz5wdaPPZGR2NxDP9a6xfyshJ675ihJJLg\nHq7FrbWfYRwG2h6dgy3tBXeI/pg1M53Zq6Aqga7tVFkeeYUTfMUBkUdkezpDZ2sG7rIzXaovPxCT\nNzaSHIUsKS2JYBCwjEZhVem7vLjlmZpknvTgItErDA4or8E4GIKIiK1AFRagATsPbHFKuUwM+ajb\nchejS6KYntNzGUhVIy2/IgvuphN5Q8CY4cXzgn7twPhQJEuB4qYjahi42N4VdrXgoWJOqJWyvJd3\nmld0O7c/wfDUrOrdeLNnzQXN7UBl1FvFtRCyOc7ud+3FR7IZ9VGJ2bA6rKVzkwu2hIPSWR1F+VC2\nD7xh5MGNdLxm1Tne/NBtWuFMDbJVE1h8+Es0HdGfVhmVtiW0vLUw8qiByGOP4apIoCsORteWxn0e\nED4OTbQ9SZIBJ8yavCBBL9h2YAYZkuxbGvCZAFEilLzg9FFYzqglKS9RD7NaFqCHa+tV7k5+kAmM\ncx/a24NCaC7t4EgXSIqC8CFrhosg+WRK9fz2U729fKdK61jK1Cf+wqp8xqV/fKREscnPpD6dqbp9\nLdv5op/ZOLcVj3dQ1NEtqNpqc5824ltxxY1liC7tsy2RFkUNNuRyz1BZrbL2yPjvkrh4+20C8yMt\nGLSTBOoONt21Tj66xnJGqWO2k3AWsBG6UJsIjQADvLiqkk94FG7pqRdhEtUDbO0V4WYX2AuytMZm\nx1bk/3kPSLaFDanFKCqVGDZFsSccw7ovEn+k8jPN1Fs7uWSCz/FRXirYbcD6BTau7+emIf1c8XU7\nHgHUjQEjTWN8gurASCCRkrKX/DIiT+1m/AkuEX2LFha31WdYFV1TVC8hLTauDRqvTFTz5DMG8I0W\nxDD03H2TQ7+bOgT4g1uf1BGeZVnSAv0TsLHgxogALZukC+vr0YbNHuxdoSJllQJC32n8OA8Y3wpn\nEZ2d5RneOIiwo0d2yefXvlJZGfxtnbFc0gPZYMOjlYmVSKod79hJAjEqCnBXyPyZmKWYO6j1X1Qf\nWFf/O+50AMQ8uNSl7kSFClQ/x4rWBycozh/6OWqzOWh930VozUen2oqFGn9+6hjnC5COJwVIAFTw\nYHyKRPmH5RtfsPYrHc8K9xGQsATPIqH4siKgf+4zmZIrrYWgLsUxce9RJOKFb/37XVumybEykHyS\nITCpCuRAihL32dSRYjMK54LtP+Nq\n",
+    "plaintextSha256": "bb72635343b45a671c411c821d492d9c26aeb5b9d7161f891950082c684fba33"
+  },
+  {
+    "index": 61,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://www.yibenmanhua.com",
+    "ciphertext": ":_H006_4MTeXs07oktCGkawrxQfZAmGkUjCGmAQYBVNSpxlbvSeU6F5EskjBcPlQHXtYFU8dK8Mg9iXVlrD\niw3LvQo7nPnfd8J0J7Pw4/tcwIwvu8BGUy0tzvmjFpGfZODH8gMKEhyh3Jc8tqhCQUADq4I/wucY\nFNTuvHy3PvBcc2Ou56XD5M/SLnFokOeWQnoyrgh7VeNyCmxW9vjF8Y7lmbzWHrZmLR6wjDFEkRGZ\nRobkC6A9/x98QhXTJEY5+GpBtJ/t2M0ZlITuR4R+FnKU+FqJctinj+7AFOwsQ8w0mLgXi5eEhwTa\n8jKque5PlVTMWGhO6XO6LVlQ1x/ljqmaoUcyOxB1RPVMVjrSA621JP3edREF9KAfe3FguPR4C8u4\nKVu63ZUQKh3e1SSsemj5LDVuQolzv/GHVHd94znTah/0oLPRKvwi82MLvPlGuA4xiJ98uEJWFMxJ\n9y1E28zlbZqnaNKpKHD96+O20qGD4L0CxpMcX3aUtzNAKG1I/KPQU/nPJ8vtvS4qhbAIz+RRRXK2\n9b4YCuVYYP2oRJow8VPH/PcbmctE2+jcmTWanO5KTSTaKu4PZScOd3Xl7dllJCg3APVWABfJ9/kk\nUIxJLriTGIzZKrHlehVXb7GZ1YCdIY+inciD3Ajo4P9TvmdcK1Yocw==\n",
+    "plaintextSha256": "65037bb4599071e70d9f64d0cc4200c0ecca000348a0a9415c69dbc5e4e17208"
+  },
+  {
+    "index": 62,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://m.manhuatai.com",
+    "ciphertext": ":_H006_hQhgMwlUt0dNRaO7G0nUDJAhtq6Nl6FXxsYRHRepUzweMNdPDXFjVv1/VQVPa/PmH7grpjUrGoUK\nfgRNVJp8XJRq8X/0rStOqxz/D0c3xjY=\n",
+    "plaintextSha256": "001c987959292985c60ae04e4e145b2e2f85f9a68b1753416db928bb1e3d5f3c"
+  },
+  {
+    "index": 62,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://m.manhuatai.com",
+    "ciphertext": ":_H006_pKEyL7S8lsGmF6zvnAZounfJBBG0FcRWXi7UaU3bM0k=\n",
+    "plaintextSha256": "e269aa7d21108eff5a6577b684eb34052d38a0e1c646bb8107dbf0d2df401ed4"
+  },
+  {
+    "index": 63,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://m.zymk.cn",
+    "ciphertext": ":_H006_tBCtsIxra+jxhIvp6glG8ymQhE2OBPmqXTYvEd3Cw12PVUbmTNFUz2Rnn6A2yiA3rVBrPzWenEKU\ndY2SIhXKYKmG3FNc3H4Q4cgdeKo7OVPlRbxaTd3VmXF5vYPVsn1UZmiT5VT6SKvtusetBZVKIHZd\nDWZwEyIN+m6d3uFYbAhQjmG79Yp7JslCpmD1IqKUiLPZ+BI3GauH4rbiCdAjy3hPBWyPltocUFRA\nInEVQGUP4Fqic3If8feDbeDVp5SIGRNa10rNBGJQ1/rAJWUlJVIcQl14JOo7mCtEgjNdgcjqTZq6\nkqFY5eDWnVbjEsSj15uDZ7UiuesatgK2DwVgFFL8cDPKCRDhdLFVHZrGeorQJv1pvojx5XvS96u8\nFk+LLuCfSgf9JFerjlJW9WA4rna5kYGovioSlmM/jy6LKnNLdQnXdZVADQukAgruXHAUGunTN3B2\neqTgKcAqdwsqXGieRyCdRoVH8RxgBxh0v26BGD0SMT4oORjQtbGThDVr1SNOEXanfdoXh3NZA33Z\njoNnHA/DozBN0RBxKyzByK6C5TDDwB2IMAH2dM/H35bp6sY7el2uCce0AG2/H3luJQ==\n",
+    "plaintextSha256": "b6abf62b775253e4e5da14f19485e2089d485053ec4b3888f4c42af539b69966"
+  },
+  {
+    "index": 63,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://m.zymk.cn",
+    "ciphertext": ":_H006_2y4nNRMx4yEm7SPZGKnRNDm7aN83w2VGIHqS+sJ/Mu0=\n",
+    "plaintextSha256": "f78b9a5e964106cb9662b84a83bcf7b3d418d5dd9a2e19f2ac15fccf9a8a5ee8"
+  },
+  {
+    "index": 64,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://m.kanman.com",
+    "ciphertext": ":_H006_lfAbrDrEkQveLg60N7HPZO9w3Aee+Ws5Z4X3OkZbzIUOa7DtbVbAHF2P3iYeTGK3xwW+68ZA0ipo\n8S/sY+Fg8aVyxlGbKIu4ollEPv2iSeL1YOQQGfxeHLsDLJw+veiC0rY+ul4+PcOJ8Tuwh9pvELQB\nPbEd2bts5D+NqSO4E/CmBAXpV72BAydz+vhy0fs4CrGKxi8uJcIW3/xnAw8FxLibbFze1DiSUfs1\nwVsz5vOJ/AIOrGrhkCWRTBS8PfQXsTr8tbVb1k7rtpSMzHUW/0JXXmBQbXsDkLajb+dK4WzCztYE\nLXMpzvHF9F0MEtaomC3Fk2pzSJc6gasgM+5JDkB+/JpSeCgbAB931ONpxEUUThamd9Wt1k1AEjsp\n3dWQt9lEuw4exIMfzfzrU3cEqC90durNyEtrwIstjIXbdmJoLfOc9uNn+GEztos/rOiyLuRwploh\n8x9SCWOAXi5+rBu7lXW8eFKBF38ri/bpzqQB4wUy95DaOtIwMH8U7Sig1o7mVSSE+DvVcPk4xivZ\niJ/qLT/XD8nl2WN2tRkvRz/rqcLJf3Twou3WvDvGxgkQEMkkeTt4+20mIkTNJ78yIwHBwJAyoV7V\nUR2SLqOGruv7hbAiL2eAVXa+pG92rNUhJsdIyuNktsFqe07S6YSmnA==\n",
+    "plaintextSha256": "1764a17fada263065bd8b8c3a3ca0bc8c91a839a449a06d7ffa63310ce9ac08e"
+  },
+  {
+    "index": 64,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://m.kanman.com",
+    "ciphertext": ":_H006_6Gtka62ys+1kJXUC+E5ocn41bK3SerXmauTL9F1Ekvc=\n",
+    "plaintextSha256": "e269aa7d21108eff5a6577b684eb34052d38a0e1c646bb8107dbf0d2df401ed4"
+  },
+  {
+    "index": 65,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://m.mh160.cc",
+    "ciphertext": ":_H006_z3WLe9ruUnDDkkzkzCcbAnAe4fYmlXhJ/yH82r0HIAFGfwzUJlO+ouzOhHMhqvHPvRffnxcVRYUv\nPryEdZ7mdrLQkPFmJI6DzFuo/WT+7ZcXt3mhqOJOX+VRGV60WZql5SBeQr1zKsY+BhP4A5CMugAI\nqo0wHZzGODu/t1Ok9nwJZOJJDc7L2rdBRBxHqQZEaaF8Cse1V7oyU8fzwJK+fWkqE69p5Zz25R7z\nk3EMDiFUIogF7LPO0o5Cy49SSjv4SNd5GoEl/tWFT2Nq3oYpylrK1nXHY2SCCVm+smzuHPdRLvWF\nv5j4bf7wjEE7oG8PEVoptIPrtT5TQCWrbZT/ElJpCKHPX5a1lbkLdGNs/zWCjjyykiiIW6IwLXCR\nxPrhOc2HJ4AFbBwHd1S5WBoSxA9IZCDVYljGERwJOnhId+uh2YxFjBSR6RWdZeFue6lFLk8VBypF\nFt2wLddG+k0WhiTOKWRWVHd6pmxqjsGIW9DEbm3tb3IbaGo3juyTqbK2AzRCeW66a8JWyfNx0KfR\n4RK2aHLadEavedevppPDzg1sjAKu6VReSagDDj3plrXx4i+yyrySjAJNavDiDHxfZlz2EYkU4c/8\n6AvbAc0hUmZUVt4ANARBYG+A7cSVttYJn5vVSrgtA0zAGA0i5vvmm1T9wcJ1wnJ4jUtnr1XE8QX4\n4lIfb6saQFEXk64m1qEIPkIQydjAMSIcMFxnNqbkjEiXX4MHTgW01KzopcWnpR7WkcSRv+TyH2No\neqz6ubW11YuTm99tWWUOl54ckp+jzWyxUae5wc1sliCTAsvbFonBfegZ951QpVxL8eh5n8waC/7y\nw6wNpDw4Il8pH1sbqUGy3h1b9DJWvW1q3FcaT1bn/H8h5MsQq/9ARDaUkyHXXgM7hR76/it5OxUd\n5CbRWPOtojOAk1vT7tD8um6m32/oGpxsffr578KECfSfTMfhurU5o49s/FCKQ8Q9eFkYaZUX0HuE\nv7EbM57dUBDMOfFiAmZ+T11dQs4FMvsCjqK2zGZZb7V6KmJ9RI0t9TECU3VKbi9odCTULvGU+98j\nsjlYwipo6ActfrHyhKfFFVtA7StAKhQzCwbo07mM13d56/s7UiupwoR30dj1YIZv4emnWX2IP9fD\nfz9ywOrgvP1WCQaTdZcVKIfAfA/mO5ZVfny8KoxCXXopnRX9+TQFWzr5hqcc8kctsY9yTWSsDn+p\nMxAwC9Nz2gahdMqrSP5bJlQZKH8w7+O6gG7bJDVqj046XacZkVhteDY47QoiGXw4OOmiWcArfTwN\nfzMN3zVdal6380QqdXzxEOuLvE//PgYtYyvNQOH0Z8CW7SaHaZt275J2+Wxrad7Cl1uddx/fcl19\no0k+lzlL7FYmgTOCUUYMOK1thvAX61AlXbUV7GxfyEGhrxwcNY0a/alIhRBBy/ZYJytqPH6BvELM\ngGzHRWOsXRSL4Rbsfe2IdmJgPh7X8xs+Y95sdtROMpithEqHn3jYLYwNofD32W2c+A0UMVnUWIbD\nhuFZ+GQn4bjbNyrtoJomdysgm11u9I1LsfMFvA==\n",
+    "plaintextSha256": "7e5f2538d6cc4efa277f56840e4632df709bd1a9ae90f996dd8476e57878f576"
+  },
+  {
+    "index": 65,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://m.mh160.cc",
+    "ciphertext": ":_H006_dlUcgeuqEQtpXLp4FOSsJkntAtZcLNLiQA0YUfUydzA=\n",
+    "plaintextSha256": "2d972e151feec54ce213e8dc4c488f51201c22de493a19cf7ac917b8dad85103"
+  },
+  {
+    "index": 66,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://www.52hah.com",
+    "ciphertext": ":_H006_kI9I/gxHKYHs8UAQAcTQGPqIeI3YXN7N5NwXZgSl3vkGjGJ+BVcgl6Y8ci7IdQPH6jrRF2pkc8Jo\n68MwlKzgPyhltcdQk5+3cPv/qXBpV5NcaQmly+HE4C1Sm4GxZCf1ipep1i0BMnD24TnFpy7wIhtZ\n38Y9fVNBklcN3Se4sRZHZ1vjZOxDiuaXB8GO0EXejCfQsyupznrgOQ2NIqnuIdsWVRiy9UmMVfWY\nwX56BfHk16IaX6vC0kO1AiWRiO2h0TOaCe0Kv2cRcLoRVgbdDM0xSvUxf/HUSdr1BmM/56/sdCRy\nO6x0I5OcEPsbMK6cMLBTMREyleZH7OXijfs4/yg1e2ZjnDRo+/jSgz+RsiU4yF0PVpJUrjWKUIHe\nGejgCQifz6OlvaGyKlCZNDvQ/9nKYMtfY8t54IkWW6CqdAy4uI/rvDKv+3E5Rz37ajxt0noLWrGs\nlRV5CpsrA1p55rqEdalrXBHLuNSUC24r/AEi188YBp/84dGz93BZTq/mRiwn8I7ganU0+McxTwZt\nbJXK//Ee3cBcJzqEhIXcLrHyY9ZGFuMMIs9eZ3X4qkOk9fP07sw/BGIT3hkClFbQFzFz3HNZ11e4\nu9P6ZKZOGTb8IGf/YHLZg8tVLbQ4A4nU8t7+KDnAHW4HeoEEHYf+fqTJZYDuHnJbEeAJPdfFbGTO\nGRsUdiGnMGIQEo83V8xCgyeNWSg6kp1Q9sy0I0PRnV68R9JzkENMpNIPnXjjmNazxT4B0Q+xpnR6\n93drXl1G8vW76afpwR3zhczAdRSoSdSis9L1ZkIcfhj2lR5ah0rCNbwDNbGWEt9QDpdiz9RwF+rQ\n7EKJKDV7gynZUCex7eRWqBwF5CP6vSRhSQWykp8p6mBoyC9Mwz6XpH+FZJ3ttU7VQoyy1/crN4A1\nGTYawPYWiXiqFHE9z6+19Yiu+T1Ioe8WEM6g7YTjjHmwWC9V7wjNoAUwp5p02qs9AiRTwUCdQND9\niGvZPS6a8SudUcQ=\n",
+    "plaintextSha256": "7e58f78d1d9968710da7da10a4e39d603757539f7ed801282694cd0d726a2a57"
+  },
+  {
+    "index": 66,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://www.52hah.com",
+    "ciphertext": ":_H006_T+txV4SZKTrCvFBwwaYpcP8/AF1SjWIHPnG0BayGJce+qH02lMEOBeAXiosk2gTAjwxmvsVW8MST\n7npnSEOysuYFubFKQjdbJFxg+RHBsNQ1PD2+3DjpwMYztGSylky2oRlrQizKkUpuGJ40Ui745GvN\nTMycAhzBWGA50Do/6adhywZcxKeOSdtXmhAfDORW11A/v4MxF1cmv62+PAi196t5Qiibjtj4waIz\nIqYJOkO+8GUth/Bl6T8uwrM+ixymaaXVY5FFehmZLOajnVy+BRriErUOQxnNX4oIWqJVkQMRugqy\nF170ydJSpLmbntnd8d6GGGRgjhO/n4FTMmPgj4tkdveIceNLB8MVxz1EmoA9p8PNanfwhZixFvcY\n/cmZOamlgW71H624fJuUXa58wd18JaDTLpiDtF1CCgEjPta/eK/nQ/Rxs68Ky3J+P4IfMMs2BL9W\n7XzeJmfMr4czKDdsXlo8f74BiOIoOVrvwyNUvwZFnP9GYDbs0W2dzKXDwexHSlIopefsvMwPLsW1\nSP+03lqKhHopyUYtBilArMe7WLLEHJRhB/pZyX5rymMLQDzpihwM7ZDy3+XEblpv90uo/NTVAnNi\nJ72cV7/uSWXFw2B+PJs1Og+m51+gj348UKzsCYD6LSwHwnA8BcSNcLYRLkB2RDCzE3VKkf+M/k7k\n+3xH7TF5O53VfklJmu7Mxbsm4HtmeXDW9AhOTpY/QdeSwzAWoAy9rx/sMtH729kDpxXB7TTB5ST+\n6Sr/qmLJqeRiA8vnNICa761VEzrLZWyMDui4pa3fJpokWkpNkYf7jRF41D0IC/APM6jNHfGpFoiS\nJyLQuQt2GHw+qwMJTbkOtVYTvhmUZp7QoAdKka1/Z2FT25wm51VjleeD0ZQhzG5URX8NqZowEYDe\nS0UoZu+X+DeQK1G9afFLFwdowR0/pX8J1bqOfUELfqMk8Do3nhl8DLvord4ZQ8pWrEofN+MG9LYV\n30zY72FxQPoHZZwcrjs2OZkOB9WCwwpU8GaraKeIJhxzv4mcEXdQEv4uQorILmJXfL5n7RlED64g\npxmkYrHPrkiLlU8PeWfbgwV/AsIOLJXYmslH211mGMdVHzYxyvhzjwhwXzy/031xZrDcbKwbm6yP\nQBPMhI4GtYolhIwOgfMp2FN6JZaO9iS7LffSDDjLmQ66RWnyG3FZY+kck+8XMbtVexovSRyXcslT\nSnZnEq9yNkbQa2rMAlUY2A==\n",
+    "plaintextSha256": "ba73bfb58644b9dca4d6e01163b1fc0a0a58304c5efbd6605df979570f8df8d9"
+  },
+  {
+    "index": 67,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://www.gaonaojin.com",
+    "ciphertext": ":_H006_puUbeUaPguHFeqjx3KfxNKlALV2A+IyInI3PBW1e3LKacO3cN0W31KZMzDBZTuO0JC32L8XrxEHF\n1gwyqYZ6Uexk2mNF7BFjyzFRR6Vvi8Sljz12SNja8Ryv/ZWf8y85dvl6c46IpQkB6inzEwXuFygm\nmwjwiCdsN+LH4qlJY/47Gfj97W9T4JboKlVqb8Uf6fPZeeuv3JsvtSIyBrjqC4rVgPVsIOdgZSEQ\nVzo9hOpBoeJI8jKY2U19zQB2EJM5pMEq48VqkluULCmbHx8ZSa3IipvZafxGt+S17bM6hvAPwwEu\nrBzNDs0mLnsBHVGdsGPx1GPy7BtdDJLaEeZjcaw0F28TFP8ybbd2KFlPzgQwdOLxhpQHpd6JQBIU\njBPLWPsKkDbe4qc8i15n8qtjtQ==\n",
+    "plaintextSha256": "5f8988c8e92f71013ccf84915fbb325298e650690bbe044c4590927ea7985f3f"
+  },
+  {
+    "index": 67,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://www.gaonaojin.com",
+    "ciphertext": ":_H006_EqZ4shj7BHX8bIC6rJZcrztLwMCUyd4swrKK1JCXJFI=\n",
+    "plaintextSha256": "1f3d3eefcd7dc6f6548c6bf751a62c52fec39ece341adbbd6a51b27be0da1c02"
+  },
+  {
+    "index": 68,
+    "field": "ruleBookContent",
+    "sourceUrl": "http://www.gmanhua.com",
+    "ciphertext": ":_H006_/fMpjok+U6XsGp7VZ/CVeOUDoSs3tsSw8QF3Y6xdhKptQmZBunTYoKj9Yc91JTa0rHoDZW2UjuuL\nFexVWZzn7+Mc/htFY1IqJMGeVegO5TyqFgFwKLIObi/wqrzxpBeXgTnULrrETvtpOcElnCuAXZT/\nVCIV1oiNFSBh6g8GX2sTIa0mHU2Qp/7liJCuOqyyCOGdVHkYaPxt6YYKjHiytFrpHRjhbF4DH7II\nTANBt6b0bSkqKojqYc+1WVYpYDMZ6xplHnIAcEMfxxVupjDat8VgcOMuvuu1qtw8jfjUOaGg19bw\ntmo63oiZN/QmXwF2cW8IS7AaWVA67cSgHlC4nwYvCxq37s/Eqmcu3iw1rmckfXxtv1zVEjOxcVlf\nksCF9jWcW5BXWAobAVzwr1OhKNRP1Iqs9JbhovGzMgCUCdVtT2Yf5hDkYxSKUzLw/xHsKdRUgOYo\nVqWhiZE6zB3L5Yr97XJ4PwVit6BXz/7PwlWEOZYJR0PGKASC9cvSjfEX4ZvcWK7xhJMYKk9h0qHX\nTu+/QUx9bnRzuS9zcVXkbypEeBv7RfHQCI/7fjX1U4f2OcWYe6NqitMq+aA8zmzhZCjkzf7vu6ow\nSDODyP/kBzIpHBoHY+UL9Pv6TOOfbcv4KjLa5ee5J22mVOZNCDXFFfVSQZ6a2ojOYOD/cCez0Kj0\nPgBDu4K8ZtTXfoV4j4tzQPdFsajjdEKP9Fm5CF9Aew==\n",
+    "plaintextSha256": "32d6518721b5f2bd53a529095e0a24755e13d9d73ecb776cc9ede9a2329c0444"
+  },
+  {
+    "index": 68,
+    "field": "ruleChapterList",
+    "sourceUrl": "http://www.gmanhua.com",
+    "ciphertext": ":_H006_vkesU/g0oqfvdnpaRpVddbh9j/9X/gqWUptbKZSh5qE=\n",
+    "plaintextSha256": "0edc0abec7bca93decfc30ae4f3d1f362523375eda09ce491bb8d1fcf6bf5aa2"
+  },
+  {
+    "index": 69,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://www.gufengmh9.com",
+    "ciphertext": ":_H006_rcQir7Wv3GCgwas/v7EDiMUKHYDxxWEdZqSWCUZ5ABozdtZDfWH1J/g1xx1OeVcQT3h/w5UD8SLc\njwWSqlSPOpXkwIKCcEmZDRDD9zUK3tlFdxr9gzEgUV868A1OO1XsPXXg35Y9v5lisCziBMgg3AjS\nGxhDvMHd1Oyqviumkea+MnehmmuJ8bUPBHEt3Pyk8tUwricqUaF/jMUalI/cT41i6CKQCq8KhL9i\nMgRY8BZnklkPItCo9+Lg1Pg4hHM+TjoXryygl8Yvu35qQZ1ZWf9TJQ9ACM7U+m4MHFjuOrWmSD7H\nLh+HGgTM1k2TlW+uRkIOeH0LjQs20TyR+qOu/TpIQyq3MBnjl6QVDLuiN1xkNCVOMRGFLtgQsq8D\nfN42iv+w0OpnOhzECFNPHxOFr8GKPIRDsojTt7z8873C1CVfYp03RFm/INVDn5M5MSHaX3mKlexg\nAphV/VAti7LKbzHfIAvctRbT/Ou/rMgNxTyssjzkZpWaIPZhBkN50raK1zh444dFNRk8AF44X79/\nAqhkynMVBNX3/ICBsargAIHXyhhQpOLEF998ff0AxyM1S0nUBarCQqMu3EIboTEMRhvS5eglA3hM\nWF4c92uqb8uy+G2Rx+KlCMUPqpR19iF6vcg+YIc8NYKYhD31nUQ3q4LRZWDh7xByYFirAgWzShI9\n+HL5yYUjpeXXVAGbN35o\n",
+    "plaintextSha256": "0708eae1843e645bc7e8bd5d88630dc70fa3f28c78f1852abcaf50e016c0dc3a"
+  },
+  {
+    "index": 69,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://www.gufengmh9.com",
+    "ciphertext": ":_H006_9FLlqnibcaMSqKPxzfbKKkRFhsta/u2M+c1TmROqKfI=\n",
+    "plaintextSha256": "f5b90e949c2b7630f58615c68cb54e64916879acae9bcbe8bc31bf60476db7a3"
+  },
+  {
+    "index": 70,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://m.guoguomh.com",
+    "ciphertext": ":_H006_bZ+SUQYFErwIa6OoXRfTyRl+XoMa33fHAkBn54SJjU9N0yzK2q7kq0dyZo1jNQvF\n",
+    "plaintextSha256": "491099d04e9bb2fe7458e4e6926bec43328b2d196d7efe5dd219f567ae587a90"
+  },
+  {
+    "index": 70,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://m.guoguomh.com",
+    "ciphertext": ":_H006_CprmwrHFdhwNpVgpez0LSsLUsi6GMSUycX4uPaKWBRWtJanicnXFcjzJ7zwz7eUutxInzdNQuFf6\nAJ3K9IZP2QU8n1EyJ3uSGCo23eLdEBPkUG82O24SCjq5BNE8fHY0hS4Ay/DOrCG3lsSuy+bwQMUW\ni34qvjrlzIhguIHHAmMR/MTYMymLtQjRHiRm4JDqYxMaggvDk+a1YSlcxxTC7Cjq4M9kx0fg6oE8\nMWY9niEVrepkWC5B0itOIGnY5ry5+TwIsSQ1OflXcRf1ZEJI0ZH4jACFYmoohkmU3adcXtzYYhBi\nPs15JsvTJAlWg9LuULUxtJmwGDt5evA9+mqPwe5ViOxudcNMmGthyMx7J6Ol2gGD9MbEuQT8V4oL\nn62Ic1f6ntHpI8dKvA4HsQQ75CnmAOxjjtDshoKkc24dQHgTg/8AIhrHaA0RQLmgwqXLxyci6wZt\nb7+kzbj70x+ADT1uHOlCnx1r1mJHn8cyUb/Nlq9HEm10nj7C1QBEXXjfWLNP3JkGGCTYrKgAq1RO\niNNGqU+tY+IbpsuXz1CWI+uIbjDsqKm0UwSzonNpDC3OX20j5bNllmsR+vHgmG7z2QRXQ12qyyBX\ng4j1+/Jiqps=\n",
+    "plaintextSha256": "c3904699f4651011401b6b81b4cd388f87b3ff7cdf0f66b53077515da32ee413"
+  },
+  {
+    "index": 71,
+    "field": "ruleBookContent",
+    "sourceUrl": "http://m.92mh.com",
+    "ciphertext": ":_H006_wYUJnVF5vXgs1uFvX+HQ+v93woSngBYzd0WWdwRhl44=\n",
+    "plaintextSha256": "9de9afe0253c7c83ef8f5ce39fc077290b700333661679d6c70708ebd7f2f33c"
+  },
+  {
+    "index": 71,
+    "field": "ruleChapterList",
+    "sourceUrl": "http://m.92mh.com",
+    "ciphertext": ":_H006_IvgHgQTmGAc45ByjC4UQ/t6tZsyVDla+VTqEkj/oVih7ScxB1Ud7N/fBQnXFzA4zuxtYr7FVSFnE\nJSVm5lphuQY/7UJdOJRbVva1NSPcw6tK7PADGFJqZAV7x6X+Y3/yBGWENSUtzC28ATRYAalIugNf\ng6oHivYeJskH3twKEFl5/yv0NHdkJpeYt4xHW8yZzJU9fDSiANTN/yBapcOc/GnsrVnpsMUG7SBJ\nUsl8zvQua5OPR8bSnxDSCdjKnVdzdO/9Ux1CMXJDQVr3HaWNIbZfKBigBBj/kcyMA15ONSDSbfa5\nhEvbdh4+jUKQgLCi7JyKIpbt0L+/lIWe1ksIjwLvunK8if2s9JgErHvK1vgxDeFlxq4lHIVFC2PU\nYrLaJj4M1sWaVLTaZd7Cce1yxj06mGRrv29N4wnVhdoqDXHgy4Y6qkNFyuZF72+tYi8WG6Uq3tw8\nFkoV9LMusXOv2FwiQsh4Ufbw7NcEggt6xZPnIRC6JFnkiho+TEcbS29K\n",
+    "plaintextSha256": "50fc811531d7203c5de4d795f86f88e9fdc51281c0d37146eab62f79187e1f00"
+  },
+  {
+    "index": 72,
+    "field": "ruleBookContent",
+    "sourceUrl": "http://www.92mh.com",
+    "ciphertext": ":_H006_/Oo/ZF5apReNHOqgLvt3HJnC76J7/kbV3k/OsXJW6qjvWfP0gTkDGve9q0nWxdP93l/EldiE6w5+\ntR7kJQtIko1bE1XShoFaTiE+aEFPBqvpQ4yrQyZeKW9zl1TBkHFXBSxFX6C3PzPkNhO5la9ZPpLP\nDFpbqSDiaxgXln/kdMtOy4Ss5RMyt1W84Q3IPb3QBrI/Rorho+ESUl4x29R1K4OvaAqgnM8tAQWV\nGR1TYf/Y/GZchapIyyr5ndcvUa7FxM/iByF0oFDTIxksWVTF/7uR5FDcA3HDVZPid63wXKGdXFX4\nCVznUNLWUaCGNjH/r74Y6VD+WnEHIuuAnmXTdfvev+3g4dSWAMmeAeWl1RUK2biWUVfn7NPgqDXy\nR3l08IcUJIFLl0UosZES5/0akuyCVu+PbNtWqD1G3LNUYkMktoYbagwwtdqA/hrZ6QOSF/GYa8UQ\nLOpg5IS/BcfDdVOTRVXC+mDkk15lf0Xwp1/4XgCiLv5a/R/uC8/GhcE8\n",
+    "plaintextSha256": "e6d33c8e5f1c733a1ea69728490d80f173f07da240c834e1332e5e3c62f0dcf0"
+  },
+  {
+    "index": 72,
+    "field": "ruleChapterList",
+    "sourceUrl": "http://www.92mh.com",
+    "ciphertext": ":_H006_TB2saXKNwLVkymLEW3cRxysIZ3w9J6pmzqzcPiFx6xQgUc6Gk5aTLVZbpF0qsTLyjYtOPunxcNmx\njAAZvtpzsMX9Y79e769eHg2Pb04bRfzQtCshJfQwneq9lveZVkbdGDAp4zhCIA8CGXFjl5NJCUem\n4kRgVCJNdiTHHQE7DO9ZJaPkJhL4nQahNwZUIQodhVJNJfcfaS8kyTYP8AwSwOtGvEoTiRLgQVDN\nW7wQIHa1B+wFOp2h/Lu2v9Y2xM3Xh/onMHCMiQLxSencvina7YfBmsfcHtd/LNwI6GL4v+AwzNg4\nf4cHozcYa+6SdQVEk2xE48z8mYkKeerVtRxNkTUFUGmterGgxSSOB7VQXQxkvG9Wcxe0acJ1S/w+\nSuuT3a61PFUWcciSRQw7jFcg8v+JEzIYxb6g5iV0rsPdrPuMc32XHAsV3tu35uoV4n/mMhMl5zbe\nd/jbMIVPRR03ztQbPulLFXKMcgcIe2ey7/XkbYSad7lG5cgU8VrjdbYmWUg6pJp2MzyQ4Kxjolp0\nOzyRjqRCHNGFHnwSd4sG8yY=\n",
+    "plaintextSha256": "18d84a55a4cd00227676842554a86f816478676974431a23c23d72731bc36486"
+  },
+  {
+    "index": 73,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://www.cartoonmad.com",
+    "ciphertext": ":_H006_8ETxBSSA42Y9pyKTf/7q0Tj6AnZgP269jqZhdjhnL8UTfo8rmRMiXw48QGtf/dCXe0vRjYjj9iCw\nQ3tHgUIfNUdWURCcUDmU9ZzpczngC5hAAd4hNFf8aIUMVUoFB7cEqg6+cotx3JVFw5YvyYkGEUFV\nONCszdMYogAPCoOApXvT2jc8wuktqAo793ZbcAD9q0wRDST2mCSid4RogIDMV1ekha9xUUlEi+Rx\nG2OyYMfeP66jYXVzaJn1bGN2XnzYPQCqKJQNodzFWVSvGPTtp+Xg4CABQbh6S9ebvdPvYy0hDeZs\nkGJ6TuP2oQtWCs9ALBd97/qKaVArIww2dLZ8r78aLOI1vVrKFCVZEtu+3lBQHlTcJ9m4xgkMa+kw\nQ4tLbjDH2jFm4UpueTRncHC+ew7Eb3qrQ7aL0PivvaVcbl3dsn2YqsMmtuIh4w4jPUVNc/YEDsxx\nYLT8wkCBUJgrb3EHnAAiEBn4ElnSXyQ6dN3GTZhYBo9/4Ui0a2veCk0/JrWNlV5PcsZaw2NcGfUI\nPwicSbrflBbX6ksRkwd4X5IdAF+dHWDKi7BIjo2r9rVUGLrDhbvGeTwQ3GLI7rHKgFnuap2sRO0W\ng3a8E46qW4v5bHfbWpxd6/Si2iVB2Mk8WIpkuicTK75bkY8LcfITwn5Qv/WoX7UUHm4ZN4k7Ka+X\nnLlQvtx2K+gxmXje9psbUThjneXFuDYFgXBKotTlxIgjDLXC5S7bg41V4WTHmDrq7XTGQqp65TEP\n482CW3WHI5V0cz5e9KoQcOChh2qJ2/h2EtfLrxR7Xr34BgZvwcTNJdID++LeknQg2ttHzWol+Lzy\nkGJ2auG47OQn5+uZt/kY0+SKu1jPEVHm8rgKYDasFG4CYd5DjNj0RqFuOBMuw8L05keb7G60z17R\np+Ip5kPdHXVwWc2NsoCYGxIrmSVeUzIK7stfBxcYXwAmFSLUfwvkUQ9+3TIPkyn1AHHeybiMc5+S\n2Bu27sJPl+sU9CKgw0IVjYIjU5LtQ6G2yzAbQghShWDjGSL2Sjc2m5rIww==\n",
+    "plaintextSha256": "f7bb71dff90d2f19324e32b5f0c86653a6b927a87d0bc1de7c332f9836b7c431"
+  },
+  {
+    "index": 73,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://www.cartoonmad.com",
+    "ciphertext": ":_H006_Vc0mv4n3ktbMkKf7iq/GYL8bCVXgYDJlCfumznJk72U=\n",
+    "plaintextSha256": "d0a7a3b567a5784c4c04e747739d8c477cd05b9a4df56412e2a509b3d7e4909c"
+  },
+  {
+    "index": 74,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://rimanzhijia.com",
+    "ciphertext": ":_H006_1Ef4fI80+vnHGp1+qPXnQg==\n",
+    "plaintextSha256": "4e1b751a579ef6c023f74c4e3bbd4a339d2b0a84557826be2b415d1259502c86"
+  },
+  {
+    "index": 74,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://rimanzhijia.com",
+    "ciphertext": ":_H006_dP3W2O8UnBanUAaAd/s163vI75ybkymA7cTWv/1ikvY=\n",
+    "plaintextSha256": "e0a8f3c6a359514d311dae1159cf2c473e2e37a04a983ba688e17700bb81a38f"
+  },
+  {
+    "index": 75,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://www.laimanhua8.com",
+    "ciphertext": ":_H006_mNnEONEMTJapQtJAHzCypZlGGwo9Ywwny3Bc+HfU6JWXdbxehiBaicBzAOElQZwIP2B/1mcNb9hk\nXo7MSoauc23cfkXg5D0AFelooX02t+B9jMJ5tZWNBQJm2naqCqUGHsLh01TesKzDuA44N1yu+40q\nJbrEixz3fzltditstP7b44b6oM1LEpk+ktQE9ryxTVghOq6mXiKByUHmX6IMqJt6Jv2mEF+dtk3L\n0CQtHSw19ovR5LTMvfHyUQJUlcP8v2fYJAvOrmyAvMYUiyciV184Ea29vx6Bn7MTKAzQmH2Cl4r+\nnWarUjioeWKAadPzZJmTiIAUBB4taoE28Ee5doaziAXSGNUwxYIb2Dj5DMZuaX25saccQmuIpUB1\naRTViUrfuqqgNdwyVxjYb5qgzzkK5Bp2SErrl8vT9sQrYNNF5PXAvbNtB7vEPdy+IWAlhRcCZeoO\ngOSLBdsJW47iDu2udhLignHMO3DH83NPnpqaeBtK2hO2FjGwe8QbC7CEJtsxUnN4E7D8P81/Sest\ndPEsvYAasKtfRy7QAA6kk1M14xqq8Hrr7WC6Aq53vwED341UsMnxjrhEHIxWNzTh4fe6hkESn7gr\n6KLmDr/H68R79PM6yaO8XdpQc6M5feoAKNyi0yo4n6gOAnZn01UudiqTfx6o2s/XFpWZpK5ltzxU\n7WkZQSAUhDIOMcztJH9ra9xcSr157FB7Q340GRGfVVZHeCg1TdOf9zshwC3UEfjUNxyS8KCWM9kx\nKph7RoCd\n",
+    "plaintextSha256": "09ad7832ce0cb63ee67cf1e0e52d32dd5623d8b2889c0b5872531e997424c848"
+  },
+  {
+    "index": 75,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://www.laimanhua8.com",
+    "ciphertext": ":_H006_M3UI2mfuOzDWMdQbNkvN4PXk+Gs29FBYi5Cqs7KC2Hw=\n",
+    "plaintextSha256": "cb58b9bbb025f7d958626b32b3ef90156530ab8d0fbbdce94b9c9c64607efb74"
+  },
+  {
+    "index": 76,
+    "field": "ruleBookContent",
+    "sourceUrl": "http://m.qmanwu2.com",
+    "ciphertext": ":_H006_CbuCvQVXZjPja0JVqa7a2jk58sfoDARLN7cMBQS6nXHZqJZTnUJES1xjbTx9N/q7+5qcEuSYfr18\nYzydgi8htw==\n",
+    "plaintextSha256": "f7541a9e0a718af3d752cdd2b141a5582ebdb93a21f722cfc1979a1fb9beb3c5"
+  },
+  {
+    "index": 76,
+    "field": "ruleChapterList",
+    "sourceUrl": "http://m.qmanwu2.com",
+    "ciphertext": ":_H006_pvlz+mqpoVOYGHnQ7zhT/YCdcKSrDY8zVdgyuj6uniFfr98uYV6zQ61LtExIykrnx0Ps0a1JWf8i\nCaJ58edntSS5ZfI4HF6Vb6M5oAiQJyBgrSGdE2+Vh9Za1VDfUT+W4VHaQkH2uxcTIVu12Yhq+lI8\n5+jza+6O4e8AzfFazaMEYO1lp//r06fYhtcxZ6VQ0oZgTD5F6P2j2d9W4NxrYsIHQ6urNozL19TH\nO3ts43poAbTd4unvPgO1XDwSl9oUD2Hl58hDTC6rLCrmt02RwcV9WIJjAKjoUuNFYj8hpRhiff+N\nZ7fWSxfrePj700O1DIkjFoMDgTk9n5ouKeHiySlcjCxKRkKFFWvO9S5cszoA/xtN2ugM4vnGAWfY\nU2LQUAk1j7hf4Y9ubAdAuWdOOt5p3KmsLho2NGTdOpHBZmmKSEa01iLhiB7RbOdjoONFFqvHSUfW\noPtg/6howo+fsEXuZL4adqId+VInClYtZiYN5KqR8eKiDNSq/1GazVIJp4RsXHXFByWDhM/quFyo\nhSasoXW1HVSR44AEixzvfR64LLAR45m9m+mDHJQ11iKQiLz2mS41cLLjJvdkxsCW2eKKPHLEHyGb\nUj2bPtL147E=\n",
+    "plaintextSha256": "d0c182f4d4bec0f6b1d79f6acc292579fef279f3b096e911fff9e3318eaa0568"
+  },
+  {
+    "index": 77,
+    "field": "ruleBookContent",
+    "sourceUrl": "http://comic.mkzhan.com",
+    "ciphertext": ":_H006_I8gCeyrLSUWjBQBDaBeytOdj9l6Mf++kaD/zcJCZJqc=\n",
+    "plaintextSha256": "84d885f58c5edd9f6e1ad4a76c62777b81aee3332645d9438c3b49ff0e636a36"
+  },
+  {
+    "index": 77,
+    "field": "ruleChapterList",
+    "sourceUrl": "http://comic.mkzhan.com",
+    "ciphertext": ":_H006_pPR9EcmpFNpIwB9PBcf7eA==\n",
+    "plaintextSha256": "8c0f3dca928884ddfde5d37088de56832bd1c2def9d2c068ec70f78515ce82b7"
+  },
+  {
+    "index": 79,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://m.taomanhua.com",
+    "ciphertext": ":_H006_bIXsFqy/y7R4uDMbwzbY5W4f/wFH2qJE6fc7jtaaJHvIR3FJ60NoH9pJ+f62Hc9OjboW+46Ps7yw\nl794X4LgWTs9XEvACqT22QPfOnrqKZ0=\n",
+    "plaintextSha256": "001c987959292985c60ae04e4e145b2e2f85f9a68b1753416db928bb1e3d5f3c"
+  },
+  {
+    "index": 79,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://m.taomanhua.com",
+    "ciphertext": ":_H006_wcOShjk/cQXPM6VRdy8lvqBeDPnaQSQVycOrEYktOno=\n",
+    "plaintextSha256": "e269aa7d21108eff5a6577b684eb34052d38a0e1c646bb8107dbf0d2df401ed4"
+  },
+  {
+    "index": 80,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://www.biliplus.com/manga",
+    "ciphertext": ":_H006_YfEzqC/uOpAZ0PyFZuJ52Q==\n",
+    "plaintextSha256": "37b7b643afa758a8ec8278316e67830cb732507dc46d3418350a80495635af4b"
+  },
+  {
+    "index": 80,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://www.biliplus.com/manga",
+    "ciphertext": ":_H006_KUZTfRNRig7vRjCveTtwhglJBgOy5rPwN246u65UFig=\n",
+    "plaintextSha256": "6305e743723c964b91c3def716bb6b059c8a82025ed0fb840a59fd6650cce085"
+  },
+  {
+    "index": 81,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://www.didamh.com",
+    "ciphertext": ":_H006_i3a2jn3o3quX5t14Qa96r5ao/0GX8EV0g6RwOfHfLgG9biMSD+dyQbYVMUfR6kalGBjS66+SM9PL\nBYLywfrcmhj3N9QRoRdgMf3kRnXF9s6xfy2uvvzE76JoBU+7fFKl0jmYFUWlBAy8Qjk2CqslNUw6\nLipfAtE80OA1i5oCDgzX4RZuKKxPqlMxPqlWpUBe7eMjbNaARXzfIsQL+Ly9YtUnUxQETDRa6ShX\nNbgdpHrxFgJXTiTv4Q7EnkdAMjccNCgC7sqDQGBQCH7lWFKeRbMZOG8LOjAhKBRSXy/NI1w4GKYf\nJefkkEBAX53faGyeN5nM5kal/a/xLdGGlEJmUG7LNtPIDrv1mgv/G3cx9nYYwgoDlzlT6Acur61V\nMyKTwyEalnmCDAPxAqwoB1BgNnnprvghepx0R0KraAsr3qxGJ7xg0ogivbSoQwDDP1F4\n",
+    "plaintextSha256": "b6e2e18c0978a1a3ad49dc911a8e60252573661771afe1aa235b0ce6c9b51e96"
+  },
+  {
+    "index": 81,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://www.didamh.com",
+    "ciphertext": ":_H006_Xkoyq4krV60ANx4enne3BAPmyN8goVksMsO3VuTR65J7taTDytv8ss7QCCNKksY0gLJqsomCLAJF\nQS6AR4VY71TDDOvqwuw33whWoMukIseostSj7hgLMav48D4aJJpts8l2ihGQiHGBI1YlmvQXdBsI\neUsY+qLf/i7XGd8dHE/oGAQTocWQnwVcplLtO6jD/u+/FKE9+W+DfZuYBbjjr4bKg+rPTmch0t+i\nedaUzxdP6EhzkJeAejdzYSp6njug9rb6KHmb0HzfmzMtGBimx9SbiQo7MByX+q2v4jlC75iDQ8qr\nWNCeFO5KFjLcHVlR1htIJRCH+pa3EfgpSN0ZuN49cqwDD83yV+JF1sb7p9hhDQkxndtS68IjxbL1\n6aSHeaJiwvIAKDfENa0iM8MLXaAmpL4i/paRfTNGuVDiuElJJSmqEuZOS5rBSfrSIbl7ePjFCFxT\n99aDL7HQ14nktY7jum7dVnX+7HdubEi3XiR3/v0qAsMO1+jEGCVW5DQAwLmeSb90LtgA60foqD1d\nBpNMcb8J1tGMBNUASMGSUBg=\n",
+    "plaintextSha256": "2c2e65409205f637182454f36bb0527599c709c840f17c7af6e5693a7faedfa9"
+  },
+  {
+    "index": 82,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://lw.131453.xyz",
+    "ciphertext": ":_H006_E0B9WAbZaAbJ7xrWOrXZHhDCA9UH4h7HTJf50qzPi8cOa+M1nzLg74t5R41nYNM1FNFmDkvSOJ2u\nWp+eS+KU/9ZvQtFFVDqqKCmb7TC0bG/kHeK62qZijU4UuxyTm1DsVlz4Zqmr9eTshMjoyTQZzrXs\nfgxqvd9T/JtVG++uccxDQNeUxwHhEV146+2yV01RI3czGv98Q7XYfj6tP2eULryOYn8HYdMwysMN\nNFJAC4wGD5vMXjRWR6svnrfj+9QphSvRmno3kgTmfCdeDsLJ2euUfw391PplFmSMHbfHSUZaO5d+\nutJC4UwxH05DoUeO\n",
+    "plaintextSha256": "b7d6d66368b7950466cc483244b6e1f5de1b3a5d47c3f0f1931ca3298b7d6a41"
+  },
+  {
+    "index": 82,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://lw.131453.xyz",
+    "ciphertext": ":_H006_/Of+/2Nqv2RZhvg5hNqjRS2PFBZaJ1ST34iFvoeybUs=\n",
+    "plaintextSha256": "29408e3f0325e3f4ceaf44f5c874b0b87e983f8efdd1ef082cee71cb52343a5c"
+  },
+  {
+    "index": 83,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://www.kukk.net",
+    "ciphertext": ":_H006_KtnK09Mm9mHTLdS/7J7ijhcnXnkoGjvEiB8bya8DnwzwN6UezJzRMuDxHrLp35xB\n",
+    "plaintextSha256": "96492d879bfae68bd03d380ebe616189b73540cb437304b6bfc1181bd562a119"
+  },
+  {
+    "index": 83,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://www.kukk.net",
+    "ciphertext": ":_H006_+zw8HAC+SYw8nE3VvswEX8P4yxWCXJQQ9U7DW/F+lwM=\n",
+    "plaintextSha256": "fce308148aafc75ee419237372ff21aae05e08ec53bcee65ed4fc73ec3abfc7c"
+  },
+  {
+    "index": 84,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://m.roumh.com",
+    "ciphertext": ":_H006_IAuBGoWQhMXnsHrOXvvz8KpmkrDB3ENAi/5BsA/DiN/7bzls/LEVSgKGmGm2BslK\n",
+    "plaintextSha256": "8e47ddde20f1706ec7fd5a025041ced8f582d517928bab5bff739df6c6379245"
+  },
+  {
+    "index": 84,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://m.roumh.com",
+    "ciphertext": ":_H006_Tj9Wk8so064lnSWd+hU2OBv3OmKJbTi39lZWWhqvbjY=\n",
+    "plaintextSha256": "28e212a2a6522b1c4486c8dce68b057ebf13452695a3ef23123e5a9b5c250271"
+  },
+  {
+    "index": 85,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://us.webtoons.com",
+    "ciphertext": ":_H006_3mcXpOqYmCJJH1Okhg8MHZauuSqBmF41ibyy/ZIs7Gnmz6VOaI7IidBD0IW2vEVWQNvKBJJVnDdD\nV6WLL0QqSA==\n",
+    "plaintextSha256": "3b90d963326b651f4f6b55f2fe2def783198007eff0947c9033eb1fb9252b48b"
+  },
+  {
+    "index": 85,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://us.webtoons.com",
+    "ciphertext": ":_H006_qQix0Uw66aG6ckKzOkzOS3p7TZJlxD46oyRuY73SchE=\n",
+    "plaintextSha256": "6930d5902994ec76ed8a57045eaa87a5b7eb5c65cc5b11200129f9aa75be0f81"
+  },
+  {
+    "index": 86,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://us-m.webtoons.com",
+    "ciphertext": ":_H006_ttCu9Y/+zr3or//9ccjm/+aNcT+JA2o9rEVZ2q4biLM5xGQr+C1mLVwEAWS14tL9RZtr28t/KPRZ\nJ2/PMjO/k2bPwLBwhOKgRH/IySRM2F/H9vaJY0urrvlxsQVY4pAGPxn7GVjB7aSWLCd4lTKhuQYp\nYUFE3gcZAI7YHXtjmA4t31k0KL9H4MLJh5XPgEvY0EpIhVTgioXpioQTJKVJYQ==\n",
+    "plaintextSha256": "0b8530d14573286d98f0e2c4029e537ff492f3065837265640fcb44bade0b4eb"
+  },
+  {
+    "index": 86,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://us-m.webtoons.com",
+    "ciphertext": ":_H006_kY7lXEpkRWXGrGuDYvD5V/9BMDX4WUiHIIoZeyH6uAY=\n",
+    "plaintextSha256": "330a0283f6d03a849efafd3bb0e89700a33b2d5aa91b64823726cc67db970a65"
+  },
+  {
+    "index": 87,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://yidan.one",
+    "ciphertext": ":_H006_3fnI7l3/lUu0TQ9of6kEVd+stWq+1LjpAn+2snMvy0Z8u+aEHx75RX3o/QDHmDSQP/INWRp8AaIS\nGHAG+3eaQ7SmTEeDK+8ESdbmuHkF4eNcA9MhL/Aj7bnZk4lh+PoQ\n",
+    "plaintextSha256": "f8cc9bfe7c99b7f00479c158efc0d49ccb7124d78574e16fa5c6214cf2cb31d6"
+  },
+  {
+    "index": 87,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://yidan.one",
+    "ciphertext": ":_H006_94u0+7k/xMSPm9bEDnxApw==\n",
+    "plaintextSha256": "b8a27c346357ff0b395c6feceb1a006ce5ec7037a064d62e1e72317a0e86c2d4"
+  },
+  {
+    "index": 88,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://www.acgomh.com",
+    "ciphertext": ":_H006_iqzXqXGOY0wsdtpgVxG7iNz+7uLoc0jrMu3prIeHivw=\n",
+    "plaintextSha256": "1a4bea8aacfd07603245783f388c5e584e7ddc150d70f988b872a26b1ec13277"
+  },
+  {
+    "index": 88,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://www.acgomh.com",
+    "ciphertext": ":_H006_EmrVvJoIDuus6zpOVYG2Ig==\n",
+    "plaintextSha256": "b866c7dc1285f93e7a1c096d3b8da238fcddabf1197580aeafa5a98a0cf5eaf2"
+  },
+  {
+    "index": 89,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://mangabz.com",
+    "ciphertext": ":_H006_sJw8wsDZDCGsipemB5ziC0ODsfx+DHacBzCw4GgwbAaQnyVmLu2tTzOKDnOwcYa52mi1FyNElfma\nNnvPWdaT1pe9uG+VjpgkbC2hZW+O8LPMmSHrnb/sdSfqWSgHa66Jo4TobobuudbZ3bCg6F7aRFEN\nus0or1jLyQpxpP/XcHIqwOkTlIdk5Fkw489xkIqAGfNkbir8PsuKGoe+BruMieP2NC6srfRaXSQV\nzxCh0wDXRGxP22e4fNrhLBvjB4HOm0FyL2tNbFiWasMt8jCCinY0IlWn9NWZWEizuGLQqdNDJpdV\n5Vi8kV+YsSQVELmsB7N3SURAjXOrGfz5kiZR3/qFGfyK/10M9cULMG/5CJ/w3gSL34FdRWOv2/5Q\n5PRXvYICM8OE1N/oaA3WjcPoe00guvb9x4qQFHNWSMdQmhsJb9+RUTTp3MN6yMsY47GRf3fT+IOC\nYcSdua5u79ZeQrQtr5lGPfmRz/gKU37bF2Or8Rg2WWdFwOa18XCiGOdmFXKNGyEpEkYAjkHbfN10\nYscn20W0Q9jD21RJXxwoaFSFhBmuu6L4OAI+LZ84uE48FuuZ87uJlZa6Qq7yvbqk9PGOHsgeZBol\nNeTzHdZX0IUYi5wnBTJV84wvUuTSThTVMyV1xvwHK8kl6R/ynES8V9cmwijoiHO8G8ved8P0S+s3\ng85/zqFVfhaxNsSMasCt+fAQSta8YUI56dPn4jPG5SN+Wwsx5Ei46EE6gSYxvZmp0ovLEelFqsdm\nQnvIPIQReDBKprI/Ff5pYMeadCPpXW8Mf71y8ozMJd6kuDlDb5m0+hjWru3oXkObBg7DNtZZBReX\nviloHUt4JS+4ADPemI59KEGarXBG7Zd6DNeUEbQLNXbDWQW9EtBDWVAkrFMKF1TTuQ0P59dIstki\n5E2c64rKAYvxfdzy5ay4mpnhrnWsP4SEoitMZjEWwUrg2F+T3zONYcF7u7BOrGXTNBKkdJGkjVjb\n1w54e6uT9ZxjmRaYqgF9tJMHALVlGV7nz/JJZKLuw8EKbIpjhd/CYSjSuw==\n",
+    "plaintextSha256": "ecc535b4e7df7fae7634fae91faf36a6fada3746438fece741175ef91a2b600d"
+  },
+  {
+    "index": 89,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://mangabz.com",
+    "ciphertext": ":_H006_gJWf9mFlt43Uh1pmIO0+o/ZUnrhEW5gXOhAvJPdGsLI=\n",
+    "plaintextSha256": "a69b64245c51f88d516696c9f34c4f6b126f32c6a7bcd33426b9cddb96c88daf"
+  },
+  {
+    "index": 96,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://cn.webmota.com",
+    "ciphertext": ":_H006_ygd4AB/q0NgtvyyK4+l6tuEXDmUNmx5m7pVC/DhjzUsHnPnmowAkvhX/xqLMWaCCFlJ5IRq4BNAq\nYpHzb1UNuJ3j/44uiP8fjbFgAQ5OYCBJhi+Nz8hgrb31bXuYH6ohwL/GhwN7BeJi9laiGWrpya3V\ntYl8ePz6uBbO5dvT3mCo1wHIWmyTYRwbSrwOFC0Znf6iXprLs3/tIXmC7NNKTA/Idp9gjIYlgbdB\nCx1jCSb9s5MaqI80COXT0Q2/s3s1K13BGBeckWwsW5x39w6U3i4gp8h7uGucndcOn8GHQX+bvCFR\neVOGhWXp4qJf642ByXXcC68yMd4s3uoWdDnKPSpXcWi0nGyxfEEu5/ybO61//bZh4UzI+9va7sH/\nGbICnswI7kiYkn11wn4rks00sv7vuNo4KFP1TsF5hUEnJXGBv/P8O04pL4iyhrf2RvtuPzFiOvB1\nwWTHUbwQ0SNo30QhW2AjMtN3IpvMi4numGgfzLfdOsuzg9xmmqJmzk5x04ZrvQsfaQZMBeOPCCGI\n/uESmGk4r7KCVX2qkjrb63I0h92qbYF6JlMCY8oH1vmVjmFOjWnYf97n6fN02C7pZNneOyIMqcJ+\ngU1+bzEq5TIAOCF69OEC6WJZGG1DODhY9+trt/rlxvnxzaSr7FrAwtVP47WIJIqxXeqBEFpjXrIJ\n8TDZC2KH2HaWAxd1JVBiPruIAfgrEXBkEr+algD1zZSJD7Lcs4K0oeX8GQiAXbMiYVq8GNQxAUfC\nlbQ+qWq9ytklkHModaBJSn3LSqnijde/bvoi+lY9bzkk+j6SFRXixY8P17eLiyvW8reOD8lyGgpr\nyIUGTyTgP3bY1yICNM+xtJHGah3Fj/zZwYGut9E=",
+    "plaintextSha256": "98428a3654ce16b0ab35b10053bed2fabcef972fc4864a6e68501243e111e110"
+  },
+  {
+    "index": 96,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://cn.webmota.com",
+    "ciphertext": ":_H006_fgscQGawGFDgf7723+YnfX2q1WdHV0B+eBUdEpA3yPpVz/U1EiJbpO+bMS+ky4TukLsveYUMtAGo\nfh867vOUvNFCeS/71/PiBlIP1A/DHS5HSkSpxUwPssWH6LviVMHuNB4f9RB30ufHY6AXDOYWH/d/\n92W7k4JuE5B8HGkdpO1kb+gvzKNfNIOv0AB6QYmYVBvLgWL+m2tJyicrwlM3YJHYG/k856pq10o5\nb5fYlbuC/JZabgRy7AoUVHVnX/ivXEA8Qc05RSNIm+minqXuN1p3vY54k5v/87IejMlC856MCA9q\nzQrA/+rRJ9nxkfig/Z86KV3yQOOenx4eTqy3omzPNWuXv3ZpCUV/NH+3fwaRDbizAvEhp/efg9WK\n8ILGXGh1l2EOnlOexI/vBee4ncgT6DR9dMWcQ/5Qm5I3PWFC+nsXdZBj+X9oqOAIY5j89CwVlUya\nQmubf8AvmXOW1txzogMaiOiVGWP/ntPb3FzfnV9jwdsh7/HyGbnBJ8E/DFFgZgn/mC4YYvQ2grwy\nHA==",
+    "plaintextSha256": "a8099c9a292e9f18ac4989e2fb584a945ef7f0fcc7461691a8b5fef93928a6a0"
+  },
+  {
+    "index": 98,
+    "field": "ruleBookContent",
+    "sourceUrl": "https://www.manhuagui.com",
+    "ciphertext": ":_H006_V7/YcWGsFqYcVwMMuI83CYtCHLuOBlA51FZ+YPBgJkhYOb/p+L0ZT7rHDsmySTNeJIHJq3t6T0Ig\nPaDZf6h/JkrTx4ys3OGSsawwktdcwN0/EIJfcFKzdU4xErX8y5jry8XMY7NOCkTtFsN+ToKmZlhd\nWqmmhjGMHgXwdKnvp/S/Yq+cOapAS/tZHi/jU/NCSesuepoID063W8thXaQEjLj2F2opCBuvYnKm\nmOmUXYGi7JvuQOi2yYoXilYUN5lv7uiTDJTnJoCqGMTmr4qmEiMB5JRSEXVTLXrBHDZ7xJZmsYhF\nlczBLw7kL6zDojRVAeTiSNyQBzvafyiopbGigJVI3Ajo0P8lT9I8XEVSbwoOg4KWDvBtXfbcFTA1\nZLzZX7vn4gZlExNzqbKweywI7BqHlSemDwCVIfIU9kJ7IUHHMfJ5ugIoC7wgMIdbQ09y0Okj0vFT\nM6N85WiUjEAfEfvvZQ9rkA3Mot6qyFW8OOtQfKPftVbRj+p64lNuQo+6e4oXlhye0OlLm3pMVQ76\naRszOwGo0o6/7uTXAChT2iVoscZwyLtFWGP216CZEuIzdmblxizYBEubswI+n7/AuwhbMPGPkdnC\n3nhBlXBgUpRbX7yELAVURUsvuH/VIRZK5M74ZQtHlDjNWO/Bqm65fVW00x/gqBJDbtHQHsKNs7Bj\nM9YLtR7HrRS240QMu1GxJUBAofY/ARYGXPOqa+CayRoyk8hsA7zE+lj3YILcAFrNu/QdxwPsBicf\nkNslNF0D4lRpysCgC0Liz/vlx86Fbi3+cJdwthlr+tbbqSaWFz/GRtRPuszjGMZE9dxjOuIrOpHG\nwaGLPtv5+YhgAQuBwMianDhx4bXdO2SwCXvYQz0IHvjjmsevUI6hloBFTcjcMJ67uN8tPtyeYEAC\n+IxOpVUlqm3F44ZHXCMpKWEh0SPLDCA6++DaV9A83qoZLVGiERkIXlUydWWMsHYAB2Y3jAlqXyKP\nKV8IJUFZ/TOvdXamcGO1wRoQ7bnL1zT/NXrXkI3xdaAfLt8oE+HyEJlIZF9yhX4bM/88hH+c7ssV\nXK6gatXhVBc4qYD5kyWvGbe0rOgX3qYxbb7GCcHP8M6O6ui0DT/bsFDgAALBabE7dJqGCgdqOTft\neztFk9O/GLPCc0gO/H72tkYPPZvHCrNbLm5ym1CvlTo/Yv0SVEdUEaPA2adOc5teyEejLEjfDNtP\nzrz0K3J+KRoUk1RmEysSX+XrsCBUqJnmGJDvA1JTyuvL0EUZY76eSK+AkFz9p6JR+n2L4Gea7A44\nth3Lm3iaTJT1Ta24fofpEng2XgMASSvxy/O3NONPoKG/rRd0nDMQzclnaQIugUDVWrIoZTsRRdu4\nPlqivjWgZk6urYbqFDejhuq/JHUpRCG0/QAYxrSptmfdxgcwIZn5midopR/bWZtZYkN8fcL3YXxI\nMnAuPkkxSnRENhlNQepaxipK8v+ntl7PFzg/O7u2PhuBSND+L4vTRomsSKJA3YRwcA4AZAS1dTgM\n5r8MwTDMgHNYgazCxlgoOeI+YKHRi0B3BiOA7vxTkShFbjJTEGS2bPm8q2GyrxvAyA3yoMTtwz5p\nPSgKXDeCcS9A5bTF0l+m+XVKDt7oBeZ/jV7hAj4XcaWq5Tfw8HmHp80mFCQ4ZB62mgJW6si7SVyI\nF6QrIsxsbpWPvWcFE2P+Sx6UxTs9QtrWygCBBsJw0SVUx1rtkU50C62ilOoRnxh/cOfOIM37dN/O\nEOLEZMz1KpxGF69pVXdox8zm0yUPwLHnew/pgudSevpRqB+Ftc4xv3+w/uD5/PyxROMtx8m1sbsh\nxYGpxp3JY4ln1i6W3MsCaS6O2tn8RewnqrB/iAUECGKnrekPAwKyGinV3ROVhunqzI2db7WwwAwD\n31At00y+lpwVmkqaNnogn6WVogQhtabibSsww1LTKCXnF7LLaeDcW3iJG0vqrO4X1ufRlW14/9g+\nqT1Up2U+jYCVXJvhWIqyxrtH1FPNlJLXwSyC8lXzAN0/1uAtM8QkjaFxyPccDCBBPoJFZG+7iDy/\nScva0KEyG0HWP03d6Fr7IZkPx3uWl/DGZjB/JRMzvXDtoDbO+yJ4sIWGkqM0Gy0wg+lXpTSbIfIU\ntHY7mCrpSsmr6C/DofeqG9Mge+1VkUZs8hiZy3Wh6T7IZafGoI5oBJ90U4BnyqiW9b7Q5+kXzgOD\n2ex8rIUQqrOzf4rPKmrde1be5vXrY2BYuhXO9Ie6Lx3LEmjj3vNV0WbzIS66INYzrToaHchSzVCZ\nvF8UdCq7wMDdwphcY44Sik1RAslmRnwEOMpbq2Ii0U/eJtCPNZ/QjwPs4swIgNpGQH+GU7BLKRhU\nxMpcjbZ1Emej6nBzj6oOb3Ugp0j+vvxqTIfQmwV6rDKGZUVEtKgorNHS72vOTBc2GFPhUTR5K4O9\nhnFiXZxZooQN7R2RusV81OMCbPZ0s71t61cVWdVx96aKjud1uSb5N+dnzXMn2UXIAh15JBzS7GQ+\nQWXqViPa7gVniZhjUXQWRtEwQ3PAvYKLkESTZvIANqSk/pMLtg3k2+ADBwYQQZNmR9b9f8OAIjSJ\np7qzZHKl9zZY/Dmu9xxMnMpNOxRX5dOuPuLJVdLx15g0/zDy4bKB17FESaZ0KgswV9+WEJKeHr7c\nYLzGAfb7NyfgMCOFEcqWs/NQHkzqKp669l/aMmXgjrMuIPlMLOFoQiNOdjWcLqVG8b0sAynNLAGD\nM5KLKUXordH/ABf7SSIpZqUOqegRtS9xTgmOgDBYI0rVU1dxizWryejgNUIk+Lr3mZyfbyeAYV33\n7H9qWI/a8c6iogbbfYXmQgu+KDq2kpNiTAxJefAosPTgf1iEvRJqUkhmCgF9rKPYRk4CTkp3sN0Q\nOgQeHEXmIaNKPKeVepBY3yCX2VwuJUvBexKQEMcnqgMHkrXl48v8pfjxBPfWthRf+eLfwK2S5MtQ\nUgJDA8TeyMDFWhMXjBf7sC8zyp31fXS+tyJux3pHchNu9bk1v61X0NKJPZ19b5uMbBY4mPdt8Phq\nmMHXVUdc595T+zY0ngPC1XHa0QHEaCXtm5wYP+vSz2onVbs5UvpBCr7MMWyqAHNp6Ewnu8xiGM8L\nnuSDnSNyAwEfQHdNI8TzrYfNpzeFeO0H9zo6a/+qaQFfV6sXrsvjtIR80ol3geKbeBcZCf+WCPAC\nhHO8mVntQ2ouIsryPw11qNcH1Mp+kA3OrWh4iru2F7wY4jSe2hnw4Aaozra1Udqi7CVgq59SXXZq\npdBnYQlPZcLlmdXjAjnZJ/uvcdoT+b1xBUOTDtIn+tnuugaWEdnd/zIGJaMD+UlstvIsAXFI2iuH\n4tdnbvH2e7f7kkxPs9PFzygn+nDxkQl7YQ6yp+PH8teCcRS/PbAW+LlPjnpt8Q9WA04ioxhyU2hs\nxgyPnwb6wkhVFysUdx1r6ngFGaKxj1S4vudYwnpIY8qB8gfSciVrXfMEYhtCPYjUv5Q/eJ9oLuWm\nNLjC+6blMBUAgVzBkXGSD36GBcbzH0TfRiZc3FE2bILOVSyJcQncrgdcL7W7kY2cHNmJrUyeghEf\n9uJHZtv94hKu2XKrX2+UKUQdjZECqm2UKb4Evzeu+aO8H6Z2x0ZiQTmw7fsJJR4vWPgWbLTsmp9J\nfVK1W+36eKzAT286iLzCU3zmX5RPMh9W+OMF3CtYW3qstuqMJtTJNK54UOn2V82BkrcM5dnPimU0\nCrcmPCkzqzrUrP5CvcGDhPgd0fLgAbR1tQOAk4H1m/YS/UGk3jV6gOUr3HjCDPJ3xBLJdG2iXoga\nSr2rQbvVZV1/M4fDy4bYMgU0RqzQIrEEhybGePzA5ioI1jgiQUITuoncmEEAVFNzNNMXhh5yJD8t\nojHglik9h9FWJ03WGhqbRXRtHEV/RkhmAfk1Of+y4mflq02geslKkyveV+Rw0WeRUV7AFFbaDq3X\nkIo4yelSP5Utk85bz5vDjQKdVC+Lgk/IDJ6pSWusDeqWgQomXj+yv7i2DmxkWHZkG/miK4diYx7h\nr/SNu8YTXMHPcHtu1TnLavalXONkSlrVgB2TtXDQU25F6o6hOEK4a33KdP67XoT4+DyfALMCzOLb\nEhSG2qIrerMXu4H5GLwYFS8rfTu0NWCAURMc29nElxTvO1LCF1UAdun6FIMJesqvB0uACY8Di7+i\n3j7nAJLlSTgc7LtE8x9RU+ykyW5LuZBRnZHh05JN91o6fnBxg1X2VpVFykD6fQAmMMAjtA0gqxeX\nQR7mG8TWFOXLQ8u4IsknCBYe2aD6lw6za3GXapXbzKoJw2+YwcDmNnJL3Qw7lc5C3I2oV/06THxc\n6Gnf6eVcynLT+HfAFPBawSaikzFM7NsV8XpmReR8Rw==\n",
+    "plaintextSha256": "77a5afab16a1e418c6c8bdc511fe8734da73db1d9fbeef3b5ac379cc949bf092"
+  },
+  {
+    "index": 98,
+    "field": "ruleChapterList",
+    "sourceUrl": "https://www.manhuagui.com",
+    "ciphertext": ":_H006_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\n",
+    "plaintextSha256": "aa4e1b032e14d177cca739e1e1a4d9b5787787de380fd3b75233c54e0b3fc7ac"
+  }
+]

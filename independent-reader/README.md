@@ -1,5 +1,9 @@
 # 圣子猫阅读器 · 独立版
 
+Windows 独立版工程说明。首次使用与功能概览见 [仓库首页](../README.md)，安装包以 [本仓库 Releases](https://github.com/fixz232/shengzimao-reader/releases) 实际附件为准；完整环境准备见 [Windows 构建指南](../DESKTOP_BUILD.md)。当前源码为 **0.5.4**，不代表该版本已发布。
+
+来源与使用边界：[项目声明](../NOTICE.md) · [第三方许可](../THIRD_PARTY_NOTICES.md) · [致谢](../ACKNOWLEDGEMENTS.md) · [桌面来源记录](PROVENANCE.md)。本页下方保留功能演进与开发记录。
+
 这是新建的桌面工程，不导入或打包旧版 `src`、`dist`、`.electron-vue`、Vue 组件或状态管理实现。旧版目录、安装包和用户书库不改动。
 
 ## 实施顺序与验收
@@ -19,7 +23,7 @@
 
 新写桌面代码以 AGPL-3.0-only 提供。SoNovel 单独保留其上游 LICENSE、来源与完整对应源代码。此工程不是原 single-reader 的授权证明，也不声称经过法律意义上的洁净室流程；此前已审查过旧项目，实现来源审计与法律判断需区分。
 
-当前独立版版本为 0.5.2。Windows 安装版可在关于页面检查 GitHub 上的新版本并远程下载；下载校验完成后，需确认才会安装。开发工具使用 Electron 33.4.11，公开发布前仍需评估运行时支持周期并重新回归。
+当前独立版版本为 0.5.4。Windows 安装版可在关于页面检查 GitHub 上的新版本并远程下载；下载校验完成后，需确认才会安装。开发工具使用 Electron 33.4.11，公开发布前仍需评估运行时支持周期并重新回归。
 
 ## 阅读框默认行为（0.1.2）
 
@@ -89,13 +93,23 @@ Windows 安装版可在「关于」页面检查 GitHub 上的独立版新版本�
 - 「关于」补充软件许可、第三方内容权利、公开访问边界、数据和网络说明、免责声明、数据备份风险及来源致谢。
 - 新增 `npm run test:about-ui`，验证桌面与 560 像素窗口的声明展示和滚动；在线链路回归覆盖零结果失败后点击重试。
 
+## 0.5.4 正文下载修复
+
+- 搜索和目录可用不保证整本书可下载；付费、锁定或不可访问的番茄正文仍不可下载。已知字体数据来自 [ying-ck/fanqienovel-downloader](https://github.com/ying-ck/fanqienovel-downloader)（AGPL-3.0），与 MIT 的流程参考项目分别记录。
+- 已知公开网页字体可还原为普通正文；未知字体或缺字仍会停止，避免保存乱码。
+- 《毛泽东选集》精确匹配同名同作者分卷后，番茄网页 404 可转至独立公开文集下载。详情、入库正文和书库元数据均注明实际来源与版本差异；不把公开版冒充番茄版。
+- 第二卷公开版为 40 篇正文，不含番茄目录中的版权页和分卷扉页；公开版本不启用番茄追更。
+- 固定目录与正文的同一提交版本，源站连接失败时尝试同一文件的 CDN；取消和导入失败不会留下成功记录或残缺书籍。
+- `node scripts/tomato-live-download.cjs` 使用真实搜索、正文和导入 worker 在隔离配置中验证整卷；`npm run test:tomato-ui` 从实际界面完成下载并读取末篇。
+- 验证范围见 [0.5.4 验证记录](VERIFICATION-0.5.4.md)。
+
 ## 协议、声明与免责
 
 新写桌面代码采用 **AGPL-3.0-only**；SoNovel 保留原始 GNU AGPL v3 许可证与对应源码。再分发或修改时，请阅读 [LICENSE](LICENSE)，保留适用署名、许可和修改记录，并按许可证履行对应源码提供等义务；修改版通过网络与用户交互时，还需核对第 13 条的源码提供要求。该说明不替代许可证全文。依赖、素材、图标、小说和网站内容不因本项目开源而自动获得同一许可或额外授权，来源边界见 [PROVENANCE.md](PROVENANCE.md)。
 
-本项目由独立维护者提供，不是 SoNovel、番茄小说或其他平台的官方客户端，不表示第三方认可、参与、赞助或担保。番茄功能参考 Tomato-Novel-Downloader 的公开流程，独立实现适配；不保存番茄登录信息，不绕过登录、付费、验证码或其他访问控制。公开可访问不等于获得下载或再传播许可，请只处理有权访问和使用的内容，遵守适用法律与来源网站条款，支持原作者与正版平台。
+本项目由独立维护者提供，不是 SoNovel、番茄小说或其他平台的官方客户端，不表示第三方认可、参与、赞助或担保。番茄功能参考 [zhongbai2333/Tomato-Novel-Downloader](https://github.com/zhongbai2333/Tomato-Novel-Downloader) 的公开流程，独立实现适配；不保存番茄登录信息，不绕过登录、付费、验证码或其他访问控制。公开可访问不等于获得下载或再传播许可，请只处理有权访问和使用的内容，遵守适用法律与来源网站条款，支持原作者与正版平台。
 
-书库、正文、进度、书签、统计及确认记录默认保存在本机；应用不自动上传书库。在线搜索会发送关键词，详情、封面和下载会请求第三方来源，目标链接、IP 地址及必要请求信息可能由对方接收。番茄搜索访问 `novel.snssdk.com`，详情与目录访问 `fanqienovel.com`；检查更新访问 GitHub 及其下载服务，透明网页按用户填写的地址联网。本地存储不代表在线匿名。备份包含正文和阅读数据；分享备份、日志或问题截图前应检查个人信息。声明确认不认证作品授权，备份恢复也不代替确认。
+书库、正文、进度、书签、统计及确认记录默认保存在本机；应用不自动上传书库。在线搜索会发送关键词，详情、封面和下载会请求第三方来源，目标链接、IP 地址及必要请求信息可能由对方接收。番茄搜索访问 `novel.snssdk.com`，详情、目录与公开章节访问 `fanqienovel.com`；公开文集备用来源请求固定提交的 `raw.githubusercontent.com` 文件，连接或服务故障时可尝试相同文件的 `cdn.jsdelivr.net` 地址；检查更新访问 GitHub 及其下载服务，透明网页按用户填写的地址联网。本地存储不代表在线匿名。备份包含正文和阅读数据；分享备份、日志或问题截图前应检查个人信息。声明确认不认证作品授权，备份恢复也不代替确认。
 
 软件按适用许可证“按现状”提供。在适用法律允许的范围内，不保证第三方服务持续可用、内容完整准确、更新及时或适合特定用途。网站变化可能导致搜索、目录、下载失败。转换可能丢失图片、表格和排版，增量追更不覆盖已导入的旧章修订；请在转换、恢复备份或更新前备份重要数据。本说明不排除或限制适用法律规定不得排除或限制的权利与责任。
 
@@ -105,6 +119,8 @@ Windows 安装版可在「关于」页面检查 GitHub 上的独立版新版本�
 
 - [freeok/SoNovel](https://github.com/freeok/so-novel)：在线引擎，保留其源码、许可与声明。
 - [zhongbai2333/Tomato-Novel-Downloader](https://github.com/zhongbai2333/Tomato-Novel-Downloader)：MIT，番茄公开搜索、详情、目录与下载流程参考。
+- [ying-ck/fanqienovel-downloader](https://github.com/ying-ck/fanqienovel-downloader)：AGPL-3.0，已验证网页字体的字符翻译数据；许可原文随 `app/notices/` 保留。
+- [weiyinfu/MaoZeDongAnthology](https://github.com/weiyinfu/MaoZeDongAnthology)：精确匹配书名、作者与分卷后的公开版本备用来源；正文按需获取，不随安装包预置，作品权利不因本项目开源而改变。
 - [LevineHua/single-reader](https://github.com/LevineHua/single-reader) 与 [chentieli/single-reader](https://github.com/chentieli/single-reader/tree/epub)：单行阅读与 EPUB 等产品思路参考；当前工程未导入或打包其旧 Vue / Electron 实现。
 - Electron、electron-builder、electron-updater、builder-util-runtime、Mozilla PDF.js、iconv-lite、JSZip、sax-js、xml2js、Node.js、OpenJDK、Maven 和相关依赖贡献者；各自许可随对应组件保留。
 - 提供猫图标、测试反馈与改进建议的用户，以及创作作品的作者与权利人。

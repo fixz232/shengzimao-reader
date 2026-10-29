@@ -136,7 +136,11 @@ val Book.onlineChapters: List<OnlineChapter>
 object OnlineChapterCodec {
     fun encode(chapters: List<OnlineChapter>): String {
         val array = JSONArray()
-        chapters.forEach { array.put(JSONObject().put("title", it.title).put("url", it.url)) }
+        chapters.forEach { chapter -> array.put(JSONObject().put("title", chapter.title).put("url", chapter.url).apply {
+            if (chapter.ruleState.isNotBlank()) put("ruleState", chapter.ruleState)
+            if (chapter.nextUrl.isNotBlank()) put("nextUrl", chapter.nextUrl)
+            if (chapter.previousUrl.isNotBlank()) put("previousUrl", chapter.previousUrl)
+        }) }
         return array.toString()
     }
 
@@ -147,7 +151,8 @@ object OnlineChapterCodec {
             val item = array.optJSONObject(index) ?: return@mapNotNull null
             val title = item.optString("title")
             val url = item.optString("url")
-            if (title.isEmpty() || url.isEmpty()) null else OnlineChapter(title, url)
+            if (title.isEmpty() || url.isEmpty()) null else OnlineChapter(title, url,
+                item.optString("ruleState"), item.optString("nextUrl"), item.optString("previousUrl"))
         }
     }
 }

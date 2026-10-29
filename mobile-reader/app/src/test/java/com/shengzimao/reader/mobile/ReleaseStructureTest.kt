@@ -30,9 +30,9 @@ class ReleaseStructureTest {
     }
 
     @Test
-    fun consentVersionMatchesDesktop() {
-        // 与桌面版 app/consent.cjs 的 VERSION 保持一致，避免两端的确认状态互不认可。
-        assertEquals("2026-10-23-v1", com.shengzimao.reader.mobile.data.Consent.VERSION)
+    fun mobileConsentRequiresCurrentRevision() {
+        // 漫画源与在线使用规则更新后，旧版声明确认不能复用。
+        assertEquals("2026-10-24-v2", com.shengzimao.reader.mobile.data.Consent.VERSION)
     }
 
     @Test

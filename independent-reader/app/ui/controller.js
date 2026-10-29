@@ -42,7 +42,6 @@
     document.body.classList.add('reader-window');const s=state.settings,styles={'--reader-bg':rgba(s.background,s.backgroundOpacity),'--reader-color':rgba(s.fontColor,s.fontOpacity),'--reader-size':s.fontSize+'px','--reader-font':JSON.stringify(s.fontFamily)+',微软雅黑,Arial,sans-serif','--reader-weight':s.fontBold?'700':'400','--reader-highlight':s.highlightColor,'--reader-line-height':Math.ceil(s.fontSize*(s.multiLine?1.45:1.35))+'px','--reader-copy-height':Math.ceil(s.fontSize*(s.multiLine?1.45:1.35))*(s.multiLine?s.lineCount:1)+'px','--reader-active-line':rgba(s.highlightColor,.35)};for(const [key,value]of Object.entries(styles))document.documentElement.style.setProperty(key,value);
     if(!document.querySelector('#reader-copy'))root.innerHTML='<main class="reader-strip"><div class="reader-drag" aria-label="拖动阅读条"></div><p id="reader-copy" class="reader-copy" aria-label="小说正文"></p><div id="reader-progress" class="reader-progress"></div><div class="reader-resize" aria-label="调整阅读条大小"></div></main>';
     document.querySelector('.reader-resize').hidden=!s.resizable;
-    document.querySelector('#reader-copy').title=state.activeId?'双击打开书库，右键查看阅读菜单':'欢迎使用圣子猫阅读器 · 双击打开书库，右键查看菜单';
   }
   const addresses=['https://mail.example.com/inbox/folders/all/unread','https://docs.example.com/zh-CN/workspace/recent'];
   // 内容指纹：书 + 位置 + 排版相关设置 + 窗口宽度都没变时，跳过 read IPC 与重新排版。
@@ -158,7 +157,12 @@
     else if(action==='online-clear-selection'){m.onlineSelected=new Set();render();return;}
     else if(action==='online-retry'){await request('online-retry');notify('已重新提交任务。');return;}
     else if(action==='tomato-cancel')await request('tomato-cancel');
-    else if(action==='tomato-download'){await request('tomato-download',{index:Number(button.dataset.index),format:m.tomatoFormat});notify('番茄下载任务已提交。');}
+    else if(action==='tomato-download'){const result=await request('tomato-download',{index:Number(button.dataset.index),format:m.tomatoFormat});if(result.error)throw new Error(result.error);notify(result.message);}
+    else if(action==='tomato-other-source'){
+      const target=state.tomato.results[Number(button.dataset.index)];if(!target)throw new Error('请先选择书籍。');
+      m.searchTab='aggregate';m.keywordDraft=target.bookName;m.onlineQuery='';m.onlineSite='';m.onlineSort='match';m.onlineSelected=new Set();
+      await request('search',{keyword:m.keywordDraft});
+    }
     else if(action==='backup-export'){m.busy=true;render();try{const result=await request('backup-export');if(!result.canceled)notify(`备份已保存：${result.file}（${result.books} 本）`);}finally{m.busy=false;await refresh();}return;}
     else if(action==='backup-import'){m.busy=true;render();try{const result=await request('backup-import');if(!result.canceled)notify(result.message||`已导入 ${result.imported} 本，跳过 ${result.skipped} 本。`);}finally{m.busy=false;await refresh();}return;}
     else if(action==='open-profile'){await request('open-profile');return;}
@@ -219,7 +223,7 @@
   }));
   root.addEventListener('submit',event=>{event.preventDefault();task(async()=>{
     if(event.target.id==='search-form'){await request('search',{keyword:document.querySelector('#keyword').value});await refresh();}
-    if(event.target.id==='tomato-search-form'){await request('tomato-search',{keyword:document.querySelector('#tomato-keyword').value});await refresh();}
+    if(event.target.id==='tomato-search-form'){m.tomatoChapterQuery='';await request('tomato-search',{keyword:document.querySelector('#tomato-keyword').value});await refresh();}
     if(event.target.id==='text-search-form'){m.textQuery=document.querySelector('#text-search-keyword').value;m.textStatus='正在搜索正文…';const scope=document.querySelector('#text-search-scope').value;m.textResults=[];render();const revision=++textSearchRevision;const results=await request('local-search',{keyword:m.textQuery,ids:scope==='all'?state.books.filter(book=>!book.missing).map(book=>book.id):[m.dialog?.bookId||state.activeId].filter(Boolean)});if(revision!==textSearchRevision)return;// 旧搜索晚到，丢弃以免覆盖新结果。
       m.textResults=results;m.textStatus=`找到 ${results.length} 条匹配（最多显示 100 条）。`;render();}
   });});

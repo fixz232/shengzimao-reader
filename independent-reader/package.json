@@ -1,7 +1,7 @@
 {
   "name": "shengzimao-reader-independent",
   "productName": "圣子猫阅读器·独立版",
-  "version": "0.5.2",
+  "version": "0.5.4",
   "private": true,
   "description": "独立实现的桌面阅读器；SoNovel 在线引擎单独保留许可与来源。",
   "main": "app/main.cjs",

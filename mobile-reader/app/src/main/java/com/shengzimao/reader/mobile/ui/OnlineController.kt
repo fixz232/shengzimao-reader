@@ -13,6 +13,10 @@ import com.shengzimao.reader.mobile.data.OnlineChapterCodec
 import com.shengzimao.reader.mobile.data.OnlineMatcher
 import com.shengzimao.reader.mobile.data.OnlineResult
 import com.shengzimao.reader.mobile.data.OnlineUiState
+import com.shengzimao.reader.mobile.data.NovelSourceGroups
+import com.shengzimao.reader.mobile.data.NovelSearchFailure
+import com.shengzimao.reader.mobile.data.LegadoNovelEngine
+import com.shengzimao.reader.mobile.data.NovelHttpTransport
 import com.shengzimao.reader.mobile.data.Updates
 import com.shengzimao.reader.mobile.data.SonovelEngine
 import com.shengzimao.reader.mobile.data.TomatoEngine
@@ -27,6 +31,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.sync.withLock
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -34,7 +42,7 @@ import org.json.JSONObject
  * 在线搜书、下载入库与追更。
  *
  * 与桌面版一致的行为约定：
- * - 全局单任务：同一时刻只跑一个在线任务；
+ * - 搜索、书源管理与后台下载串行；阅读使用独立会话，不等待整本下载；
  * - 批量下载最多 30 本、追更最多 200 本，严格串行；
  * - 搜索结果的相关性过滤与聚合排序在本地完成（引擎只负责抓源站原始结果）；
  * - 入库后记录 onlineUrl 与国家目录清单，为安全追更提供核对依据。
@@ -48,19 +56,54 @@ class OnlineController(
     private val saveDownloaded: (OnlineResult, text: String, chapters: List<OnlineChapter>) -> Boolean,
     private val notify: (String, Boolean) -> Unit,
     private val tomatoPage: Boolean = false,
+    /** 在线下载的并发章节数（来自用户设置）。 */
+    private val concurrencyProvider: () -> Int = { TomatoEngine.DEFAULT_CONCURRENCY },
 ) {
     private val _state = MutableStateFlow(OnlineUiState())
     val state: StateFlow<OnlineUiState> = _state.asStateFlow()
 
     private var engine: SonovelEngine? = null
+    private var engineGroup: Int = -1
+    private var readingEngine: SonovelEngine? = null
+    private var readingEngineGroup = -1
+    private val readingLock = kotlinx.coroutines.sync.Mutex()
+    private val sourceGroups by lazy {
+        NovelSourceGroups(java.io.File(context.filesDir, "novel-source-groups")) {
+            context.assets.open("engine/rules/main.json").bufferedReader().use { it.readText() }
+        }
+    }
     private val tomato by lazy { TomatoEngine() }
+    private val novelHttp by lazy { NovelHttpTransport() }
+    private var cachedRulesGroup = -1
+    private var cachedRules = emptyMap<String, JSONObject>()
+
+    @Synchronized
+    private fun groupRules(group: Int): Map<String, JSONObject> {
+        if (cachedRulesGroup != group) {
+            val array = sourceGroups.rules(group)
+            cachedRules = (0 until array.length()).map { array.getJSONObject(it) }.associateBy { it.getString("url") }
+            cachedRulesGroup = group
+        }
+        return cachedRules
+    }
+
+    private fun legadoFor(group: Int, sourceKey: String): LegadoNovelEngine? {
+        if (sourceKey.isBlank()) return null
+        val rule = groupRules(group)[sourceKey]
+            ?: error("此书原来的书源已不存在，请重新导入到分组 $group 或换源")
+        require(rule.has("legado")) { "此书源的规则格式已变化，请重新搜索并换源" }
+        return LegadoNovelEngine(rule, java.io.File(context.filesDir, "legado-novels/group-$group"), novelHttp::fetch)
+    }
 
     /**
      * 引擎有全局可变状态（工作目录、AppConfig、HttpClientContext），
      * 而 ReaderViewModel 的各个入口是彼此独立的协程，仅靠 UI 上的 running 标记无法阻止并发。
-     * 所有在线任务都必须在这把锁内执行。
+     * 管理与下载任务在这把锁内执行；阅读有自己的锁、引擎类空间和工作目录。
      */
     private val taskLock = kotlinx.coroutines.sync.Mutex()
+
+    private fun downloadConcurrency(): Int =
+        runCatching { concurrencyProvider() }.getOrDefault(TomatoEngine.DEFAULT_CONCURRENCY).coerceIn(1, 8)
 
     private suspend fun <T> exclusive(block: suspend () -> T): T {
         if (!taskLock.tryLock()) throw IllegalStateException("已有在线任务正在运行，请等待完成。")
@@ -68,25 +111,102 @@ class OnlineController(
             return block()
         } finally {
             if (currentCoroutineContext().isActive.not()) {
-                _state.value = _state.value.copy(running = false, message = "任务已取消。", error = "")
+                val wasSearching = _state.value.searching
+                _state.value = _state.value.copy(running = false, searching = false, message = if (wasSearching) "搜索已停止，已返回的结果保留。" else "在线任务已停止，可重试。", error = "")
             }
             taskLock.unlock()
         }
     }
 
-    private val engineOrThrow: SonovelEngine
-        get() {
-            val existing = engine
-            if (existing != null && existing.available) return existing
-            val created = SonovelEngine(context)
-            engine = created
-            if (!created.available) {
-                _state.value = _state.value.copy(engineReady = false)
-                throw IllegalStateException("内置在线引擎未能加载：${created.loadError ?: "未知初始化错误"}")
-            }
-            _state.value = _state.value.copy(engineReady = true)
-            return created
+    private fun engineFor(group: Int): SonovelEngine {
+        NovelSourceGroups.requireGroup(group)
+        val existing = engine
+        if (existing != null && existing.available && engineGroup == group) return existing
+        if (group != 1) require(sourceGroups.entries(group).isNotEmpty()) { "分组 $group 尚未导入书源，请先导入。" }
+        // Retain only one dex class loader; reading uses the book's saved group,
+        // independently of the group currently selected in the search page.
+        engine = null
+        val created = SonovelEngine(context, if (group == 1) null else sourceGroups.sonovelRulesFile(group))
+        engine = created
+        engineGroup = group
+        if (!created.available) {
+            _state.value = _state.value.copy(engineReady = false)
+            throw IllegalStateException("内置在线引擎未能加载：${created.loadError ?: "未知初始化错误"}")
         }
+        _state.value = _state.value.copy(engineReady = true)
+        return created
+    }
+
+    /** A download reconfigures its engine's global work directory; never share that instance with reading. */
+    private fun readingEngineFor(group: Int): SonovelEngine {
+        NovelSourceGroups.requireGroup(group)
+        readingEngine?.takeIf { it.available && readingEngineGroup == group }?.let { return it }
+        val created = SonovelEngine(context, if (group == 1) null else sourceGroups.sonovelRulesFile(group), readingSession = true)
+        check(created.available) { "在线阅读引擎未能加载：${created.loadError ?: "未知初始化错误"}" }
+        readingEngine = created
+        readingEngineGroup = group
+        return created
+    }
+
+    suspend fun loadSourceGroups() = taskLock.withLock { withContext(Dispatchers.IO) {
+        refreshSourceGroups(sourceGroups.selected())
+    } }
+
+    private fun refreshSourceGroups(group: Int) {
+        val entries = (1..5).map { sourceGroups.entries(it) }
+        _state.value = _state.value.copy(sourceGroup = group, sourceCounts = entries.map { it.size },
+            sourceEntries = entries[group - 1], selectedSourceUrls = sourceGroups.selectedSources(group), sourcesReady = true)
+    }
+
+    suspend fun selectSearchSources(urls: Set<String>?) = exclusive {
+        _state.value = _state.value.copy(sourcesReady = false)
+        try { withContext(Dispatchers.IO) {
+            val group = _state.value.sourceGroup
+            sourceGroups.selectSources(group, urls)
+            refreshSourceGroups(group)
+            _state.value = _state.value.copy(results = emptyList(), details = null, detailsToc = emptyList(), detailsIndex = -1,
+                searchFailures = emptyList(), searchCompleted = 0, searchTotal = 0,
+                revision = _state.value.revision + 1, error = "", message = "搜索范围已更新，下次搜索使用所选书源。")
+        } } finally { _state.value = _state.value.copy(sourcesReady = true) }
+    }
+
+    suspend fun selectSourceGroup(group: Int) = exclusive {
+        NovelSourceGroups.requireGroup(group)
+        if (_state.value.sourceGroup == group && _state.value.sourcesReady) return@exclusive
+        _state.value = _state.value.copy(sourcesReady = false)
+        try { withContext(Dispatchers.IO) {
+            sourceGroups.select(group)
+            refreshSourceGroups(group)
+            _state.value = _state.value.copy(results = emptyList(), details = null, detailsToc = emptyList(),
+                searchFailures = emptyList(), searchCompleted = 0, searchTotal = 0,
+                detailsIndex = -1, batch = null, error = "", elapsedMs = 0, revision = _state.value.revision + 1,
+                message = if (group == 1) "分组 1 使用内置书源。" else "已切换到分组 $group，仅搜索此组导入的书源。")
+        } } finally { _state.value = _state.value.copy(sourcesReady = true) }
+    }
+
+    suspend fun importSources(group: Int, read: () -> String) = exclusive { withContext(Dispatchers.IO) {
+        require(!tomatoPage && group in 2..5) { "请在聚合搜书的分组 2–5 导入书源。" }
+        _state.value = _state.value.copy(importingSources = true, error = "")
+        try {
+            val text = runInterruptible { read() }
+            currentCoroutineContext().ensureActive()
+            val result = sourceGroups.import(group, text)
+            synchronized(this@OnlineController) {
+                if (cachedRulesGroup == group) { cachedRulesGroup = -1; cachedRules = emptyMap() }
+            }
+            readingLock.withLock {
+                if (readingEngineGroup == group) { readingEngine = null; readingEngineGroup = -1 }
+            }
+            if (engineGroup == group) { engine = null; engineGroup = -1 }
+            refreshSourceGroups(_state.value.sourceGroup)
+            _state.value = _state.value.copy(results = emptyList(), details = null, detailsToc = emptyList(),
+                searchFailures = emptyList(), searchCompleted = 0, searchTotal = 0,
+                detailsIndex = -1, batch = null, elapsedMs = 0, revision = _state.value.revision + 1)
+            report(result.message(group))
+        } finally {
+            _state.value = _state.value.copy(importingSources = false)
+        }
+    } }
 
     fun report(text: String, error: Boolean = false) {
         _state.value = _state.value.copy(message = text, error = if (error) text else "")
@@ -101,15 +221,31 @@ class OnlineController(
 
     suspend fun search(keyword: String, history: List<String>) = exclusive { searchLocked(keyword, history) }
 
-    private suspend fun searchLocked(keyword: String, history: List<String>) = withContext(Dispatchers.IO) {
+    suspend fun retryFailedSources() = exclusive {
+        val snapshot = _state.value
+        require(!tomatoPage && snapshot.searchFailures.isNotEmpty()) { "没有需要重试的失败书源。" }
+        searchLocked(snapshot.keyword, snapshot.searchHistory, snapshot.searchFailures.map { it.sourceUrl }.toSet())
+    }
+
+    private suspend fun searchLocked(keyword: String, history: List<String>, retryUrls: Set<String>? = null) = withContext(Dispatchers.IO) {
         val query = keyword.trim()
         if (query.isEmpty() || query.length > 120) throw IllegalArgumentException("请输入 1–120 个字符的书名或作者。")
         if (_state.value.running) throw IllegalStateException("请等待当前任务结束或先取消。")
+        if (!tomatoPage && !_state.value.sourcesReady) refreshSourceGroups(sourceGroups.selected())
+        val group = _state.value.sourceGroup
+        if (!tomatoPage) require(sourceGroups.entries(group).any { it.searchable && (_state.value.selectedSourceUrls == null || it.url in _state.value.selectedSourceUrls.orEmpty()) }) {
+            if (_state.value.sourceCounts[group - 1] == 0) "分组 $group 还没有书源，请先导入书源，再搜索。"
+            else "分组 $group 没有选中的可搜索书源，请打开搜索范围选择书源。"
+        }
         val started = System.currentTimeMillis()
+        val retained = if (retryUrls == null) emptyList() else _state.value.results
+        val previousFailures = if (retryUrls == null) emptyList() else _state.value.searchFailures
         _state.value = _state.value.copy(
             running = true,
+            searching = true,
             keyword = query,
-            results = emptyList(),
+            results = retained,
+            searchFailures = previousFailures, searchCompleted = 0, searchTotal = 0,
             message = "正在搜索，请稍候…",
             error = "",
             batch = null,
@@ -121,13 +257,34 @@ class OnlineController(
             searchHistory = (listOf(query) + history.filter { it != query }).take(12),
         )
         try {
-            val raw = if (tomatoPage) tomato.search(query) else runInterruptible { OnlineResult.listFrom(engineOrThrow.search(query)) }
+            val searchContext = currentCoroutineContext()
+            val revision = _state.value.revision
+            val streamed = com.shengzimao.reader.mobile.data.StreamingNovelResults(query)
+            streamed.append(retained)
+            val raw = if (tomatoPage) tomato.search(query) else runInterruptible {
+                searchSources(group, query, retryUrls ?: _state.value.selectedSourceUrls, previousFailures) { books, completed, total, failures ->
+                    searchContext.ensureActive()
+                    if (_state.value.revision == revision) {
+                        val visible = streamed.append(books)
+                        _state.value = _state.value.copy(results = visible,
+                            searchFailures = failures, searchCompleted = completed, searchTotal = total,
+                            message = "已搜索 $completed/$total 个书源 · ${visible.size} 条结果" +
+                                (if (failures.isEmpty()) "" else " · ${failures.size} 个失败") + "，其他书源继续搜索…",
+                            elapsedMs = System.currentTimeMillis() - started)
+                    }
+                }
+            }
             currentCoroutineContext().ensureActive()
-            val filtered = (if (tomatoPage) raw else OnlineMatcher.filter(query, raw)).take(500)
+            val filtered = (if (tomatoPage) raw else streamed.append(raw)).take(500)
             _state.value = _state.value.copy(
                 running = false,
+                searching = false,
                 results = filtered,
-                message = if (filtered.isEmpty()) {
+                message = if (_state.value.searchFailures.isNotEmpty()) {
+                    "${if (retryUrls == null) "搜索结束" else "重试结束"}，找到 ${filtered.size} 条相关结果；${_state.value.searchFailures.size} 个书源失败，可查看原因并重试。"
+                } else if (retryUrls != null) {
+                    "失败书源重试完成，当前共 ${filtered.size} 条相关结果。"
+                } else if (filtered.isEmpty()) {
                     "未找到与书名或作者匹配的结果，请缩短书名、检查作者，或更换关键词。"
                 } else {
                     "搜索完成，找到 ${filtered.size} 条相关结果（已过滤 ${raw.size - filtered.size} 条无关或无效结果）。"
@@ -141,11 +298,82 @@ class OnlineController(
             val detail = error.message ?: "搜索失败"
             _state.value = _state.value.copy(
                 running = false,
+                searching = false,
                 error = if (hint.isBlank()) detail else "$detail（$hint）",
                 message = "任务未完成。",
                 elapsedMs = System.currentTimeMillis() - started,
             )
         }
+    }
+
+    /** Publish each source immediately; slow sources cannot hide the completed ones. */
+    private fun searchSources(group: Int, query: String, selection: Set<String>?, previousFailures: List<NovelSearchFailure>,
+        publish: (List<OnlineResult>, Int, Int, List<NovelSearchFailure>) -> Unit): List<OnlineResult> {
+        val entries = sourceGroups.searchEntries(group, selection)
+        val selectedUrls = entries.map { it.url }.toSet()
+        val native = groupRules(group).values.filter {
+            it.has("legado") && com.shengzimao.reader.mobile.data.NovelLegadoRules.searchable(it) &&
+                it.optString("url") in selectedUrls
+        }
+        val sonovel = entries.filter { it.searchable && it.format == "SoNovel" }
+        val sonovelCount = sonovel.size
+        val total = native.size + sonovelCount
+        val completed = java.util.concurrent.atomic.AtomicInteger()
+        val results = ArrayList<OnlineResult>()
+        val failures = LinkedHashMap(previousFailures.associateBy { it.sourceUrl })
+        val finished = HashSet<String>()
+        val guard = Any()
+        fun complete(url: String, name: String, error: String?) {
+            synchronized(guard) {
+                finished.add(url)
+                if (error != null) failures[url] = NovelSearchFailure(url, name.ifBlank { url }, error.ifBlank { "书源请求失败" }.take(500)) else failures.remove(url)
+            }
+        }
+        fun accept(books: List<OnlineResult>, count: Int = 1) = synchronized(guard) {
+            val marked = books.map { it.copy(sourceGroup = group) }
+            results.addAll(marked.take((5000 - results.size).coerceAtLeast(0)))
+            publish(marked, completed.addAndGet(count), total, failures.values.toList())
+        }
+        // The outer runInterruptible owns cancellation. Cancel every queued/running native request on exit.
+        val workers = java.util.concurrent.Executors.newFixedThreadPool(4)
+        try {
+            val tasks = ArrayList<java.util.concurrent.Callable<Unit>>()
+            if (sonovelCount > 0) tasks += java.util.concurrent.Callable<Unit> {
+                var previous = 0
+                try {
+                    engineFor(group).search(query, sourceUrls = selectedUrls, onSourceComplete = ::complete) { items, done, _ ->
+                        val advance = (done - previous).coerceAtLeast(0); previous = done
+                        accept(OnlineResult.listFrom(items), advance)
+                    }
+                } catch (error: Exception) {
+                    if (error is InterruptedException || Thread.currentThread().isInterrupted) throw error
+                    val remaining = synchronized(guard) { sonovel.filter { it.url !in finished } }
+                    remaining.forEach { complete(it.url, it.name, error.message ?: "引擎请求失败") }
+                    accept(emptyList(), remaining.size)
+                }
+            }
+            val cursor = java.util.concurrent.atomic.AtomicInteger()
+            repeat(minOf(native.size, if (sonovelCount > 0) 3 else 4)) {
+                tasks += java.util.concurrent.Callable<Unit> {
+                    while (true) {
+                        val index = cursor.getAndIncrement()
+                        if (index >= native.size) break
+                        val rule = native[index]
+                        try {
+                            val books = LegadoNovelEngine(rule, java.io.File(context.filesDir, "legado-novels/group-$group"), novelHttp::fetch).search(query)
+                            complete(rule.getString("url"), rule.optString("name"), null)
+                            accept(books)
+                        } catch (error: Exception) {
+                            if (error is InterruptedException || Thread.currentThread().isInterrupted) throw error
+                            complete(rule.getString("url"), rule.optString("name"), error.message ?: "书源请求失败")
+                            accept(emptyList())
+                        }
+                    }
+                }
+            }
+            workers.invokeAll(tasks).forEach { it.get() }
+            return results.toList()
+        } finally { workers.shutdownNow() }
     }
 
     // ---------------- 详情 ----------------
@@ -157,7 +385,7 @@ class OnlineController(
         if (_state.value.running) throw IllegalStateException("请等待当前任务结束或先取消。")
         _state.value = _state.value.copy(running = true, message = "正在读取书籍详情和目录…", error = "", details = null, detailsToc = emptyList(), detailsIndex = -1)
         try {
-            val details = detailsFor(book.url)
+            val details = detailsFor(book.url, book.sourceGroup, book.sourceKey)
             val merged = backfill(book, details.book)
             _state.value = _state.value.copy(
                 running = false,
@@ -192,6 +420,8 @@ class OnlineController(
         matchScore = previous.matchScore,
         matchType = previous.matchType,
         chapterCount = fresh.chapterCount.takeIf { it > 0 } ?: previous.chapterCount,
+        sourceGroup = previous.sourceGroup,
+        sourceKey = previous.sourceKey,
     )
 
     // ---------------- 下载入库 ----------------
@@ -250,20 +480,120 @@ class OnlineController(
         )
     }
 
-    private suspend fun detailsFor(url: String): Updates.Details =
-        if (TomatoParser.bookId(url).isNotEmpty()) tomato.details(url)
-        else runInterruptible { Updates.validateDetails(engineOrThrow.details(url)) }
-
-    private suspend fun importDownloaded(book: OnlineResult, format: String): Boolean {
-        if (book.sourceId == TomatoParser.SOURCE_ID) {
-            val details = tomato.details(book.url)
-            val text = tomato.chapters(details.toc) { done, total ->
-                _state.value = _state.value.copy(message = "正在读取公开正文：$done / $total 章…")
-            }
-            currentCoroutineContext().ensureActive()
-            return saveDownloaded(backfill(book, details.book), text, details.toc)
+    private suspend fun detailsFor(url: String, group: Int = 1, sourceKey: String = "", reading: Boolean = false): Updates.Details =
+        if (sourceKey.isBlank() && TomatoParser.bookId(url).isNotEmpty()) tomato.details(url)
+        else if (sourceKey.isNotBlank()) runInterruptible { requireNotNull(legadoFor(group, sourceKey)).details(url) }.let {
+            it.copy(book = it.book.copy(sourceGroup = group, sourceKey = sourceKey))
         }
-        val result = runInterruptible { engineOrThrow.download(book.url, format) }
+        else runInterruptible { Updates.validateDetails((if (reading) readingEngineFor(group) else engineFor(group)).details(url)) }.let {
+            it.copy(book = it.book.copy(sourceGroup = group))
+        }
+
+    suspend fun readingDetails(url: String, group: Int = 1, sourceKey: String = ""): Updates.Details = readingLock.withLock { withContext(Dispatchers.IO) { detailsFor(url, group, sourceKey, reading = true) } }
+
+    suspend fun readChapter(bookUrl: String, chapter: OnlineChapter, group: Int = 1, sourceKey: String = ""): String = readingLock.withLock {
+        withContext(Dispatchers.IO) {
+            if (sourceKey.isBlank() && TomatoParser.bookId(bookUrl).isNotEmpty()) tomato.chapters(listOf(chapter), 1)
+            else if (sourceKey.isNotBlank()) runInterruptible { requireNotNull(legadoFor(group, sourceKey)).chapter(bookUrl, chapter) }
+            else runInterruptible { readingEngineFor(group).readChapter(bookUrl, chapter) }
+        }
+    }
+
+    suspend fun downloadQueued(book: OnlineResult, format: String, progress: (Int, Int, String) -> Unit): Boolean =
+        taskLock.withLock { withContext(Dispatchers.IO) {
+            _state.value = _state.value.copy(running = true, queuedDownload = true, message = "正在下载《${book.bookName}》，进度见下载管理。", error = "")
+            try {
+                importDownloaded(book, format, progress).also {
+                    _state.value = _state.value.copy(message = if (it) "《${book.bookName}》已加入书库。" else "《${book.bookName}》已在书库中。")
+                }
+            } finally { _state.value = _state.value.copy(running = false, queuedDownload = false) }
+        } }
+
+    /**
+     * 按选定的章节列表下载番茄正文。
+     *
+     * 章节选择下载时只读用户勾选的部分，但入库仍以**完整在线目录**为准：
+     * 否则本地章节数会少于源站目录，后续追更无法安全核对。
+     */
+    private suspend fun downloadTomatoChapters(
+        book: OnlineResult,
+        details: Updates.Details,
+        selected: List<OnlineChapter>,
+        progress: (Int, Int, String) -> Unit,
+    ): Boolean {
+        require(selected.isNotEmpty()) { "没有选择任何章节。" }
+        val started = System.currentTimeMillis()
+        var lastReport = 0L
+        val checkpoint = com.shengzimao.reader.mobile.data.ChapterDownloadCache(java.io.File(context.filesDir,
+            "downloads/tomato-parts/" + com.shengzimao.reader.mobile.data.mangaHash(book.url)))
+        val text = tomato.chapters(selected, downloadConcurrency(), checkpoint) { done, total ->
+            val now = System.currentTimeMillis()
+            if (done == total || now - lastReport >= 200) {
+                lastReport = now
+                _state.value = _state.value.copy(message = "正在读取公开正文：$done / $total 章…")
+                val elapsed = (now - started).coerceAtLeast(1)
+                val rate = done * 1000.0 / elapsed
+                progress(done, total, "已读取 $done / $total 章 · %.1f 章/秒".format(rate))
+            }
+        }
+        currentCoroutineContext().ensureActive()
+        return saveDownloaded(backfill(book, details.book), text, details.toc).also { if (it) checkpoint.clear() }
+    }
+
+    /** 按章节列表下载并入库。仅番茄支持按章选择；其他源退化为整本下载。 */
+    suspend fun downloadChapters(book: OnlineResult, chapters: List<OnlineChapter>, format: String) =
+        taskLock.withLock { withContext(Dispatchers.IO) {
+            require(chapters.isNotEmpty()) { "请至少选择一个章节。" }
+            _state.value = _state.value.copy(
+                running = true, queuedDownload = true,
+                message = "正在下载《${book.bookName}》的 ${chapters.size} 章，进度见下载管理。", error = "",
+            )
+            try {
+                val added = if (book.sourceKey.isBlank() && book.sourceId == TomatoParser.SOURCE_ID) {
+                    // 已入库的同书直接跳过，避免重复下载。
+                    if (readLibrary().books.any { it.onlineUrl == book.url && store.exists(it) }) false
+                    else {
+                        val details = tomato.details(book.url)
+                        val valid = chapters.filter { wanted -> details.toc.any { it.url == wanted.url } }
+                        require(valid.isNotEmpty()) { "所选章节已不在源站目录中，请重新读取详情。" }
+                        downloadTomatoChapters(book, details, valid) { _, _, _ -> }
+                    }
+                } else {
+                    // 非番茄源没有稳定的按章接口，按整本处理并说明。
+                    importDownloaded(book, format) { _, _, _ -> }
+                }
+                _state.value = _state.value.copy(message = if (added) "《${book.bookName}》已加入书库。" else "《${book.bookName}》已在书库中。")
+                added
+            } finally {
+                _state.value = _state.value.copy(running = false, queuedDownload = false)
+            }
+        } }
+
+    private suspend fun importDownloaded(book: OnlineResult, format: String, progress: (Int, Int, String) -> Unit = { _, _, _ -> }): Boolean {
+        if (readLibrary().books.any { it.onlineUrl == book.url && it.onlineSourceGroup == book.sourceGroup && it.onlineSourceKey == book.sourceKey && store.exists(it) }) return false
+        if (book.sourceKey.isBlank() && book.sourceId == TomatoParser.SOURCE_ID) {
+            val details = tomato.details(book.url)
+            return downloadTomatoChapters(book, details, details.toc, progress)
+        }
+        legadoFor(book.sourceGroup, book.sourceKey)?.let { native ->
+            val details = runInterruptible { native.details(book.url) }
+            val checkpoint = com.shengzimao.reader.mobile.data.ChapterDownloadCache(java.io.File(context.filesDir,
+                "downloads/legado-parts/" + com.shengzimao.reader.mobile.data.mangaHash(NovelSourceGroups.identity(book.url, book.sourceGroup, book.sourceKey))))
+            val text = native.chapters(book.url, details.toc, checkpoint, downloadConcurrency(), progress)
+            currentCoroutineContext().ensureActive()
+            return saveDownloaded(backfill(book, details.book), text, details.toc).also { if (it) checkpoint.clear() }
+        }
+        val engine = engineFor(book.sourceGroup)
+        val result = coroutineScope {
+            val monitor = launch {
+                while (isActive) {
+                    delay(400)
+                    val counts = engine.downloadProgress()
+                    if (counts.size == 2 && counts[1] > 0) progress(counts[0], counts[1], "已保存 ${counts[0]} / ${counts[1]} 章")
+                }
+            }
+            try { runInterruptible { engine.download(book.url, format, downloadConcurrency()) } } finally { monitor.cancel() }
+        }
         try {
             // 书源规则不可信：确认引擎返回的路径确实落在本次任务目录内。
             val jobRoot = result.job.canonicalPath
@@ -332,8 +662,21 @@ class OnlineController(
     private suspend fun updateOne(bookId: String): Int {
         val library = readLibrary()
         val book = library.books.firstOrNull { it.id == bookId } ?: throw IllegalStateException("书籍不存在。")
+        if (book.onlineOnly) {
+            val details = detailsFor(book.onlineUrl, book.onlineSourceGroup, book.onlineSourceKey)
+            require(details.toc.isNotEmpty()) { "源站目录为空，已保留旧目录" }
+            val known = book.onlineChapters.map { it.url }.toSet()
+            val added = details.toc.count { it.url !in known }
+            val anchor = com.shengzimao.reader.mobile.data.ChapterAnchor.match(book.onlineChapters, details.toc, book.position)
+            val current = readLibrary()
+            writeLibrary(current.copy(books = current.books.map { item -> if (item.id != bookId) item else item.copy(
+                onlineManifest = OnlineChapterCodec.encode(details.toc), chapters = details.toc.mapIndexed { i, c -> com.shengzimao.reader.mobile.data.Chapter(c.title, i) },
+                length = details.toc.size, position = anchor.index, lastUpdateCheckAt = System.currentTimeMillis(), newChapterCount = maxOf(item.newChapterCount, added),
+                latestChapter = details.book.latestChapter) }))
+            return added
+        }
         if (!store.exists(book)) throw IllegalStateException("正文缺失，请先重新关联或恢复备份。")
-        val details = detailsFor(book.onlineUrl)
+        val details = detailsFor(book.onlineUrl, book.onlineSourceGroup, book.onlineSourceKey)
         val localChapters = book.chapters.ifEmpty { ChapterParser.find(store.readText(book)) }
         val plan = Updates.planUpdate(book, localChapters, details)
         if (plan.chapters.isEmpty()) {
@@ -353,10 +696,15 @@ class OnlineController(
         val array = JSONArray().also { target ->
             plan.chapters.forEach { target.put(JSONObject().put("title", it.title).put("url", it.url)) }
         }
-        val addition = if (TomatoParser.bookId(book.onlineUrl).isNotEmpty()) {
+        val addition = if (book.onlineSourceKey.isBlank() && TomatoParser.bookId(book.onlineUrl).isNotEmpty()) {
             tomato.chapters(plan.chapters)
+        } else if (book.onlineSourceKey.isNotBlank()) {
+            requireNotNull(legadoFor(book.onlineSourceGroup, book.onlineSourceKey)).chapters(book.onlineUrl, plan.chapters,
+                com.shengzimao.reader.mobile.data.ChapterDownloadCache(java.io.File(context.filesDir,
+                    "downloads/legado-parts/" + com.shengzimao.reader.mobile.data.mangaHash(NovelSourceGroups.identity(book.onlineUrl, book.onlineSourceGroup, book.onlineSourceKey)))),
+                downloadConcurrency()) { _, _, _ -> }
         } else {
-            val data = runInterruptible { engineOrThrow.update(book.onlineUrl, plan.start, array) }
+            val data = runInterruptible { engineFor(book.onlineSourceGroup).update(book.onlineUrl, plan.start, array) }
             if (data.optInt("count") != plan.chapters.size) throw IllegalStateException("新增章节未完整返回，已保留原正文。")
             val additionFile = java.io.File(data.optString("file"))
             if (!additionFile.isFile) throw IllegalStateException("新增正文文件缺失，已保留原正文。")
@@ -424,11 +772,15 @@ class OnlineController(
 
     suspend fun probe(): String = exclusive { withContext(Dispatchers.IO) {
         if (tomatoPage) return@withContext tomato.probe()
-        val engine = engineOrThrow
+        if (!_state.value.sourcesReady) refreshSourceGroups(sourceGroups.selected())
+        val group = _state.value.sourceGroup
+        val native = sourceGroups.entries(group).count { it.format == "阅读/Legado" }
+        if (native > 0) return@withContext "分组 $group 已加载 $native 条阅读/Legado 规则及 ${sourceGroups.entries(group).size - native} 条 SoNovel 规则。导入成功不代表原站可用，请搜索后验证目录和正文。"
+        val engine = engineFor(group)
         val info = runInterruptible { engine.probe() }
         val warning = info.optString("warning").ifBlank { engine.diagnostics() }
         buildString {
-            append("内置引擎 ${info.optString("version")} 可用，加载 ${info.optInt("sources")} 条书源规则。")
+            append("分组 $group 引擎 ${info.optString("version")} 可用，加载 ${info.optInt("sources")} 条书源规则。")
             if (warning.isNotBlank()) append(" 配置自检：" + warning)
         }
     } }

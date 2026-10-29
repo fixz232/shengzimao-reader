@@ -1,0 +1,29 @@
+{
+  "sources": [
+    {
+      "id": "demo_source",
+      "name": "Demo Source",
+      "baseUrl": "https://example.com",
+      "searchUrl": "https://example.com/search?q={{keyword}}",
+      "charset": "utf8",
+      "result": {
+        "list": ".book-item",
+        "title": ".book-title",
+        "author": ".book-author",
+        "detail": ".book-title@href",
+        "intro": ".book-intro",
+        "cover": ".book-cover@src"
+      },
+      "book": {
+        "title": "h1",
+        "author": ".author",
+        "intro": ".intro",
+        "cover": ".cover@src",
+        "chapterList": ".chapter-list a",
+        "chapterTitle": "text",
+        "chapterUrl": "@href",
+        "content": ".chapter-content"
+      }
+    }
+  ]
+}

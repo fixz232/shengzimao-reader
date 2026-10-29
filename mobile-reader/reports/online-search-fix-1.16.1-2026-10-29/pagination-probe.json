@@ -1,0 +1,77 @@
+{
+  "redirect_alias_loop_protection": true,
+  "cases": [
+    {
+      "mode": "get_different_query_control",
+      "first_content_page_present": true,
+      "trace": [
+        {
+          "method": "GET",
+          "body": null,
+          "url": "https://pagination-fixture.invalid/book"
+        },
+        {
+          "method": "GET",
+          "body": null,
+          "url": "https://pagination-fixture.invalid/toc?page=1"
+        },
+        {
+          "method": "GET",
+          "body": null,
+          "url": "https://pagination-fixture.invalid/toc?page=2"
+        },
+        {
+          "method": "GET",
+          "body": null,
+          "url": "https://pagination-fixture.invalid/content?page=1"
+        },
+        {
+          "method": "GET",
+          "body": null,
+          "url": "https://pagination-fixture.invalid/content?page=2"
+        }
+      ],
+      "actual_chapters": 2,
+      "second_content_page_present": true,
+      "expected_chapters": 2
+    },
+    {
+      "mode": "same_url_post_different_body",
+      "first_content_page_present": true,
+      "trace": [
+        {
+          "method": "GET",
+          "body": null,
+          "url": "https://pagination-fixture.invalid/book"
+        },
+        {
+          "method": "POST",
+          "body": "page=1",
+          "url": "https://pagination-fixture.invalid/toc"
+        },
+        {
+          "method": "POST",
+          "body": "page=2",
+          "url": "https://pagination-fixture.invalid/toc"
+        },
+        {
+          "method": "POST",
+          "body": "page=1",
+          "url": "https://pagination-fixture.invalid/content"
+        },
+        {
+          "method": "POST",
+          "body": "page=2",
+          "url": "https://pagination-fixture.invalid/content"
+        }
+      ],
+      "actual_chapters": 2,
+      "second_content_page_present": true,
+      "expected_chapters": 2
+    }
+  ],
+  "bug_reproduced": false,
+  "rotating_header_loop_protection": true,
+  "scope": "Local fixtures using compiled release LegadoNovelEngine; no device or live-site validation",
+  "unused_headers_not_evaluated": true
+}

@@ -60,12 +60,20 @@ object TextCodec {
     }
 
     /** 用 head + tail 采样严格解码：只看开头遇到长英文段落会把 GBK 误判成 UTF-8。 */
-    private fun decodeStrict(bytes: ByteArray, charset: Charset): String? = try {
+    private fun decodeStrict(bytes: ByteArray, charset: Charset, sampleOnly: Boolean = false): String? = try {
         fun attempt(start: Int, length: Int): Boolean {
+            var alignedStart = start
+            // 尾部采样可能从 UTF-8 多字节字符中间开始，跳过至下一个字符边界。
+            if (start > 0 && charset == Charsets.UTF_8) {
+                while (alignedStart < minOf(start + 3, start + length) && (bytes[alignedStart].toInt() and 0xC0) == 0x80) alignedStart++
+            }
             val decoder = charset.newDecoder()
                 .onMalformedInput(CodingErrorAction.REPORT)
                 .onUnmappableCharacter(CodingErrorAction.REPORT)
-            decoder.decode(java.nio.ByteBuffer.wrap(bytes, start, length))
+            // 采样边缘允许留下一段未完成字符，完整文件的结尾仍严格校验。
+            val input = java.nio.ByteBuffer.wrap(bytes, alignedStart, start + length - alignedStart)
+            val result = decoder.decode(input, java.nio.CharBuffer.allocate(length), start + length == bytes.size && !sampleOnly)
+            if (result.isError) result.throwException()
             return true
         }
         val half = SAMPLE_BYTES / 2
@@ -77,7 +85,9 @@ object TextCodec {
         null
     }
 
-    fun decode(bytes: ByteArray, hint: String? = null): DecodedFile {
+    fun decode(bytes: ByteArray, hint: String? = null): DecodedFile = decodeSample(bytes, hint, false)
+
+    private fun decodeSample(bytes: ByteArray, hint: String?, sampleOnly: Boolean): DecodedFile {
         val bom = bomLength(bytes)
         if (bom == 4) {
             // UTF-32LE：Java 没有内置解码器，按 4 字节小端手工拼成 UTF-16。
@@ -111,7 +121,7 @@ object TextCodec {
         utf16Charset(bytes)?.let { charset ->
             return DecodedFile(String(bytes, charset), charset.name(), false, 0)
         }
-        decodeStrict(bytes, java.nio.charset.StandardCharsets.UTF_8)?.let { sample ->
+        decodeStrict(bytes, java.nio.charset.StandardCharsets.UTF_8, sampleOnly)?.let {
             return DecodedFile(String(bytes, java.nio.charset.StandardCharsets.UTF_8), "UTF-8", false, 0)
         }
         val gb = Charset.forName("GB18030")
@@ -128,21 +138,28 @@ object TextCodec {
      * 这是给本地快照写入使用的落底方案，正常路径直接 readBytes。
      */
     fun decodeStream(stream: java.io.InputStream, hint: String? = null): DecodedFile {
-        val pushback = PushbackInputStream(stream, 3)
-        val head = ByteArray(3)
-        var read = pushback.read(head)
-        if (read < 0) read = 0
-        val bom = bomLength(head, 0, read)
-        if (bom > 0) pushback.unread(head, bom, read - bom)
-        val sample = pushback.readNBytes(SAMPLE_BYTES)
-        pushback.unread(sample)
-        val probe = decode(sample, hint)
+        val pushback = PushbackInputStream(stream, SAMPLE_BYTES)
+        val bytes = ByteArray(SAMPLE_BYTES)
+        var size = 0
+        while (size < bytes.size) {
+            val n = pushback.read(bytes, size, bytes.size - size)
+            if (n < 0) break
+            if (n == 0) {
+                val value = pushback.read()
+                if (value < 0) break
+                bytes[size++] = value.toByte()
+            } else size += n
+        }
+        val sample = bytes.copyOf(size)
+        val probe = decodeSample(sample, hint, size == SAMPLE_BYTES)
+        pushback.unread(sample, probe.bomLength, sample.size - probe.bomLength)
         val reader = InputStreamReader(pushback, Charset.forName(probe.encoding))
         val builder = StringBuilder(sample.size * 3)
         val buffer = CharArray(1 shl 16)
         while (true) {
             val n = reader.read(buffer)
             if (n < 0) break
+            require(builder.length.toLong() + n <= MAX_TEXT_BYTES) { "正文超过 128 MB 字符上限，请拆分后再导入。" }
             builder.append(buffer, 0, n)
         }
         return DecodedFile(builder.toString(), probe.encoding, probe.hadBom, probe.bomLength)

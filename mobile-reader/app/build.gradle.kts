@@ -18,8 +18,9 @@ android {
         applicationId = "com.shengzimao.reader.mobile"
         minSdk = 26
         targetSdk = 36
-        versionCode = 4
-        versionName = "1.1.2"
+        versionCode = 27
+        versionName = "1.16.1"
+        manifestPlaceholders["appLabel"] = "圣子猫阅读"
         testInstrumentationRunner = "com.shengzimao.reader.mobile.OnlineSmokeRunner"
 
         // SoNovel 引擎以「预编译 dex + 规则资源」的形式随 APK 分发，不进 R8/AGP 的源码集合。
@@ -69,6 +70,7 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix = ".verification"
+            manifestPlaceholders["appLabel"] = "圣子猫阅读·测试"
         }
         release {
             if (releaseSigning.isNotEmpty()) signingConfig = signingConfigs.getByName("release")
@@ -82,11 +84,17 @@ android {
         create("verification") {
             initWith(getByName("release"))
             applicationIdSuffix = ".verification.release"
+            manifestPlaceholders["appLabel"] = "圣子猫阅读·回归测试"
             signingConfig = signingConfigs.getByName("debug")
             proguardFile("verification-rules.pro")
             matchingFallbacks += listOf("release")
         }
     }
+
+    // 回归逻辑与页面一起交给 R8，只有下列两种独立测试包包含这些代码。
+    // 跨 APK 只保留少量测试入口，避免测试调用已被优化掉的内部方法。
+    sourceSets.getByName("debug").kotlin.directories.add("src/qa/java")
+    sourceSets.getByName("verification").kotlin.directories.add("src/qa/java")
 }
 
 dependencies {
@@ -100,6 +108,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.4")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.9.4")
     implementation("androidx.documentfile:documentfile:1.1.0")
+    implementation("org.jsoup:jsoup:1.17.2")
     implementation("androidx.datastore:datastore-preferences:1.1.7")
     implementation(platform("com.squareup.okio:okio-bom:3.15.0"))
     implementation("com.squareup.okio:okio-jvm:3.15.0")
@@ -108,6 +117,7 @@ dependencies {
     listOf(
         "okhttp-jvm-5.1.0.jar" to "com.squareup.okhttp3:okhttp-jvm:5.1.0",
         "json-20250517.jar" to "org.json:json:20250517",
+        "rhino-1.7.15.jar" to "org.mozilla:rhino:1.7.15",
     ).forEach { (jar, coordinate) ->
         val cached = rootProject.file(".tools/libs/$jar")
         if (cached.isFile) implementation(files(cached)) else implementation(coordinate)

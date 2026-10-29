@@ -6,6 +6,11 @@ import java.util.concurrent.TimeUnit;
 
 /** Shared target for every upstream Java 21 executor factory, including indirect utility calls. */
 public final class AndroidExecutors {
+    /** 上游命令行代码不能终止承载阅读器的 Android 进程。 */
+    public static void preventProcessExit(int code) {
+        throw new IllegalStateException("书源解析中止（代码 " + code + "），请重试或更换书源。");
+    }
+
     public static ExecutorService newWorkerPool() { return Executors.newFixedThreadPool(6); }
 
     public static void close(ExecutorService executor) {

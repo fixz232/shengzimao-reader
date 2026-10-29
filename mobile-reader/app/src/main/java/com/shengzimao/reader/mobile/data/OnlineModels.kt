@@ -24,6 +24,8 @@ data class OnlineResult(
     val matchScore: Int = 0,
     val matchType: String = "",
     val chapterCount: Int = 0,
+    val sourceGroup: Int = 1,
+    val sourceKey: String = "",
 ) {
     fun toJson(): JSONObject = JSONObject().apply {
         put("bookName", bookName); put("author", author); put("url", url)
@@ -31,6 +33,8 @@ data class OnlineResult(
         put("intro", intro); put("latestChapter", latestChapter); put("lastUpdateTime", lastUpdateTime)
         put("status", status); put("wordCount", wordCount); put("matchScore", matchScore)
         put("matchType", matchType); put("chapterCount", chapterCount)
+        put("sourceGroup", sourceGroup)
+        put("sourceKey", sourceKey)
     }
 
     companion object {
@@ -49,6 +53,8 @@ data class OnlineResult(
             matchScore = json.optInt("matchScore", 0),
             matchType = json.optString("matchType"),
             chapterCount = json.optInt("chapterCount", 0),
+            sourceGroup = json.optInt("sourceGroup", 1).takeIf { it in 1..5 } ?: 1,
+            sourceKey = json.optString("sourceKey"),
         )
 
         fun fromEngine(json: JSONObject): OnlineResult = OnlineResult(
@@ -71,7 +77,7 @@ data class OnlineResult(
 }
 
 /** 章节（在线目录项）。 */
-data class OnlineChapter(val title: String, val url: String)
+data class OnlineChapter(val title: String, val url: String, val ruleState: String = "", val nextUrl: String = "", val previousUrl: String = "")
 
 object OnlineMatcher {
     private val NON_WORD = Regex("[^\\p{L}\\p{N}]")
@@ -187,8 +193,18 @@ data class OnlineBatch(
 }
 
 /** 在线任务的界面状态。 */
+data class NovelSearchFailure(val sourceUrl: String, val sourceName: String, val message: String)
+
 data class OnlineUiState(
+    val sourceGroup: Int = 1,
+    val sourceCounts: List<Int> = List(5) { 0 },
+    val sourceEntries: List<NovelSourceEntry> = emptyList(),
+    val selectedSourceUrls: Set<String>? = null,
+    val sourcesReady: Boolean = false,
+    val importingSources: Boolean = false,
+    val queuedDownload: Boolean = false,
     val running: Boolean = false,
+    val searching: Boolean = false,
     val keyword: String = "",
     val results: List<OnlineResult> = emptyList(),
     val message: String = "",
@@ -201,11 +217,14 @@ data class OnlineUiState(
     val detailsToc: List<OnlineChapter> = emptyList(),
     val detailsIndex: Int = -1,
     val searchHistory: List<String> = emptyList(),
+    val searchFailures: List<NovelSearchFailure> = emptyList(),
+    val searchCompleted: Int = 0,
+    val searchTotal: Int = 0,
 )
 
-/** 在线使用声明（与桌面版 app/consent.cjs 一致）。 */
+/** 手机版在线使用声明，包含小说与用户自定义漫画源。 */
 object Consent {
-    const val VERSION = "2026-10-23-v1"
+    const val VERSION = "2026-10-24-v2"
     val LINKS = mapOf(
         "project" to "https://github.com/freeok/so-novel",
         "disclaimer" to "https://github.com/freeok/so-novel/blob/main/bundle/DISCLAIMER.md",

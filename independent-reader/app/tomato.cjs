@@ -5,7 +5,10 @@ const fsp = require('node:fs/promises');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const { makeEpub } = require('./file-tasks.cjs');
+const { htmlText } = require('./importer.cjs');
 const { filterResults } = require('./search-matching.cjs');
+const { decodeChapterFont } = require('./tomato-font.cjs');
+const { publicEditionFor, downloadPublicEdition } = require('./public-editions.cjs');
 
 const SEARCH_URL = 'https://novel.snssdk.com/api/novel/channel/homepage/search/search/v1/';
 const PAGE_HOSTS = new Set(['fanqienovel.com', 'www.fanqienovel.com', 'fqnovel.com', 'www.fqnovel.com']);
@@ -113,20 +116,35 @@ function parseDirectoryResponse(value, bookIdValue) {
     const id = String(first(item, ['item_id', 'itemId', 'chapter_id', 'chapterId', 'id'])).trim();
     const title = decodeHtml(first(item, ['title', 'chapter_title', 'chapterTitle', 'chapter_name', 'name'])); if (!id || !title || seen.has(id)) continue;
     seen.add(id); const rawUrl = first(item, ['url', 'chapter_url', 'chapterUrl']); const url = rawUrl && allowedUrl(rawUrl) ? rawUrl : `https://fanqienovel.com/reader/${id}`;
-    chapters.push({ id, title: title.slice(0, 250), url });
+    const locked = ['needPay', 'isChapterLock', 'isPaidPublication', 'isPaidStory'].some(key => [true, 1, '1', 'true'].includes(item[key]));
+    chapters.push({ id, title: title.slice(0, 250), url, ...(locked ? { locked: true } : {}) });
   }
   return chapters;
 }
 function parseChapterHtml(html) {
-  const source = String(html); const blocks = [/<article[^>]*>([\s\S]*?)<\/article>/i, /class=["'][^"']*(?:muye-reader-content|reader-content|chapter-content)[^"']*["'][^>]*>([\s\S]*?)<\/[^>]+>/i, /id=["']content["'][^>]*>([\s\S]*?)<\/[^>]+>/i];
-  for (const block of blocks) { const match = source.match(block); if (match) { const value = decodeHtml(match[1]); if (value) return value; } }
+  // Match class tokens, not the outer muye-reader-content-16 font-size wrapper.
+  // Balance the selected element so nested divs and every paragraph are retained.
+  const source = String(html), elements = [...source.matchAll(/<(div|section|article)\b[^>]*>/gi)];
+  const content = elements.find(match => {
+    const classes = match[0].match(/\bclass\s*=\s*["']([^"']*)["']/i)?.[1] || '';
+    return /(?:^|\s)(?:muye-reader-content|reader-content|chapter-content)(?:\s|$)/i.test(classes) || /\bid\s*=\s*["']content["']/i.test(match[0]);
+  }) || elements.find(match => match[1].toLowerCase() === 'article');
+  if (content) {
+    const start = content.index + content[0].length, tags = new RegExp(`</?${content[1]}\\b[^>]*>`, 'gi');
+    tags.lastIndex = start;
+    let depth = 1, match;
+    while ((match = tags.exec(source))) {
+      depth += match[0].startsWith('</') ? -1 : /\/\s*>$/.test(match[0]) ? 0 : 1;
+      if (!depth) return htmlText(source.slice(start, match.index));
+    }
+  }
   return '';
 }
 
 async function fetchText(url, { timeout = DEFAULT_TIMEOUT, kind = 'page', signal } = {}) {
   assertAllowedUrl(url, kind); const controller = new AbortController(); const timer = setTimeout(() => controller.abort(), Math.max(1000, timeout));
   const onAbort = () => controller.abort(); signal?.addEventListener('abort', onAbort, { once: true }); if (signal?.aborted) controller.abort();
-  try { const response = await fetch(url, { headers: { accept: kind === 'api' ? 'application/json,text/plain,*/*' : 'text/html,application/xhtml+xml', 'user-agent': 'Mozilla/5.0 (compatible; ShengzimaoReader/0.5)' }, signal: controller.signal }); if (!response.ok) throw new Error(`番茄请求失败（HTTP ${response.status}）。`); return await response.text(); }
+  try { const response = await fetch(url, { headers: { accept: kind === 'api' ? 'application/json,text/plain,*/*' : 'text/html,application/xhtml+xml', 'user-agent': 'Mozilla/5.0 (compatible; ShengzimaoReader/0.5)' }, signal: controller.signal }); if (!response.ok) throw Object.assign(new Error(`番茄请求失败（HTTP ${response.status}）。`), { status: response.status }); return await response.text(); }
   catch (error) { if (error.name === 'AbortError') throw new Error(signal?.aborted ? '番茄任务已取消。' : '番茄请求超时。'); throw error; }
   finally { clearTimeout(timer); signal?.removeEventListener('abort', onAbort); }
 }
@@ -167,9 +185,110 @@ class TomatoTasks {
       this.state.message = results.length ? `找到 ${results.length} 本番茄小说。` : '没有找到匹配的番茄小说，请换个关键词。';
     });
   }
-  async details(index) { if (!Number.isInteger(index) || !this.state.results[index]) throw new Error('请从番茄搜索结果选择书籍。'); const item = this.state.results[index]; this.state.message = '正在读取番茄详情和目录…'; this.start(async signal => { const html = await fetchText(item.url, { signal }); const book = { ...item, ...parseBookHtml(html, item.bookId) }; const data = await fetchJson(`https://fanqienovel.com/api/reader/directory/detail?bookId=${encodeURIComponent(item.bookId)}`, { signal }); const toc = parseDirectoryResponse(data, item.bookId); if (!toc.length) throw new Error('番茄源站未返回有效目录。'); book.chapterCount = toc.length; this.state.details = { book, toc }; Object.assign(item, book); this.state.message = `已读取《${book.bookName}》的 ${toc.length} 章目录。`; }); await this.pending; if (!this.state.details) throw new Error(this.state.error || '番茄详情读取失败。'); return this.snapshot().details; }
-  async download(index, format = 'txt') { if (!['txt', 'epub'].includes(format)) throw new Error('番茄入库格式只支持 TXT 或 EPUB。'); if (!Number.isInteger(index) || !this.state.results[index]) throw new Error('请从番茄搜索结果选择书籍。'); const item = this.state.results[index]; if (!this.state.details || this.state.details.book.bookId !== item.bookId) await this.details(index); await this.pending; const details = this.state.details; return this.start(async signal => { const parts = []; for (const chapter of details.toc) { const html = await fetchText(chapter.url, { signal }); const body = parseChapterHtml(html); if (!body) throw new Error(`番茄章节「${chapter.title}」没有公开正文，已停止下载。`); parts.push(`${chapter.title}\n\n${body}`); }
-      const dir = path.join(this.profile || process.cwd(), 'tomato-jobs'); await fsp.mkdir(dir, { recursive: true }); const title = details.book.bookName || '番茄小说'; const content = `《${title}》\n作者：${details.book.author || '未知'}\n\n${parts.join('\n\n')}`; const file = path.join(dir, `${crypto.randomUUID()}.${format}`); if (format === 'epub') await fsp.writeFile(file, await makeEpub({ title, author: details.book.author || '', text: content })); else await fsp.writeFile(file, content, 'utf8'); const report = this.importPaths ? await this.importPaths([file], { sourceName: '番茄小说', onlineUrl: item.url, author: details.book.author, intro: details.book.intro, category: details.book.category, status: details.book.status, latestChapter: details.book.latestChapter, lastUpdateTime: details.book.lastUpdateTime, onlineChapters: details.toc, tracking: true }) : null; await fsp.unlink(file).catch(() => {}); this.state.message = `番茄下载完成，${report?.imported || 0} 本已导入。`; }); return this.pending; }
+  async details(index) {
+    if (!Number.isInteger(index) || !this.state.results[index]) throw new Error('请从番茄搜索结果选择书籍。');
+    if (this.state.running) throw new Error('已有番茄任务正在运行，请先取消。');
+    const item = this.state.results[index];
+    this.state.details = null; this.state.message = '正在读取番茄详情和目录…';
+    let result;
+    this.start(async signal => {
+      const book = { ...item }; delete book.unavailableReason; delete book.detailWarning;
+      try {
+        const parsed = parseBookHtml(await fetchText(item.url, { signal }), item.bookId);
+        Object.assign(book, Object.fromEntries(Object.entries(parsed).filter(([, value]) => value !== '' && value != null)));
+      } catch (error) {
+        if (error.status !== 404) throw error;
+        book.detailWarning = '番茄电脑网页详情暂不可用（HTTP 404），已保留搜索信息和公开目录。正文能否下载以章节页面为准。';
+      }
+      const data = await fetchJson(`https://fanqienovel.com/api/reader/directory/detail?bookId=${encodeURIComponent(item.bookId)}`, { signal });
+      const toc = parseDirectoryResponse(data, item.bookId);
+      if (!toc.length) throw new Error('番茄源站未返回有效目录。');
+      if (signal.aborted) return;
+      book.chapterCount = toc.length;
+      const edition = publicEditionFor(book);
+      if (edition) book.publicEditionNotice = edition.notice;
+      result = { book, toc }; this.state.details = result;
+      delete item.unavailableReason; delete item.detailWarning; Object.assign(item, book);
+      this.state.message = `已读取《${book.bookName}》的 ${toc.length} 章目录。${book.detailWarning || ''}`;
+    });
+    await this.pending;
+    if (!result) throw new Error(this.state.error || '番茄详情读取失败或任务已取消。');
+    return { book: { ...result.book }, toc: result.toc.map(chapter => ({ ...chapter })) };
+  }
+  async download(index, format = 'txt') {
+    if (!['txt', 'epub'].includes(format)) throw new Error('番茄入库格式只支持 TXT 或 EPUB。');
+    if (!Number.isInteger(index) || !this.state.results[index]) throw new Error('请从番茄搜索结果选择书籍。');
+    if (this.state.running) throw new Error('已有番茄任务正在运行，请先取消。');
+    const item = this.state.results[index];
+    const details = this.state.details?.book.bookId === item.bookId ? this.snapshot().details : await this.details(index);
+    this.state.message = '正在下载番茄公开章节…';
+    this.start(async signal => {
+      const edition = publicEditionFor(details.book);
+      if (details.book.unavailableReason && !edition) throw new Error(details.book.unavailableReason);
+      const unavailable = reason => {
+        item.unavailableReason = reason;
+        if (this.state.details?.book.bookId === item.bookId) this.state.details.book.unavailableReason = reason;
+        throw new Error(reason);
+      };
+      let parts = [], toc = details.toc, sourceName = '番茄小说', onlineUrl = item.url, tracking = true;
+      const loadPublicEdition = async () => {
+        this.state.message = edition.notice; this.notify();
+        const downloaded = await downloadPublicEdition(edition, { signal, onProgress: (done, total, title) => {
+          this.state.message = `正在下载公开文集（${done}/${total}）：${title}`; this.notify();
+        } });
+        signal.throwIfAborted();
+        ({ parts, toc, sourceName, onlineUrl } = downloaded); tracking = false;
+        delete item.unavailableReason;
+        if (this.state.details?.book.bookId === item.bookId) {
+          delete this.state.details.book.unavailableReason;
+          this.state.details.book.downloadSourceName = sourceName;
+          this.state.details.book.chapterCount = toc.length;
+          this.state.details.toc = toc;
+        }
+      };
+      if (edition && details.book.downloadSourceName === edition.sourceName) await loadPublicEdition();
+      else try { for (const chapter of details.toc) {
+        signal.throwIfAborted();
+        if (chapter.locked) throw new Error(`番茄章节「${chapter.title}」为付费或锁定章节，未开放公开正文。可使用聚合搜书核对其他书源。`);
+        let html;
+        try { html = await fetchText(chapter.url, { signal }); }
+        catch (error) {
+          if (error.status !== 404 || signal.aborted) throw error;
+          error.chapterTitle = chapter.title;
+          throw error;
+        }
+        signal.throwIfAborted();
+        const body = decodeChapterFont(html, parseChapterHtml(html));
+        if (!body || body.trim() === chapter.title.trim()) throw new Error(`番茄章节「${chapter.title}」没有公开正文，已停止下载。请使用聚合搜书查找其他书源。`);
+        if (/[\uE000-\uF8FF]/u.test(body)) unavailable(`番茄章节「${chapter.title}」使用网页专用字体编码，无法作为普通正文入库。请使用聚合搜书查找其他书源，或在官网阅读。`);
+        parts.push(`${chapter.title}\n\n${body}`);
+        this.state.message = `正在下载番茄章节（${parts.length}/${details.toc.length}）：${chapter.title}`; this.notify();
+      } } catch (error) {
+        if (error.status !== 404 || signal.aborted) throw error;
+        // The alternate edition is independently public. Do not request locked
+        // Fanqie chapters or carry Fanqie's access flags over to a different site.
+        if (!edition) unavailable(`番茄章节「${error.chapterTitle}」未提供电脑网页正文（HTTP 404）。请使用聚合搜书查找其他书源，或前往番茄 App 核对。`);
+        await loadPublicEdition();
+      }
+      signal.throwIfAborted();
+      const dir = path.join(this.profile || process.cwd(), 'tomato-jobs');
+      await fsp.mkdir(dir, { recursive: true });
+      const title = details.book.bookName || '番茄小说', content = `《${title}》\n作者：${details.book.author || '未知'}\n${tracking ? '' : `来源：${sourceName}\n${onlineUrl}\n版本：公开文集版本，不含番茄版权页、分卷扉页。\n`}\n${parts.join('\n\n')}`;
+      const file = path.join(dir, `${crypto.randomUUID()}.${format}`);
+      try {
+        const bytes = format === 'epub' ? await makeEpub({ title, author: details.book.author || '', text: content }) : content;
+        signal.throwIfAborted(); await fsp.writeFile(file, bytes, 'utf8'); signal.throwIfAborted();
+        if (!this.importPaths) throw new Error('书库导入服务不可用，请重试。');
+        const report = await this.importPaths([file], { title, sourceName, onlineUrl, author: details.book.author, intro: details.book.intro, category: details.book.category, status: details.book.status, latestChapter: tracking ? details.book.latestChapter : toc.at(-1).title, lastUpdateTime: tracking ? details.book.lastUpdateTime : '', onlineChapters: toc, tracking }, { signal });
+        signal.throwIfAborted();
+        if (report?.errors?.length) throw new Error(`番茄下载后入库失败：${report.errors.map(error => typeof error === 'string' ? error : error.message).join('；')}`);
+        if (!report?.imported && !report?.duplicates) throw new Error('番茄下载后未能入库，请重试。');
+        this.state.message = report.imported ? `${tracking ? '番茄' : '公开文集'}下载完成，${report.imported} 本已导入${tracking ? '。' : `（${toc.length} 篇，来源：${sourceName}）。`}` : '这本书籍已在书库中，已跳过重复导入。';
+      } finally { await fsp.unlink(file).catch(() => {}); }
+    });
+    await this.pending;
+    return this.snapshot();
+  }
 }
 
 module.exports = { TomatoTasks, SEARCH_URL, allowedUrl, assertAllowedUrl, tomatoUrl, normalizeSearchResponse, parseBookHtml, parseDirectoryResponse, parseChapterHtml, chapterArray, decodeHtml };

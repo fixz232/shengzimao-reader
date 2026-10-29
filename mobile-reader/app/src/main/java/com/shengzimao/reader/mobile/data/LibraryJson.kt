@@ -68,6 +68,14 @@ object LibraryJson {
         put("digest", book.digest)
         put("missing", book.missing)
         put("onlineUrl", book.onlineUrl)
+        put("onlineSourceGroup", book.onlineSourceGroup)
+        put("onlineSourceKey", book.onlineSourceKey)
+        put("onlineOnly", book.onlineOnly)
+        put("onlineOffset", book.onlineOffset)
+        put("onlineCharacterOffset", book.onlineCharacterOffset)
+        put("onlineParagraphFraction", book.onlineParagraphFraction.toDouble())
+        put("onlineAnnotations", book.onlineAnnotations)
+        put("readerPreferences", book.readerPreferences)
         put("tracking", book.tracking)
         put("onlineChapters", book.onlineManifest)
         put("latestChapter", book.latestChapter)
@@ -86,6 +94,22 @@ object LibraryJson {
             bookmarks.put(JSONObject().put("id", it.id).put("position", it.position).put("label", it.label).put("createdAt", it.createdAt))
         }
         put("bookmarks", bookmarks)
+        val highlights = JSONArray()
+        book.highlights.forEach {
+            highlights.put(
+                JSONObject()
+                    .put("id", it.id)
+                    .put("start", it.start)
+                    .put("end", it.end)
+                    .put("createdAt", it.createdAt)
+                    .put("snippet", it.snippet)
+                    .put("note", it.note)
+                    .put("tags", JSONArray(it.tags))
+                    .put("colorIndex", it.colorIndex)
+                    .put("chapterTitle", it.chapterTitle),
+            )
+        }
+        put("highlights", highlights)
         put("readingDailySeconds", JSONObject().apply { book.readingDailySeconds.forEach { (key, value) -> put(key, value) } })
     }
 
@@ -118,6 +142,28 @@ object LibraryJson {
         item.optJSONObject("readingDailySeconds")?.let { dailyJson ->
             dailyJson.keys().forEach { key -> daily[key] = dailyJson.optLong(key, 0L) }
         }
+        val highlights = mutableListOf<Highlight>()
+        item.optJSONArray("highlights")?.let { array ->
+            for (i in 0 until array.length()) {
+                val mark = array.optJSONObject(i) ?: continue
+                val start = mark.optInt("start", 0)
+                val end = mark.optInt("end", 0)
+                if (end <= start) continue
+                highlights.add(
+                    Highlight(
+                        id = mark.optString("id", "").ifEmpty { java.util.UUID.randomUUID().toString() },
+                        start = start,
+                        end = end,
+                        createdAt = mark.optLong("createdAt", 0L),
+                        snippet = mark.optString("snippet", ""),
+                        note = mark.optString("note", ""),
+                        colorIndex = mark.optInt("colorIndex", 0),
+                        chapterTitle = mark.optString("chapterTitle", ""),
+                        tags = mark.optJSONArray("tags")?.let { tags -> (0 until minOf(tags.length(), 30)).map { tags.optString(it).take(30) } }.orEmpty(),
+                    )
+                )
+            }
+        }
         return Book(
             id = id,
             title = title.take(250),
@@ -139,9 +185,18 @@ object LibraryJson {
             readingDailySeconds = daily,
             chapters = chapters,
             bookmarks = bookmarks,
+            highlights = highlights,
             digest = item.optString("digest", ""),
             missing = item.optBoolean("missing", false),
             onlineUrl = item.optString("onlineUrl", ""),
+            onlineSourceGroup = item.optInt("onlineSourceGroup", 1).takeIf { it in 1..5 } ?: 1,
+            onlineSourceKey = item.optString("onlineSourceKey"),
+            onlineOnly = item.optBoolean("onlineOnly", false),
+            onlineOffset = item.optInt("onlineOffset", 0).coerceAtLeast(0),
+            onlineCharacterOffset = item.optInt("onlineCharacterOffset", -1).coerceAtLeast(-1),
+            onlineParagraphFraction = item.optDouble("onlineParagraphFraction", 0.0).toFloat().takeIf { it.isFinite() }?.coerceIn(0f, 1f) ?: 0f,
+            onlineAnnotations = item.optString("onlineAnnotations", "[]"),
+            readerPreferences = item.optString("readerPreferences"),
             tracking = item.optBoolean("tracking", false),
             onlineManifest = if (item.has("onlineManifest")) item.optString("onlineManifest", "") else item.optString("onlineChapters", ""),
             lastUpdateCheckAt = item.optLong("lastUpdateCheckAt", 0L),

@@ -29,6 +29,27 @@ test('在线搜书内提供聚合和番茄标签，侧栏不再单列番茄小�
 test('番茄输入草稿优先于上次搜索，切页刷新不会被旧词覆盖', () => {
   assert.match(render('tomato'), /id="tomato-keyword"[^>]*value="新关键词"/);
 });
+
+test('番茄正文不可用时显示原因和其他书源入口，可重新读取详情核对', () => {
+  const result={bookName:'测试书',bookId:'123',unavailableReason:'电脑网页未开放正文 <script>'};
+  const html=render('tomato',{tomato:{results:[result],running:false,error:result.unavailableReason}});
+  assert.match(html,/data-action="tomato-other-source"[^>]*data-index="0"/);
+  assert.match(html,/搜其他书源/);
+  assert.ok(html.indexOf('data-action="tomato-other-source"')<html.indexOf('class="result tomato-result"'));
+  assert.match(html,/电脑网页未开放正文 &lt;script&gt;/);
+  assert.match(html,/data-action="tomato-details"/);
+  assert.doesNotMatch(html,/data-action="tomato-download"/);
+  assert.match(render('tomato',{tomato:{results:[{bookName:'公开书',bookId:'456'}],running:false}}),/data-action="tomato-download"/);
+});
+
+test('同名公开版本提示来源和版本差异，保留实际下载入口', () => {
+  const book={bookName:'毛泽东选集（第二卷）',bookId:'7293805084226358313',publicEditionNotice:'公开版本不含番茄版权页 <script>',downloadSourceName:'公开文集 · MaoZeDongAnthology'};
+  const html=render('tomato',{tomato:{results:[book],running:false,details:{book,toc:[{title:'正文篇目'}]}}});
+  assert.match(html,/当前正文来源：公开文集/);
+  assert.match(html,/公开版本不含番茄版权页 &lt;script&gt;/);
+  assert.match(html,/data-action="tomato-download"/);
+  assert.doesNotMatch(html,/<script>/);
+});
 test('聚合搜索失败时不依赖结果或筛选状态显示重试入口', () => {
   for (const results of [[], [{ bookName: '测试书', author: '作者', sourceId: '1', sourceName: '来源' }]]) {
     const html = render('aggregate', { online: { results, running: false, error: '网络失败' } });

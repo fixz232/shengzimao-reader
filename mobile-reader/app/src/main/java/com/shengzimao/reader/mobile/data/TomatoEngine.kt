@@ -4,12 +4,16 @@ import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import okhttp3.Call
 import okhttp3.Callback
+import okhttp3.ConnectionPool
+import okhttp3.Dispatcher
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
@@ -27,9 +31,34 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
 /** 只访问番茄公开页面；与桌面版 tomato.cjs 使用相同接口与字段约定。 */
-class TomatoEngine(private val client: OkHttpClient = OkHttpClient.Builder()
-    .connectTimeout(15, TimeUnit.SECONDS).readTimeout(20, TimeUnit.SECONDS)
-    .callTimeout(30, TimeUnit.SECONDS).followRedirects(false).followSslRedirects(false).build()) {
+class TomatoEngine(private val client: OkHttpClient = defaultClient()) {
+
+    companion object {
+        const val SEARCH_URL = "https://novel.snssdk.com/api/novel/channel/homepage/search/search/v1/"
+        private const val MAX_RESPONSE = 16 * 1024 * 1024
+        private const val MAX_TEXT = 64 * 1024 * 1024
+
+        /** 默认下载并发。4 路是稳妥值；网络好时可调到 6。 */
+        const val DEFAULT_CONCURRENCY = 4
+
+        /**
+         * 连接池与并发路数要和下载并发匹配。
+         * OkHttp 默认每主机只有 5 个空闲连接，连接复用不足时会反复重新握手，
+         * 在高并发下反而拖慢整体吞吐，因此这里显式放大连接池与调度上限。
+         */
+        internal fun defaultClient(): OkHttpClient {
+            val dispatcher = Dispatcher().apply { maxRequestsPerHost = 8; maxRequests = 16 }
+            return OkHttpClient.Builder()
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .readTimeout(20, TimeUnit.SECONDS)
+                .callTimeout(30, TimeUnit.SECONDS)
+                .connectionPool(ConnectionPool(12, 5, TimeUnit.MINUTES))
+                .dispatcher(dispatcher)
+                .followRedirects(false)
+                .followSslRedirects(false)
+                .build()
+        }
+    }
 
     suspend fun search(query: String): List<OnlineResult> {
         val id = TomatoParser.bookId(query)
@@ -57,33 +86,62 @@ class TomatoEngine(private val client: OkHttpClient = OkHttpClient.Builder()
         return Updates.Details(book.copy(chapterCount = toc.size), toc)
     }
 
-    suspend fun chapters(chapters: List<OnlineChapter>, progress: (Int, Int) -> Unit = { _, _ -> }): String = coroutineScope {
+    /**
+     * 按目录顺序下载章节正文。
+     *
+     * 旧实现是「每 4 章一批、批间 awaitAll」：25 批 × 每批等最慢的一章，
+     * 4 路并发的收益被批边界抹掉，网络稍有抖动就退化成近乎串行。
+     *
+     * 现在改成**滑动窗口**：始终维持最多 [concurrency] 个请求在飞，
+     * 任一章节返回后结果按索引落位、立刻补发下一章，不再等待整批。
+     * 同时去掉每章启动前的 120ms 串行等待——它让 4 路并发实际只能做到约 8 章/秒，
+     * 改为一个轻量的起步间隔，既能平滑请求速率，也不会成为吞吐上限。
+     */
+    suspend fun chapters(
+        chapters: List<OnlineChapter>,
+        concurrency: Int = DEFAULT_CONCURRENCY,
+        checkpoint: ChapterDownloadCache? = null,
+        progress: (Int, Int) -> Unit = { _, _ -> },
+    ): String = coroutineScope {
         require(chapters.isNotEmpty() && chapters.size <= 30000) { "下载章节列表无效。" }
-        val text = StringBuilder()
-        val starts = Mutex()
-        val completed = Mutex()
-        var lastStart = 0L
-        var count = 0
-        // Only four chapter requests exist at once; preserve directory order when joining each batch.
-        for (start in chapters.indices step 4) {
-            coroutineContext.ensureActive()
-            val bodies = (start until minOf(start + 4, chapters.size)).map { index -> async {
-                starts.withLock {
-                    val elapsed = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - lastStart)
-                    if (lastStart != 0L && elapsed < 120) delay(120 - elapsed)
-                    lastStart = System.nanoTime()
+        val total = chapters.size
+        val results = arrayOfNulls<String>(total)
+        var completed = 0
+        val progressLock = Mutex()
+        val workerCount = concurrency.coerceIn(1, 8).coerceAtMost(total)
+
+        // 用 Channel 做工作队列：worker 取一个索引就下载一章，天然实现滑动窗口。
+        val queue = Channel<Int>(Channel.UNLIMITED)
+        chapters.indices.forEach { queue.send(it) }
+        queue.close()
+
+        // 每个 worker 的首次请求错开一点点，避免同一瞬间打出 N 个请求。
+        val startGapMs = 40L
+        val workers = (0 until workerCount).map { worker ->
+            async(Dispatchers.IO) {
+                delay(worker * startGapMs)
+                for (index in queue) {
+                    coroutineContext.ensureActive()
+                    val chapter = chapters[index]
+                    val body = checkpoint?.read(chapter) ?: TomatoParser.chapterHtml(fetch(chapter.url), chapter.title).also { checkpoint?.save(chapter, it) }
+                    check(body.isNotBlank()) {
+                        "番茄章节「${chapter.title}」没有可读取的公开正文，已停止。可在官网阅读。"
+                    }
+                    results[index] = body
+                    // 计数和回调必须一起串行，避免线程切换让进度从 5 回退到 4。
+                    progressLock.withLock { progress(++completed, total) }
                 }
-                val chapter = chapters[index]
-                val body = TomatoParser.chapterHtml(fetch(chapter.url), chapter.title)
-                check(body.isNotBlank()) { "番茄章节「${chapter.title}」没有可读取的公开正文，已停止。可在官网阅读。" }
-                completed.withLock { progress(++count, chapters.size) }
-                body
-            } }.awaitAll()
-            for ((offset, body) in bodies.withIndex()) {
-                if (text.isNotEmpty()) text.append("\n\n")
-                text.append(chapters[start + offset].title).append("\n\n").append(body)
-                check(text.length <= 64 * 1024 * 1024) { "正文超过入库上限，已停止。" }
             }
+        }
+        workers.awaitAll()
+
+        // 严格按目录顺序拼接，与并发完成顺序无关。
+        val text = StringBuilder()
+        for (index in 0 until total) {
+            val body = results[index] ?: throw IllegalStateException("第 ${index + 1} 章未取得正文，已停止。")
+            if (text.isNotEmpty()) text.append("\n\n")
+            text.append(chapters[index].title).append("\n\n").append(body)
+            check(text.length <= MAX_TEXT) { "正文超过入库上限，已停止。" }
         }
         text.toString()
     }
@@ -156,11 +214,6 @@ class TomatoEngine(private val client: OkHttpClient = OkHttpClient.Builder()
     }
 
     private data class FetchResponse(val text: String = "", val redirect: String? = null)
-
-    companion object {
-        const val SEARCH_URL = "https://novel.snssdk.com/api/novel/channel/homepage/search/search/v1/"
-        private const val MAX_RESPONSE = 16 * 1024 * 1024
-    }
 }
 
 /** 纯解析函数：不执行网页 JS、不读取令牌、不尝试绕过登录或付费限制。 */

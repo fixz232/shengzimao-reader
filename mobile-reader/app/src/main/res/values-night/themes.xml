@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 深色模式的启动窗口底色：极夜蓝，与液态玻璃深色极光一致。 -->
+    <style name="Theme.ShengZiMao" parent="android:Theme.Material.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowBackground">#FF0A0D1A</item>
+    </style>
+</resources>

@@ -1,0 +1,22 @@
+{
+  "36": {
+    "ruleBookContent": "$function getImgList() {\nvar p = \"eval\\\\(.*\\\\)\";\nvar jseval = html.match(p)[0];\neval(eval(\"(\"+jseval.substring(5,jseval.length-1)+\")\"));\nvar urs = JsEngine.aJax(\"https://css.gdbyhtl.net:5443/img_v1/cn_svr.asp?z=\"+atsvr+\"&s=\"+img_s+\"&cid=\"+link_z.match(/colist_(\\d+)\\.html/)[1]+\"&coid=\"+\"@get:{coid}\".match(/\\/(\\d+)\\.html/)[1]);\nvar str = urs.match(/\\\"(http[^\\\"]+)\\\"/)[1];\nvar list = msg.split(\"|\");\nvar piclist = new Array([list.length]);\nfor (var i = 0; i < list.length; i++) {\n    piclist[i] = str+list[i];\n  }\nreturn piclist;\n}",
+    "ruleChapterList": "-class.ar_rlos_bor@tag.li"
+  },
+  "39": {
+    "ruleBookContent": "$function getImgList(){\n    var p =\"eval\\\\(.*\\\\)\";\n    var jseval = html.match(p)[0];\n    eval(eval(\"(\"+jseval.substring(5,jseval.length-1)+\")\"));\n    return newImgs;\n}@Header:{Referer:thisPage}",
+    "ruleChapterList": "-id.detail-list-select-1@tag.li@tag.a"
+  },
+  "54": {
+    "ruleBookContent": "$function getImgList(){\n  var num;\n  if (html.indexOf(\"<html style\")!=-1) {\n    num =  java.getString(\"class.bottomCode.-1@tag.span@text\",false);\n  } else {\n    var a = html.match(/2=\\[(.*?)\\]/)[1].split(\",\");\n    num = a.length.toString();\n  }\n  var cid = html.match(/CHAPTER_ID = (\\d+)/)[1];\n  var piclist = new Array();\n  var temp, ges, pix;\n  for (var i=0; i<num; i++) {\n    temp = java.aJax(\"http://www.manben.com/imageshow.ashx?&cid=\"+cid+\"&page=\"+(i+1)+\"&showtype=2&ispre=0\");\n    ges = temp.match(/\"Images\":\"(.*?)\"/)[1];\n    pix = temp.match(/\"ImagePix\":\"(.*?)\"/)[1];\n    piclist.push(pix+ges);\n  }\n  return piclist;\n}",
+    "ruleChapterList": "-id.chapterlistload@tag.a"
+  },
+  "69": {
+    "ruleBookContent": "$function getImgList() {\n  var str = html.match(/var chapterImages = \\[(.*?)\\];var chapterPath = \"(.*?)\";/);\n  eval(str[0]);\n  var host = \"https://res.xiaoqinre.com/\";\n  var piclist = new Array([chapterImages.length]);\n  for (var i = 0; i < chapterImages.length; i++) {\n    if (chapterImages[i].search(/^(http:|https:)/) == 0) {\n      piclist[i] = chapterImages[i];\n    } else {\n      piclist[i] = host + chapterPath.replace(/(^\\/*)|(\\/*$)/g,\"\") + \"/\" + chapterImages[i];\n    }\n  }\n  return piclist;\n}@Header:{Referer:thisPage}",
+    "ruleChapterList": "class.Drama@tag.li"
+  },
+  "76": {
+    "ruleBookContent": "@js:\neval(result.match(/eval\\(function.*\\)\\)/)[0]);\nnewImgs",
+    "ruleChapterList": "@js:\nvar list1 = org.jsoup.Jsoup.parse(result).select(\".catalog-list a\").toArray().map(a=>({id:String(a).match(/\\/(\\d+)\\.html/)[1],name:a.text()}));\nvar list2 = new Array();\ntry {\n  var match = result.match(/\"id\": (\\d+), \"id2\": (\\d+)/);\n  list2 = JSON.parse(org.jsoup.Jsoup.connect(\"http://m.qmanwu2.com/bookchapter/\").requestBody(\"id=\"+match[1]+\"&id2=\"+match[2]).header(\"Referer\",baseUrl).post().text());\n} catch(e) {}\nlist1.concat(list2).reverse()"
+  }
+}

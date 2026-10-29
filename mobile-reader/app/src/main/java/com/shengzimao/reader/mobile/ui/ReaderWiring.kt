@@ -1,6 +1,7 @@
 package com.shengzimao.reader.mobile.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -12,10 +13,10 @@ fun rememberReaderViewModel(): ReaderViewModel = rememberReaderViewModelImpl()
 
 @Composable
 private fun rememberReaderViewModelImpl(): ReaderViewModel =
-    viewModel(factory = readerViewModelFactory)
+    remember { ReaderApp.instance.readerViewModel }
 
 private val readerViewModelFactory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T =
-        ReaderViewModel(ReaderApp.instance.container) as T
+        ReaderApp.instance.readerViewModel as T
 }

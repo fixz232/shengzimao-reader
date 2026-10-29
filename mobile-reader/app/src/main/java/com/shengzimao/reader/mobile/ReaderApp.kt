@@ -10,6 +10,7 @@ import com.shengzimao.reader.mobile.data.PageAnimation
 import java.io.File
 
 class ReaderApp : Application() {
+    val readerViewModel by lazy { com.shengzimao.reader.mobile.ui.ReaderViewModel(container) }
     lateinit var container: AppContainer
         private set
 
@@ -81,7 +82,9 @@ object WelcomeBook {
 
         第 6 章 在线搜书与追更
 
-        底部切到「在线搜书」，输入书名或「书名 作者」即可检索第三方书源；同一本书会聚合多个书源，可以对比后选一个下载入库。
+        底部切到「在线搜书」，输入书名或「书名 作者」即可检索第三方书源；同一本书会聚合多个书源，可以对比后选择在线阅读或下载导入。
+        「加入书架」只保存目录与进度，阅读时需要联网；「导入书库」下载正文后可离线阅读。在线书架的阅读页也可以随时下载导入。
+        「漫库」可导入 CBZ、ZIP 或图片；「在线搜漫」需先添加你有权使用的漫画源。加入漫画书架需联网阅读，下载导入全部章节后可离线看漫；清理图片缓存后需重新下载缺页章节。
         首次使用需要滚动读完使用声明并勾选确认，确认记录只保存在本机。
         入库的在线书籍会自动加入追更：源站更新时只追加新章节，旧正文保持不变。
 

@@ -1,0 +1,48 @@
+{
+  "kind": "szm.manga-adapters",
+  "schemaVersion": 1,
+  "minEngineVersion": 1,
+  "id": "szm-public-compatibility",
+  "name": "公开站点兼容修复",
+  "version": 1,
+  "adapters": [
+    {
+      "id": "zaimanhua-search-id",
+      "hosts": [
+        "v4api.zaimanhua.com"
+      ],
+      "patch": {
+        "legacy": {
+          "ruleSearchNoteUrl": "@js:(function(item) {\n  if (typeof item === 'string') item = JSON.parse(item);\n  var id = item.comic_id || item.id;\n  if (!/^\\d+$/.test(String(id))) throw new Error('再漫画搜索结果缺少作品 ID');\n  return 'https://v4api.zaimanhua.com/app/v1/comic/detail/' + id + '?platform=android&timestamp=' + Math.floor(Date.now()/1000) + '&_v=2.3.0&_c=101_01_01_000';\n})(result);",
+          "ruleBookContent": "@js:(function(body) {\n  var response = JSON.parse(String(body));\n  var data = response.data && (response.data.data || response.data);\n  if (response.errno || !data) throw new Error('再漫画原站未提供正文：' + (response.errmsg || '接口无有效数据'));\n  if (data.canRead === false) throw new Error('再漫画原站 canRead=false，当前章节未开放，可能需要登录、购买或版权限制');\n  var pages = data.page_url || [];\n  if (!pages.length) throw new Error('再漫画原站返回空图片列表');\n  return pages;\n})(result);"
+        },
+        "compatibilityNote": "站点适配：修正再漫画详情 ID；登录或访问限制按原站返回处理"
+      },
+      "sourceIds": [
+        "legado-83c3f42f68bac3a9f3b4"
+      ]
+    },
+    {
+      "id": "tencent-public-chapter",
+      "hosts": [
+        "m.ac.qq.com"
+      ],
+      "imageHosts": [
+        "manhua.acimg.cn"
+      ],
+      "patch": {
+        "legacy": {
+          "ruleBookContent": "@js:\n(function(html) {\n  var data = /\\bvar\\s+DATA\\s*=\\s*'([^']+)'/.exec(html);\n  var assignments = /window\\s*\\[((?:\"[a-z]+\"\\s*\\+\\s*)*\"[a-z]+\")\\]\\s*=\\s*([^;]{1,2048});/g;\n  var assignment, expression = '';\n  while ((assignment = assignments.exec(html))) {\n    if (assignment[1].replace(/[\"+\\s]/g, '') === 'nonce') { expression = assignment[2]; }\n  }\n  if (!data || data[1].length > 1000000 || !expression) throw new Error('腾讯公开章节的数据结构已变化，请更新站点适配');\n  var token = /\\s*(?:\"([a-zA-Z0-9]{0,200})\"|\\(\\+eval\\(\"([^\"\\\\]{1,120})\"\\)\\)\\.toString\\(\\))\\s*(?:\\+|$)/g;\n  var cursor = 0, key = '';\n  while (cursor < expression.length) {\n    token.lastIndex = cursor;\n    var part = token.exec(expression);\n    if (!part || part.index !== cursor) throw new Error('腾讯章节 nonce 表达式未支持，请更新站点适配');\n    cursor = token.lastIndex;\n    if (part[1] !== undefined) { key += part[1]; continue; }\n    var numeric = part[2].trim();\n    var substring = /^'([0-9]{1,80})'\\.substring\\(([0-9]{1,2})\\)$/.exec(numeric);\n    if (substring) { key += String(Number(substring[1].substring(Number(substring[2])))); continue; }\n    numeric = numeric.replace(/!\\s*window\\.Array\\b/g, '0').replace(/!\\s*document\\.children\\b/g, '0')\n      .replace(/document\\.getElementsByTagName\\('html'\\)/g, '1');\n    if (!/^[0-9+*\\/%().<>=?! :~&|^\\-]+$/.test(numeric.replace(/\\bparseInt\\b|\\bMath\\.(?:floor|round)\\b/g, ''))) throw new Error('腾讯章节 nonce 数值表达式未支持');\n    key += String(Number(eval(numeric)));\n  }\n  var markers = key.match(/\\d+[a-zA-Z]+/g) || [], bytes = data[1].split('');\n  while (markers.length) {\n    var marker = markers.pop();\n    bytes.splice(parseInt(marker, 10) & 255, marker.replace(/\\d/g, '').length);\n  }\n  var chapter = JSON.parse(java.base64Decoder(bytes.join('')));\n  if (chapter.chapter && chapter.chapter.canRead === false) throw new Error('原站要求登录、购买或验证，当前章节不可读');\n  var pictures = chapter.picture || [];\n  if (!pictures.length || pictures.length > 5000) throw new Error('原站没有提供可读正文图片');\n  return pictures.map(function(picture) { return picture.url; });\n})(String(result));",
+          "ruleContentUrl": "href@Header:{\"User-Agent\":\"Mozilla/5.0\"}"
+        },
+        "compatibilityNote": "站点适配：仅提取原站公开可读章节数据，不执行整页脚本"
+      },
+      "imageHeaders": {
+        "Referer": "{chapterUrl}"
+      },
+      "sourceIds": [
+        "legado-1563cfeab6af3ba37380"
+      ]
+    }
+  ]
+}

@@ -17,10 +17,15 @@ import dalvik.system.DexClassLoader
  * The engine ships as pre-built dex files under assets/engine and is loaded in memory,
  * so nothing here references engine classes at build time.
  */
-class SonovelEngine(private val context: Context, private val rulesOverride: File? = null) {
+class SonovelEngine(private val context: Context, private val rulesOverride: File? = null,
+    private val readingSession: Boolean = false) {
 
     private val engineDir: File = File(context.filesDir, "sonovel").apply { mkdirs() }
     private val rulesFile: File get() = rulesOverride ?: File(engineDir, "rules/main.json")
+    private val workRoot: File get() {
+        val groupRoot = if (rulesOverride == null) engineDir else File(engineDir, "groups/${mangaHash(rulesOverride.absolutePath)}")
+        return (if (readingSession) File(groupRoot, "reading") else groupRoot).apply { mkdirs() }
+    }
     private val apiClass: Class<*>
     val available: Boolean
     /** 最近一次加载失败的原因，供界面提示。 */
@@ -34,12 +39,18 @@ class SonovelEngine(private val context: Context, private val rulesOverride: Fil
         private set
 
     init {
+        val initialized = synchronized(INITIALIZATION_LOCK) {
         var loaded: Class<*>? = null
         val thread = Thread.currentThread()
         val previousLoader = thread.contextClassLoader
         val previousConfig = System.getProperty("config.file")
         try {
             releaseAssets()
+            // SourceUtils caches AppConfig per class loader. Every group must initialize
+            // that loader from its own configuration, including after assets are cached.
+            val configuration = File(workRoot, "active-config.ini")
+            val ini = context.assets.open("engine/config.ini").bufferedReader().use { it.readText() }
+            atomicJson(configuration, ini.replace("active-rules=main.json", "active-rules=${rulesFile.absolutePath}"))
             val dexDir = File(engineDir, "dex")
             // assets 中的 dex 不含 classpath 资源。引擎的 Hutool 配置读取必须能找到
             // application.properties；同时隔离应用经 R8 改名后的 Kotlin/OkHttp 类。
@@ -60,11 +71,11 @@ class SonovelEngine(private val context: Context, private val rulesOverride: Fil
             )
             thread.contextClassLoader = apiLoader
             // 这是进程内 Java 配置属性，不是 Android 系统属性。首次初始化后上游会缓存配置。
-            System.setProperty("config.file", File(engineDir, "config.ini").absolutePath)
+            System.setProperty("config.file", configuration.absolutePath)
             val api = Class.forName("org.shengzimao.reader.AndroidEngine", true, apiLoader)
             installJsBridge(api, apiLoader, dexDir)
             api.getMethod("configure", String::class.java, String::class.java)
-                .invoke(null, engineDir.absolutePath, rulesFile.absolutePath)
+                .invoke(null, workRoot.absolutePath, rulesFile.absolutePath)
             // 立即做一次本地 probe：书源规则若加载失败，当场把原因写进 loadError，
             // 否则用户会在搜索时只看到一句"任务未完成"。
             val early = runCatching {
@@ -97,8 +108,10 @@ class SonovelEngine(private val context: Context, private val rulesOverride: Fil
             thread.contextClassLoader = previousLoader
             if (previousConfig == null) System.clearProperty("config.file") else System.setProperty("config.file", previousConfig)
         }
-        apiClass = loaded ?: Any::class.java
-        available = loaded != null
+        loaded
+        }
+        apiClass = initialized ?: Any::class.java
+        available = initialized != null
     }
 
     /** Rule scripts using @js: run on Rhino, loaded through its own class loader. */
@@ -139,7 +152,8 @@ class SonovelEngine(private val context: Context, private val rulesOverride: Fil
         val version = runCatching {
             context.packageManager.getPackageInfo(context.packageName, 0).lastUpdateTime
         }.getOrDefault(0L)
-        val stamp = "v12-$version"
+        // v14：单章在线读取、复用正文 renderer 与上游进程退出拦截。
+        val stamp = "v18-$version"
         val dexDir = File(engineDir, "dex").apply { mkdirs() }
         val rhinoDir = File(dexDir, "rhino").apply { mkdirs() }
         val required = listOf(
@@ -163,8 +177,6 @@ class SonovelEngine(private val context: Context, private val rulesOverride: Fil
         File(engineDir, ".env").writeText("ENV=prod\n", Charsets.UTF_8)
         copyAsset("engine/config.ini", File(engineDir, "config.ini"))
         copyAsset("engine/application.properties", File(engineDir, "application.properties"))
-        val ini = File(engineDir, "config.ini")
-        ini.writeText(ini.readText().replace("active-rules=main.json", "active-rules=${rulesFile.absolutePath}"))
         val rules = File(engineDir, "rules").apply { mkdirs() }
         context.assets.list("engine/rules")?.forEach { name ->
             if (name.endsWith(".json") || name.endsWith(".json5")) copyAsset("engine/rules/$name", File(rules, name))
@@ -178,13 +190,15 @@ class SonovelEngine(private val context: Context, private val rulesOverride: Fil
     }
 
 
-    private fun call(request: JSONObject): JSONObject {
+    private fun call(request: JSONObject, progress: java.util.function.Consumer<String>? = null): JSONObject {
         if (!available) throw IllegalStateException("内置在线引擎未能加载" + (loadError?.let { "：$it" } ?: ""))
         val thread = Thread.currentThread()
         val previous = thread.contextClassLoader
         try {
             thread.contextClassLoader = apiClass.classLoader
-            val output = apiClass.getMethod("dispatch", String::class.java).invoke(null, request.toString()) as String
+            val output = if (progress == null) apiClass.getMethod("dispatch", String::class.java).invoke(null, request.toString()) as String
+                else apiClass.getMethod("dispatchStreaming", String::class.java, java.util.function.Consumer::class.java)
+                    .invoke(null, request.toString(), progress) as String
             return JSONObject(output).also { result ->
                 if (!result.optBoolean("ok")) throw OnlineEngineException(result.optString("error", "在线任务失败"), result.optString("stack"))
             }
@@ -199,8 +213,18 @@ class SonovelEngine(private val context: Context, private val rulesOverride: Fil
         return result.optJSONObject("data") ?: JSONObject()
     }
 
-    fun search(keyword: String): JSONArray {
-        val result = call(JSONObject().put("action", "search").put("keyword", keyword))
+    fun search(keyword: String, sourceUrls: Set<String>? = null,
+        onSourceComplete: ((String, String, String?) -> Unit)? = null,
+        onProgress: ((JSONArray, Int, Int) -> Unit)? = null): JSONArray {
+        val callback = if (onProgress == null && onSourceComplete == null) null else java.util.function.Consumer<String> { json ->
+            val event = JSONObject(json)
+            val sourceUrl = event.optString("sourceUrl")
+            if (sourceUrl.isNotBlank()) onSourceComplete?.invoke(sourceUrl, event.optString("sourceName"), event.optString("error").takeIf { it.isNotBlank() })
+            onProgress?.invoke(event.optJSONArray("data") ?: JSONArray(), event.optInt("completed"), event.optInt("total"))
+        }
+        val input = JSONObject().put("action", "search").put("keyword", keyword)
+        if (sourceUrls != null) input.put("sourceUrls", JSONArray(sourceUrls.toList()))
+        val result = call(input, callback)
         if (!result.optBoolean("ok")) throw IllegalStateException(result.optString("error", "search failed"))
         return result.optJSONArray("data") ?: JSONArray()
     }
@@ -211,14 +235,20 @@ class SonovelEngine(private val context: Context, private val rulesOverride: Fil
         return result.getJSONObject("data")
     }
 
+    fun readChapter(bookUrl: String, chapter: OnlineChapter): String {
+        val result = call(JSONObject().put("action", "chapter").put("url", bookUrl)
+            .put("chapterUrl", chapter.url).put("title", chapter.title))
+        return result.getJSONObject("data").getString("content")
+    }
+
     fun update(url: String, start: Int, chapters: JSONArray): JSONObject {
         val result = call(JSONObject().put("action", "update").put("url", url).put("start", start).put("chapters", chapters))
         if (!result.optBoolean("ok")) throw IllegalStateException(result.optString("error", "update failed"))
         return result.getJSONObject("data")
     }
 
-    fun download(url: String, format: String): DownloadResult {
-        val job = File(engineDir, "jobs/${UUID.randomUUID()}").apply { mkdirs() }
+    fun download(url: String, format: String, concurrency: Int = 4): DownloadResult {
+        val job = File(workRoot, "jobs/${mangaHash(url)}").apply { mkdirs() }
         val thread = Thread.currentThread()
         val previousLoader = thread.contextClassLoader
         thread.contextClassLoader = apiClass.classLoader
@@ -226,7 +256,8 @@ class SonovelEngine(private val context: Context, private val rulesOverride: Fil
             // 新任务的正文与 metadata 必须落在同一个独立目录，便于校验和清理。
             apiClass.getMethod("configure", String::class.java, String::class.java)
                 .invoke(null, job.absolutePath, rulesFile.absolutePath)
-            val result = call(JSONObject().put("action", "download").put("url", url).put("format", "txt"))
+            val result = call(JSONObject().put("action", "download").put("url", url).put("format", "txt")
+                .put("concurrency", concurrency.coerceIn(1, 8)))
             if (!result.optBoolean("ok")) throw IllegalStateException(result.optString("error", "download failed"))
             val files = result.optJSONArray("data") ?: JSONArray()
             if (files.length() == 0) throw IllegalStateException("engine produced no file")
@@ -244,15 +275,18 @@ class SonovelEngine(private val context: Context, private val rulesOverride: Fil
             } else text
             return DownloadResult(output, metadata, job)
         } catch (error: Throwable) {
-            job.deleteRecursively()
+            // 任务目录由书籍地址确定；失败时保留带校验和的章节，下次继续时重新核对目录。
             throw error
         } finally {
             try {
                 if (available) apiClass.getMethod("configure", String::class.java, String::class.java)
-                    .invoke(null, engineDir.absolutePath, rulesFile.absolutePath)
+                    .invoke(null, workRoot.absolutePath, rulesFile.absolutePath)
             } finally { thread.contextClassLoader = previousLoader }
         }
     }
+
+    fun downloadProgress(): IntArray = if (!available) intArrayOf(0, 0) else
+        runCatching { apiClass.getMethod("downloadProgress").invoke(null) as IntArray }.getOrDefault(intArrayOf(0, 0))
 
     data class DownloadResult(val text: File, val metadata: File?, val job: File) {
         fun cleanup() {
@@ -262,6 +296,7 @@ class SonovelEngine(private val context: Context, private val rulesOverride: Fil
 
     companion object {
         private const val TAG = "SzmEngine"
+        private val INITIALIZATION_LOCK = Any()
     }
 }
 

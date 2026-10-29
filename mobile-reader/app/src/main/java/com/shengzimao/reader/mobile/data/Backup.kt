@@ -30,9 +30,11 @@ object Backup {
         val invalid: Int,
         val missingText: Int,
         val total: Int,
+        val settingsJson: String? = null,
     )
 
-    fun export(store: LibraryStore, library: Library, settingsJson: String?, out: java.io.OutputStream): ExportReport {
+    fun export(store: LibraryStore, library: Library, settingsJson: String?, out: java.io.OutputStream,
+        extras: ((java.util.zip.ZipOutputStream) -> Unit)? = null): ExportReport {
         var included = 0
         var missing = 0
         val index = JSONObject().apply {
@@ -44,7 +46,9 @@ object Backup {
             if (!settingsJson.isNullOrBlank()) put("settings", JSONObject(settingsJson))
         }
         java.util.zip.ZipOutputStream(out.buffered()).use { zip ->
+            extras?.invoke(zip)
             for (book in library.books) {
+                if (book.onlineOnly) continue
                 if (!store.exists(book)) {
                     missing++
                     continue
@@ -68,27 +72,36 @@ object Backup {
         return ExportReport(library.books.size, included, missing)
     }
 
-    fun import(store: LibraryStore, library: Library, input: java.io.InputStream): ImportReport {
+    fun import(store: LibraryStore, library: Library, input: java.io.InputStream,
+        extra: ((String, ByteArray) -> Unit)? = null): ImportReport {
         val texts = HashMap<String, ByteArray>()
         var indexJson: String? = null
         java.util.zip.ZipInputStream(input.buffered()).use { zip ->
             var count = 0
             var expanded = 0L
+            var totalExpanded = 0L
+            val seen = HashSet<String>()
             while (true) {
                 val entry = zip.nextEntry ?: break
                 count++
                 if (count > 50_000) throw IllegalStateException("备份条目过多。")
                 if (!entry.isDirectory) {
                     val name = entry.name.replace('\\', '/')
+                    require(seen.add(name)) { "备份中有重复条目" }
+                    val limit = if (name.startsWith("books/")) MAX_TEXT_ENTRY else 32L * 1024 * 1024
+                    val data = readLimited(zip, limit)
+                    totalExpanded += data.size
+                    require(totalExpanded <= 1024L * 1024 * 1024) { "备份解压内容超过 1 GB" }
                     when {
-                        name == "library.json" -> indexJson = readLimited(zip, 32L * 1024 * 1024).toString(Charsets.UTF_8)
+                        name == "library.json" -> indexJson = data.toString(Charsets.UTF_8)
                         name.startsWith("books/") && name.endsWith(".txt") -> {
                             val fileName = name.removePrefix("books/")
-                            val bytes = readLimited(zip, MAX_TEXT_ENTRY)
+                            val bytes = data
                             expanded += bytes.size
                             if (expanded > MAX_TOTAL_TEXT) throw IllegalStateException("备份解压内容超过安全上限。")
                             if (SAFE_FILE.matches(fileName)) texts[fileName] = bytes
                         }
+                        else -> extra?.invoke(name, data)
                     }
                 }
                 zip.closeEntry()
@@ -116,12 +129,12 @@ object Backup {
                 continue
             }
             val previous = byId[id]
-            if (previous != null && store.exists(previous)) {
+            if (previous != null && (previous.onlineOnly || store.exists(previous))) {
                 skipped++
                 continue
             }
             val bytes = texts[record.optString("file")]
-            if (bytes == null) missingText++
+            if (bytes == null && !record.optBoolean("onlineOnly", false)) missingText++
             val parsed = runCatching {
                 LibraryJson.decode("""{"version":1,"books":[${record}],"activeId":""}""").books.firstOrNull()
             }.getOrNull()
@@ -139,7 +152,7 @@ object Backup {
                 chapters = if (bytes != null && parsed.chapters.isEmpty()) ChapterParser.find(text) else parsed.chapters,
                 digest = if (bytes != null) LibraryStore.digest(text) else parsed.digest,
                 bookmarks = if (bytes != null) parsed.bookmarks.map { it.copy(position = it.position.coerceIn(0, maxOf(0, text.length - 1))) } else parsed.bookmarks,
-                missing = bytes == null,
+                missing = bytes == null && !parsed.onlineOnly,
             )
             if (previous == null) order.add(id)
             byId[id] = merged
@@ -147,7 +160,7 @@ object Backup {
         }
         val mergedLibrary = library.copy(books = order.mapNotNull { byId[it] })
         store.save(mergedLibrary)
-        return ImportReport(imported, repaired, skipped, invalid, missingText, records.length())
+        return ImportReport(imported, repaired, skipped, invalid, missingText, records.length(), payload.optJSONObject("settings")?.toString())
     }
 
     private fun readLimited(zip: java.util.zip.ZipInputStream, limit: Long): ByteArray {

@@ -79,6 +79,8 @@ d8 --release --min-api 26 --output <out> rhino-js.jar   # -> assets/engine/rhino
 
 ## 运行时如何加载
 
+Android 适配会把上游命令行中的 `System.exit(int)` 改为抛出可显示的请求错误，避免源站异常直接结束应用进程。正文过滤器和格式器由每个 worker 复用；上游格式器仍会构造 `Source` 并重载请求间隔，因此在每章解析前重新校正固定间隔，避免后续章节落入无效随机区间。新增 `chapter` dispatch 用于按章在线阅读；修改后需重新执行 `build-engine.ps1` 生成 dex，不能只重新编译 Kotlin。
+
 `data/OnlineEngine.kt`：
 
 1. 首次启动把 assets 里的 dex 与规则释放到 `filesDir/sonovel/`；
@@ -90,3 +92,19 @@ d8 --release --min-api 26 --output <out> rhino-js.jar   # -> assets/engine/rhino
 内存 dex 不携带 classpath 资源。宿主通过资源 ClassLoader 提供从上游 JAR 提取的 `application.properties`，并在初始化时临时设置进程内 Java 属性 `config.file` 为私有配置绝对路径（与 Android 系统属性不同），随后恢复线程 ClassLoader 和旧属性值。配置内书源路径同样使用绝对路径，所有 dispatch 均使用引擎上下文 ClassLoader。
 
 `SourceUtils` 使用上游全局配置，不能仅配置适配层的内存对象后忽略上游初始化错误；每次初始化都做真实书源 probe。详情与下载先按 URL 选中 sourceId，避免默认 -1 找不到书源。每个下载使用独立目录，正文及元数据一起清理。API 26 多 dex 使用文件加载器，API 27+ 使用多 buffer 内存加载器。
+
+## 聚合搜索回归
+
+`dispatchStreaming` 的 `sourceUrls` 为允许搜索的站点 URL 数组；不提供时搜索当前规则文件中的全部可搜索源。每次关键词请求得到结果就发送 `data` 事件；一个源的全部关键词请求结束后再发空 `data` 的进度事件。宿主应合并去重，不要用空进度事件清空结果。
+
+完成事件另含 `sourceUrl`、`sourceName`，请求或解析失败时附 `error`。构建期在上游吞掉异常的两个搜索处理器中记录线程局部错误，包装器读取后立即清理；成功源与无结果源不附错误。宿主应展示失败状态并可用 `sourceUrls` 单独重试失败源。阅读与后台下载使用不同引擎类加载器及工作目录，不能让同一实例并发调用 `configure`／`download`／`chapter`。
+
+构建期只对 `SearchParser.processUrl` 的字面模板替换做关键词 URL 编码，避免空格、`&`、`+`、`%` 改变请求。JavaScript URL 规则保持原本的编码职责，POST 表单仍由原引擎构造。
+
+重建引擎后，可在工程根目录执行下列纯本机回归。它使用两个回环 HTTP 源和真实包装器，检查单源隔离、第一轮请求即时发布、慢源不阻塞快源、去重与完成进度；不生成 APK，也不连接手机。
+
+```powershell
+New-Item -ItemType Directory -Path .tools/search-smoke -Force | Out-Null
+& D:/java21/bin/javac.exe -encoding UTF-8 -cp ../independent-reader/resources/sonovel/app.jar -d .tools/search-smoke engine/tests/StreamingSearchSmoke.java
+& D:/java21/bin/java.exe -cp '.tools/search-smoke;../independent-reader/resources/sonovel/app.jar' StreamingSearchSmoke . .tools/search-smoke/fixture
+```

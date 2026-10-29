@@ -1,0 +1,86 @@
+{
+  "vectors": [
+    {
+      "version": "H001",
+      "url": "https://fixture.example/odd",
+      "raw": ":_H001_Ifo2+WSs2L7sHxZ2BOIE5NN8ZDXnBpVaMx3CLWhekZ1jksPk73EUtos7NOb1D8MzXpgVHMdqoksPpzzRXETBxg==",
+      "plain": "@js:[\"目录测试\", \"https://images.example/synthetic.png\"];"
+    },
+    {
+      "version": "H002",
+      "url": "https://fixture.example/a",
+      "raw": ":_H002_c0B53fGn8ufIyGn7VEPWxd3NWM/Wx8LhNQUI0ls5ov4g2Dj5QqWTfQC4/upHFY+Uzwz5sZr3xDU18BSq6hWp7Q==",
+      "plain": "@js:[\"目录测试\", \"https://images.example/synthetic.png\"];"
+    },
+    {
+      "version": "H003",
+      "url": "https://fixture.example/odd",
+      "raw": ":_H003_XTu7jeEHzFv3BFZQvJq9x6jlxsN7eEesTpqX+nxfns0dvqc9SQrnSGM+RrFfj3OfNUYvsm46RK8oLVZ8lYIIww==",
+      "plain": "@js:[\"目录测试\", \"https://images.example/synthetic.png\"];"
+    },
+    {
+      "version": "H004",
+      "url": "https://fixture.example/a",
+      "raw": ":_H004_938i+0gmJ1/KKjbnD5qbDyoxvwLijfjWb23VFThojIGcrgknWJ0QI4NzSb7OqBptSm+HbEU0F4zG+OGOLhSBtg==",
+      "plain": "@js:[\"目录测试\", \"https://images.example/synthetic.png\"];"
+    },
+    {
+      "version": "H005",
+      "url": "https://fixture.example/odd",
+      "raw": ":_H005_SHCNF/b2KgR7K6+INBXLGFM3V2pYuzGYv+jcgJfl5B/grSQmeGy47PEkh1vX6rMxakJX2SQVtG8M/BJaQS9+cg==",
+      "plain": "@js:[\"目录测试\", \"https://images.example/synthetic.png\"];"
+    },
+    {
+      "version": "H006",
+      "url": "https://fixture.example/a",
+      "raw": ":_H006_wNiSzi6b9IQNUB5vwQVVDPGbhc2OYRzfy9lU/jxslU0rsAZjKmXKsh9o0Fmn0fuNh2tmdqt6sUM6oHqtH1zSPA==",
+      "plain": "@js:[\"目录测试\", \"https://images.example/synthetic.png\"];"
+    }
+  ],
+  "materials": [
+    {
+      "url": "https://example.com",
+      "utf8Hex": "7f7b7d7e7f7b756f7f3f1d70"
+    },
+    {
+      "url": "http://m.qiman6.com",
+      "utf8Hex": "7f7b7d7e7f3f5f7a7b3f1d70"
+    },
+    {
+      "url": "https://www.copymanga.tv",
+      "utf8Hex": "777b7d7e7f3f5f3f777e5d797f3c"
+    },
+    {
+      "url": "0",
+      "utf8Hex": "c280"
+    },
+    {
+      "url": "00",
+      "utf8Hex": "c280"
+    },
+    {
+      "url": "0000",
+      "utf8Hex": "c280de80"
+    },
+    {
+      "url": "00ff11aa",
+      "utf8Hex": "c2bf621a50"
+    },
+    {
+      "url": "123456789abcdef",
+      "utf8Hex": "c38868563cd3974d7740"
+    },
+    {
+      "url": "ffffffffffffffff",
+      "utf8Hex": "7f7f7f7f7f7f7f7f7f40"
+    },
+    {
+      "url": "141a444cb800",
+      "utf8Hex": "c68648446560de80"
+    },
+    {
+      "url": "https://fixture.example/a",
+      "utf8Hex": "7f7b7d7e7f7f5f6f7f3f5f2e7f7b74"
+    }
+  ]
+}

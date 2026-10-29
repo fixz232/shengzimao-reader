@@ -1,0 +1,29 @@
+{
+  "version": "1.16.1",
+  "version_code": 27,
+  "application_id": "com.shengzimao.reader.mobile",
+  "apk": "dist/\u5723\u5b50\u732b\u9605\u8bfb-\u624b\u673a\u7248-1.16.1-\u5728\u7ebf\u641c\u4e66\u4fee\u590d\u7248-20261029.apk",
+  "bytes": 23071945,
+  "mib": 22.0,
+  "sha256": "15b06c881394b87582d539290d32bc2f84d9887711d5d6f58596aae63342f508",
+  "certificate_sha256": "f1b4fc6177f52213f22c19efa885caf6315ad6dd05cbb87c18a35af4c52670b7",
+  "signature_v2": true,
+  "zipalign_16k": true,
+  "not_debuggable": true,
+  "unit_tests": {
+    "classes": 63,
+    "tests": 464,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "lint": {
+    "Warning": 33,
+    "Hint": 4
+  },
+  "engine_smoke_groups": 5,
+  "pagination_probe_cases_passed": 2,
+  "release_inputs_unchanged": 297,
+  "device_tested": false,
+  "build": "10m 54s"
+}
